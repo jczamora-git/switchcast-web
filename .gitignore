@@ -1,0 +1,21 @@
+# Build and dependency outputs
+dist/
+node_modules/
+.astro/
+
+# Environment and secrets
+.env
+.env.production
+.env.local
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# Windows application binaries
+*.zip
+*.exe
+*.msix

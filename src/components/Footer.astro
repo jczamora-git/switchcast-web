@@ -1,0 +1,219 @@
+---
+import releaseData from '../data/release.json';
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-container">
+    
+    <div class="footer-top">
+      
+      <!-- Brand Column -->
+      <div class="footer-brand-col">
+        <a href="#" class="footer-brand-link">
+          <img src="/assets/switchcast-logo.svg" alt="SwitchCast" width="32" height="32" />
+          <span class="footer-brand-title">SwitchCast</span>
+        </a>
+        <p class="footer-tagline">
+          ONE WINDOW. EVERY SOURCE. SEAMLESS PRESENTATIONS.
+        </p>
+        <span class="footer-subtext">
+          A <a href="https://jeiziproductions.com" target="_blank" rel="noopener noreferrer" class="jeizi-link">Jeizi Productions</a> project. Engineered by John Christopher King Zamora.
+        </span>
+      </div>
+
+      <!-- Links Grid -->
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <span class="footer-col-title">PRODUCT</span>
+          <a href="#features" class="footer-link">Feature Suite</a>
+          <a href="#preview" class="footer-link">Interactive Mockup</a>
+          <a href="#how-it-works" class="footer-link">Presentation Workflow</a>
+          <a href="#use-cases" class="footer-link">Use Cases</a>
+        </div>
+
+        <div class="footer-col">
+          <span class="footer-col-title">DOWNLOADS</span>
+          <a href="#download" class="footer-link">Latest Release (v{releaseData.version})</a>
+          <a href={releaseData.allReleasesUrl} target="_blank" rel="noopener noreferrer" class="footer-link">All GitHub Releases</a>
+          <a href={releaseData.releaseNotesUrl} target="_blank" rel="noopener noreferrer" class="footer-link">Release Notes</a>
+          <a href="#requirements" class="footer-link">System Requirements</a>
+        </div>
+
+        <div class="footer-col">
+          <span class="footer-col-title">CREATOR & STUDIO</span>
+          <a href="https://jeiziproductions.com" target="_blank" rel="noopener noreferrer" class="footer-link">Jeizi Productions</a>
+          <a href={releaseData.sourceRepoUrl} target="_blank" rel="noopener noreferrer" class="footer-link">Source Repository</a>
+          <a href="https://github.com/jczamora-git" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub Profile</a>
+          <a href="mailto:johnchristopherkingzamora@gmail.com" class="footer-link">Contact Creator</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">
+        © {currentYear} John Christopher King Zamora. Built with precision for the Windows ecosystem.
+      </div>
+      <div class="footer-meta">
+        <span class="meta-tag">Windows App SDK 1.5</span>
+        <span class="meta-tag">Direct3D 11</span>
+        <span class="meta-tag">.NET 8 Native</span>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: #090a0d;
+    border-top: 1px solid var(--sc-border-base);
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+    position: relative;
+    z-index: 10;
+  }
+
+  .footer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.3fr 2fr;
+    gap: 3rem;
+  }
+
+  .footer-brand-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 380px;
+  }
+
+  .footer-brand-link {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+  }
+
+  .footer-brand-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .footer-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--sc-accent);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-subtext {
+    font-size: 0.88rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.5;
+  }
+
+  .jeizi-link {
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .jeizi-link:hover {
+    color: var(--sc-accent);
+  }
+
+  .footer-links-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-col-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--sc-text-tertiary);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-link {
+    font-size: 0.88rem;
+    color: var(--sc-text-secondary);
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .footer-link:hover {
+    color: #ffffff;
+    transform: translateX(2px);
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--sc-border-subtle);
+    padding-top: 2rem;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  .footer-copy {
+    font-size: 0.82rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .footer-meta {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    background: var(--sc-bg-surface);
+    border: 1px solid var(--sc-border-subtle);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    color: var(--sc-text-tertiary);
+  }
+
+  @media (max-width: 860px) {
+    .footer-top {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-links-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .footer-links-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

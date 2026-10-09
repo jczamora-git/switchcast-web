@@ -1,0 +1,260 @@
+---
+import { VERIFIED_FEATURES, SHORTCUTS } from '../data/features';
+---
+
+<section class="section features-section" id="features">
+  <div class="container">
+    
+    <div class="section-header reveal">
+      <span class="section-tag">Feature Suite</span>
+      <h2 class="section-title">Built for Presenters Who Demand Total Control</h2>
+      <p class="section-subtitle">
+        SwitchCast replaces clunky meeting window shares with a professional presentation engine powered by Direct3D 11 and Windows App SDK.
+      </p>
+    </div>
+
+    <!-- Feature Cards Grid -->
+    <div class="features-grid">
+      {VERIFIED_FEATURES.map((feature) => (
+        <div class="feature-card glass-card hover-lift reveal" id={`feature-${feature.id}`}>
+          <div class="feature-card-header">
+            <span class="feature-badge">{feature.badge}</span>
+            {feature.hotkey && (
+              <span class="shortcut-badge">{feature.hotkey}</span>
+            )}
+          </div>
+
+          <h3 class="feature-title">{feature.title}</h3>
+          <p class="feature-tagline">{feature.tagline}</p>
+          <p class="feature-description">{feature.description}</p>
+
+          <ul class="feature-highlights">
+            {feature.highlights.map((item) => (
+              <li class="highlight-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="check-icon">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <!-- Global Shortcuts Cheatsheet -->
+    <div class="shortcuts-container glass-card reveal">
+      <div class="shortcuts-header">
+        <div class="shortcuts-title-group">
+          <span class="shortcuts-tag">System-Wide Hotkeys</span>
+          <h3 class="shortcuts-title">Control Presentations Without Changing Focus</h3>
+          <p class="shortcuts-desc">Global Win32 hotkeys operate seamlessly even when SwitchCast is minimized or you are focused on other applications.</p>
+        </div>
+        <div class="shortcuts-icon-badge">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+            <line x1="6" y1="8" x2="6" y2="8"></line>
+            <line x1="10" y1="8" x2="10" y2="8"></line>
+            <line x1="14" y1="8" x2="14" y2="8"></line>
+            <line x1="18" y1="8" x2="18" y2="8"></line>
+            <line x1="6" y1="12" x2="6" y2="12"></line>
+            <line x1="18" y1="12" x2="18" y2="12"></line>
+            <line x1="7" y1="16" x2="17" y2="16"></line>
+          </svg>
+        </div>
+      </div>
+
+      <div class="shortcuts-grid">
+        {SHORTCUTS.map((item) => (
+          <div class="shortcut-item">
+            <div class="shortcut-key-wrapper">
+              <kbd class="shortcut-badge">{item.keys}</kbd>
+            </div>
+            <div class="shortcut-meta">
+              <span class="shortcut-action">{item.action}</span>
+              <span class="shortcut-info">{item.description}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4.5rem;
+  }
+
+  .feature-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    border: 1px solid var(--sc-border-subtle);
+  }
+
+  .feature-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .feature-badge {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--sc-accent);
+    background: var(--sc-accent-soft);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid rgba(255, 122, 89, 0.2);
+  }
+
+  .feature-title {
+    font-size: 1.35rem;
+    margin-bottom: 0.35rem;
+    color: #ffffff;
+  }
+
+  .feature-tagline {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--sc-text-primary);
+    margin-bottom: 0.85rem;
+  }
+
+  .feature-description {
+    font-size: 0.92rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  .feature-highlights {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    border-top: 1px solid var(--sc-border-subtle);
+    padding-top: 1.25rem;
+  }
+
+  .highlight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.86rem;
+    color: var(--sc-text-secondary);
+  }
+
+  .check-icon {
+    color: var(--sc-accent);
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+  }
+
+  /* Shortcuts Table */
+  .shortcuts-container {
+    padding: 2.5rem;
+    border: 1px solid var(--sc-border-base);
+  }
+
+  .shortcuts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--sc-border-subtle);
+    padding-bottom: 1.5rem;
+  }
+
+  .shortcuts-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--sc-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .shortcuts-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .shortcuts-desc {
+    font-size: 0.95rem;
+    color: var(--sc-text-secondary);
+    max-width: 640px;
+  }
+
+  .shortcuts-icon-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--sc-bg-surface-elevated);
+    border: 1px solid var(--sc-border-base);
+    border-radius: var(--radius-md);
+    color: var(--sc-accent);
+  }
+
+  .shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .shortcut-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: var(--sc-bg-surface);
+    border: 1px solid var(--sc-border-subtle);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .shortcut-action {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #ffffff;
+    display: block;
+  }
+
+  .shortcut-info {
+    font-size: 0.8rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 768px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .shortcuts-container {
+      padding: 1.5rem;
+    }
+
+    .shortcuts-header {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .shortcuts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

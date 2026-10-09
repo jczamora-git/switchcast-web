@@ -1,0 +1,179 @@
+---
+const requirements = [
+  {
+    category: "Operating System",
+    requirement: "Windows 10 64-bit (Version 1809 / Build 17763 or higher) or Windows 11",
+    notes: "Verified on Windows 11 Pro 23H2 & Windows 10 Enterprise"
+  },
+  {
+    category: "Processor / Architecture",
+    requirement: "64-bit Intel / AMD Processor (x64 architecture)",
+    notes: "Native 64-bit binaries compiled with .NET 8 ReadyToRun optimizations"
+  },
+  {
+    category: "Graphics Acceleration",
+    requirement: "DirectX / Direct3D 11 compatible graphics GPU or WARP software rasterizer",
+    notes: "Utilizes Windows.Graphics.Capture WinRT APIs with hardware swapchain presentation"
+  },
+  {
+    category: "Runtime & Framework",
+    requirement: "Self-Contained .NET 8 Runtime (Pre-Packaged)",
+    notes: "Zero external .NET runtimes, Visual C++ redistributables, or SDKs needed"
+  },
+  {
+    category: "Supported Media Formats",
+    requirement: "Images (PNG, JPG, BMP, GIF) • Videos (MP4, MKV, MOV, WMV, AVI)",
+    notes: "Direct hardware-accelerated playback with synchronous audio output"
+  },
+  {
+    category: "Conferencing Interop",
+    requirement: "Zoom, Microsoft Teams, Google Meet, Discord, OBS Studio, vMix, Webex",
+    notes: "Share the single 'SwitchCast Presentation Output' window into any meeting app"
+  }
+];
+---
+
+<section class="section requirements-section" id="requirements">
+  <div class="container">
+    
+    <div class="section-header reveal">
+      <span class="section-tag">Platform Specifications</span>
+      <h2 class="section-title">System Requirements & Compatibility</h2>
+      <p class="section-subtitle">
+        SwitchCast is engineered specifically for the Windows desktop ecosystem, taking advantage of modern Windows Graphics Capture APIs.
+      </p>
+    </div>
+
+    <!-- Requirements Table Card -->
+    <div class="requirements-container glass-card reveal">
+      <div class="req-table-wrapper">
+        <table class="req-table">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 25%;">COMPONENT</th>
+              <th scope="col" style="width: 45%;">VERIFIED REQUIREMENT</th>
+              <th scope="col" style="width: 30%;">ARCHITECTURAL NOTE</th>
+            </tr>
+          </thead>
+          <tbody>
+            {requirements.map((req) => (
+              <tr>
+                <td class="req-cat">{req.category}</td>
+                <td class="req-val">
+                  <strong>{req.requirement}</strong>
+                </td>
+                <td class="req-note">{req.notes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Known Platform Behaviors Callout -->
+      <div class="platform-notes-strip">
+        <div class="note-box">
+          <span class="note-title">💡 Minimized Windows Behavior</span>
+          <p>Under standard Windows compositor policies, minimized application windows suspend DirectX frame updates. SwitchCast retains the last captured frame until the window is restored.</p>
+        </div>
+        <div class="note-box">
+          <span class="note-title">🔊 Conferencing Audio Sharing</span>
+          <p>Local media audio routes through your default Windows audio playback device. To share audio with meeting participants in Google Meet or Zoom, enable "Share system audio".</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .requirements-container {
+    border: 1px solid var(--sc-border-base);
+    padding: 2rem;
+    overflow: hidden;
+  }
+
+  .req-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+  }
+
+  .req-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .req-table th {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--sc-text-tertiary);
+    letter-spacing: 0.08em;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--sc-border-base);
+    background: var(--sc-bg-surface);
+  }
+
+  .req-table td {
+    padding: 1.15rem 1rem;
+    border-bottom: 1px solid var(--sc-border-subtle);
+    font-size: 0.92rem;
+    vertical-align: middle;
+  }
+
+  .req-cat {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--sc-accent);
+    font-size: 0.85rem !important;
+  }
+
+  .req-val strong {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .req-note {
+    color: var(--sc-text-secondary);
+    font-size: 0.85rem !important;
+  }
+
+  .platform-notes-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    border-top: 1px solid var(--sc-border-base);
+    padding-top: 1.75rem;
+  }
+
+  .note-box {
+    background: var(--sc-bg-surface);
+    border: 1px solid var(--sc-border-subtle);
+    padding: 1.25rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .note-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .note-box p {
+    font-size: 0.85rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .requirements-container {
+      padding: 1.25rem;
+    }
+
+    .platform-notes-strip {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

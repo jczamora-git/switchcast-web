@@ -1,0 +1,436 @@
+---
+import releaseData from '../data/release.json';
+---
+
+<section class="section download-section" id="download">
+  <div class="container">
+    
+    <div class="section-header reveal">
+      <span class="section-tag">Official Release</span>
+      <h2 class="section-title">Download SwitchCast for Windows</h2>
+      <p class="section-subtitle">
+        Get the latest verified standalone release. Zero installation wizard, zero external runtimes, and 100% offline local privacy.
+      </p>
+    </div>
+
+    <!-- Download Card -->
+    <div class="download-container glass-card reveal">
+      <div class="download-grid">
+        
+        <!-- Left: Download Actions & Specs -->
+        <div class="download-main">
+          <div class="download-release-header">
+            <div class="release-title-block">
+              <span class="product-name">SWITCHCAST FOR WINDOWS</span>
+              <h3 class="release-version">Version {releaseData.version} <span class="stable-tag">Stable</span></h3>
+            </div>
+            <span class="release-date">Published {releaseData.releaseDate}</span>
+          </div>
+
+          <div class="release-details-list">
+            <div class="detail-row">
+              <span class="detail-label">Platform:</span>
+              <span class="detail-val">{releaseData.platform}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Architecture:</span>
+              <span class="detail-val">{releaseData.architecture}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Package Type:</span>
+              <span class="detail-val">{releaseData.packageType}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Archive File:</span>
+              <span class="detail-val font-mono">{releaseData.filename}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Package Size:</span>
+              <span class="detail-val font-mono">{releaseData.packageSize}</span>
+            </div>
+          </div>
+
+          <!-- Primary Download Button -->
+          <div class="download-cta-block">
+            <a href={releaseData.downloadUrl} class="btn btn-primary btn-lg download-btn" download>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download SwitchCast (ZIP)</span>
+            </a>
+
+            <div class="download-secondary-links">
+              <a href={releaseData.releaseNotesUrl} target="_blank" rel="noopener noreferrer" class="sub-link">
+                <span>View Release Notes</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+              <span class="link-dot">•</span>
+              <a href={releaseData.allReleasesUrl} target="_blank" rel="noopener noreferrer" class="sub-link">
+                <span>All Past Releases</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+              <span class="link-dot">•</span>
+              <a href={releaseData.checksumUrl} target="_blank" rel="noopener noreferrer" class="sub-link">
+                <span>Official .sha256 File</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- SHA256 Checksum Verification Box -->
+          <div class="checksum-box">
+            <div class="checksum-header">
+              <span class="checksum-title">SHA-256 CHECKSUM</span>
+              <button class="copy-checksum-btn" id="copyHashBtn" data-hash={releaseData.sha256}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span id="copyBtnText">Copy Hash</span>
+              </button>
+            </div>
+            <code class="checksum-code font-mono">{releaseData.sha256}</code>
+          </div>
+        </div>
+
+        <!-- Right: Installation & Verification Instructions -->
+        <div class="installation-sidebar">
+          <h4 class="install-title">Quick Installation</h4>
+          
+          <div class="install-steps">
+            <div class="install-step-item">
+              <span class="inst-num">1</span>
+              <div class="inst-text">
+                <strong>Download & Extract Archive</strong>
+                <p>Download <code class="inline-code">{releaseData.filename}</code> and extract the contents to your preferred folder (e.g. <code>C:\Apps\SwitchCast\</code>).</p>
+              </div>
+            </div>
+
+            <div class="install-step-item">
+              <span class="inst-num">2</span>
+              <div class="inst-text">
+                <strong>Launch Executable</strong>
+                <p>Double-click <code class="inline-code">SwitchCast.exe</code>. No installation wizard or administrator rights required.</p>
+              </div>
+            </div>
+
+            <div class="install-step-item">
+              <span class="inst-num">3</span>
+              <div class="inst-text">
+                <strong>Zero External Dependencies</strong>
+                <p>SwitchCast is pre-packaged with all required Windows App SDK and .NET 8 assemblies (Self-Contained).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="verify-cli-box">
+            <span class="verify-cli-label">VERIFY CHECKSUM IN POWERSHELL:</span>
+            <pre class="cli-pre"><code>Get-FileHash .\{releaseData.filename} -Algorithm SHA256</code></pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .download-container {
+    border: 1px solid var(--sc-border-base);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .download-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 3rem;
+  }
+
+  .download-release-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--sc-border-subtle);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .product-name {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--sc-accent);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .release-version {
+    font-size: 1.75rem;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .stable-tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--sc-success);
+    background: var(--sc-success-soft);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--radius-xs);
+  }
+
+  .release-date {
+    font-size: 0.85rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .release-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--sc-border-subtle);
+    padding-bottom: 0.5rem;
+  }
+
+  .detail-label {
+    color: var(--sc-text-secondary);
+  }
+
+  .detail-val {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+  }
+
+  .download-cta-block {
+    margin-bottom: 2rem;
+  }
+
+  .download-btn {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .download-secondary-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    color: var(--sc-text-secondary);
+  }
+
+  .sub-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--sc-text-secondary);
+  }
+
+  .sub-link:hover {
+    color: var(--sc-accent);
+  }
+
+  .link-dot {
+    color: var(--sc-text-dim);
+  }
+
+  .checksum-box {
+    background: var(--sc-bg-surface);
+    border: 1px solid var(--sc-border-subtle);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .checksum-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4rem;
+  }
+
+  .checksum-title {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--sc-text-tertiary);
+    letter-spacing: 0.08em;
+  }
+
+  .copy-checksum-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: transparent;
+    border: 1px solid var(--sc-border-base);
+    color: var(--sc-text-secondary);
+    font-size: 0.72rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .copy-checksum-btn:hover {
+    color: #ffffff;
+    border-color: var(--sc-accent);
+  }
+
+  .checksum-code {
+    display: block;
+    word-break: break-all;
+    font-size: 0.75rem;
+    color: var(--sc-accent);
+    line-height: 1.4;
+  }
+
+  /* Right Sidebar */
+  .installation-sidebar {
+    background: var(--sc-bg-surface);
+    border: 1px solid var(--sc-border-subtle);
+    padding: 1.75rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .install-title {
+    font-size: 1.15rem;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--sc-border-subtle);
+    padding-bottom: 0.75rem;
+  }
+
+  .install-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    flex: 1;
+  }
+
+  .install-step-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .inst-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: var(--sc-accent-soft);
+    color: var(--sc-accent);
+    border: 1px solid rgba(255, 122, 89, 0.3);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .inst-text strong {
+    display: block;
+    font-size: 0.9rem;
+    color: #ffffff;
+    margin-bottom: 0.2rem;
+  }
+
+  .inst-text p {
+    font-size: 0.85rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.4;
+  }
+
+  .inline-code {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    background: var(--sc-bg-surface-elevated);
+    border: 1px solid var(--sc-border-base);
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    color: var(--sc-text-primary);
+  }
+
+  .verify-cli-box {
+    background: #0d0e14;
+    border: 1px solid var(--sc-border-subtle);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .verify-cli-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--sc-text-tertiary);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .cli-pre {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #86efac;
+    overflow-x: auto;
+  }
+
+  @media (max-width: 960px) {
+    .download-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .download-container {
+      padding: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  const copyBtn = document.getElementById('copyHashBtn');
+  const copyBtnText = document.getElementById('copyBtnText');
+
+  if (copyBtn && copyBtnText) {
+    copyBtn.addEventListener('click', () => {
+      const hash = copyBtn.getAttribute('data-hash');
+      if (hash && navigator.clipboard) {
+        navigator.clipboard.writeText(hash).then(() => {
+          copyBtnText.textContent = 'Copied!';
+          setTimeout(() => {
+            copyBtnText.textContent = 'Copy Hash';
+          }, 2500);
+        });
+      }
+    });
+  }
+</script>

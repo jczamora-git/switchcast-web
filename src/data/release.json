@@ -1,0 +1,20 @@
+{
+  "version": "1.2.0",
+  "releaseTag": "v1.2.0",
+  "releaseDate": "October 10, 2026",
+  "filename": "SwitchCast-v1.2.0-win-x64.zip",
+  "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.0/SwitchCast-v1.2.0-win-x64.zip",
+  "checksumUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.0/SwitchCast-v1.2.0-win-x64.sha256",
+  "sha256": "BB8AD7EB346F6372E28FF6F5442072D5D4294F573AE175D73B83333C4C82790D",
+  "releaseNotesUrl": "https://github.com/jczamora-git/SwitchCast/releases/tag/v1.2.0",
+  "allReleasesUrl": "https://github.com/jczamora-git/SwitchCast/releases",
+  "sourceRepoUrl": "https://github.com/jczamora-git/SwitchCast",
+  "packageSize": "63.7 MB",
+  "packageSizeBytes": 66789532,
+  "platform": "Windows 10 (1809+) & Windows 11",
+  "architecture": "x64 (64-bit)",
+  "packageType": "Standalone ZIP (Self-Contained)",
+  "minWindowsVersion": "Windows 10 Build 17763 (version 1809) or later / Windows 11",
+  "graphicsRequirement": "Direct3D 11 compatible GPU or WARP software rasterizer",
+  "dotnetRequirement": "Self-Contained .NET 8 (Zero runtime installations required)"
+}

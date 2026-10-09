@@ -1,0 +1,347 @@
+/* ==========================================================================
+   SWITCHCAST OFFICIAL DESIGN SYSTEM — CSS TOKENS & BASE STYLES
+   ========================================================================== */
+
+:root {
+  /* Surface & Background Palettes */
+  --sc-bg-deep: #08080a;
+  --sc-bg-primary: #0d0e12;
+  --sc-bg-secondary: #121318;
+  --sc-bg-surface: #181920;
+  --sc-bg-surface-elevated: #20222c;
+  --sc-bg-card: rgba(24, 25, 32, 0.75);
+  --sc-bg-card-hover: rgba(32, 34, 44, 0.85);
+  --sc-bg-glass: rgba(16, 17, 22, 0.82);
+
+  /* Borders & Dividers */
+  --sc-border-subtle: rgba(255, 255, 255, 0.07);
+  --sc-border-base: rgba(255, 255, 255, 0.12);
+  --sc-border-hover: rgba(255, 122, 89, 0.45);
+  --sc-border-active: #ff7a59;
+
+  /* SwitchCast Signature Palette */
+  --sc-accent: #ff7a59;
+  --sc-accent-hover: #ff8e72;
+  --sc-accent-active: #e05a36;
+  --sc-accent-glow: rgba(255, 122, 89, 0.28);
+  --sc-accent-soft: rgba(255, 122, 89, 0.12);
+  --sc-accent-tint: rgba(255, 122, 89, 0.05);
+
+  /* Functional Status Colors */
+  --sc-live: #ff3b30;
+  --sc-live-glow: rgba(255, 59, 48, 0.35);
+  --sc-success: #10b981;
+  --sc-success-soft: rgba(16, 185, 129, 0.12);
+  --sc-warning: #f59e0b;
+  --sc-info: #3b82f6;
+
+  /* Typography */
+  --sc-text-primary: #f4f4f6;
+  --sc-text-secondary: #a6a7b3;
+  --sc-text-tertiary: #737482;
+  --sc-text-dim: #4c4d5a;
+  
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: 'Space Grotesk', var(--font-sans);
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', Consolas, SFMono-Regular, monospace;
+
+  /* Layout and Sizing */
+  --container-max-width: 1240px;
+  --container-narrow-width: 860px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadow & Glow */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.7);
+  --shadow-accent: 0 10px 30px rgba(255, 122, 89, 0.22);
+}
+
+/* Base Reset & Typography */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: var(--sc-bg-deep);
+  color: var(--sc-text-primary);
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 122, 89, 0.08), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 60%, rgba(255, 122, 89, 0.03), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sc-bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sc-border-base);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sc-accent);
+}
+
+::selection {
+  background: var(--sc-accent);
+  color: #08080a;
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--sc-text-primary);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+}
+
+h3 {
+  font-size: clamp(1.3rem, 2.2vw, 1.65rem);
+}
+
+p {
+  color: var(--sc-text-secondary);
+  font-size: 1.05rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+code, kbd, pre {
+  font-family: var(--font-mono);
+}
+
+/* Container Utility */
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 4vw, 2rem);
+  padding-right: clamp(1rem, 4vw, 2rem);
+}
+
+.container-narrow {
+  width: 100%;
+  max-width: var(--container-narrow-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 4vw, 2rem);
+  padding-right: clamp(1rem, 4vw, 2rem);
+}
+
+/* Section Spacing */
+.section {
+  padding-top: clamp(4.5rem, 8vw, 7.5rem);
+  padding-bottom: clamp(4.5rem, 8vw, 7.5rem);
+  position: relative;
+}
+
+/* Section Header */
+.section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 3.5rem auto;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sc-accent);
+  background: var(--sc-accent-soft);
+  border: 1px solid rgba(255, 122, 89, 0.25);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 1.25rem;
+}
+
+.section-tag::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--sc-accent);
+  border-radius: 50%;
+}
+
+.section-title {
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--sc-text-secondary);
+  line-height: 1.6;
+}
+
+/* Button Component Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--sc-accent);
+  color: #08080a;
+  border-color: var(--sc-accent);
+  box-shadow: 0 4px 18px var(--sc-accent-glow);
+}
+
+.btn-primary:hover {
+  background: var(--sc-accent-hover);
+  border-color: var(--sc-accent-hover);
+  box-shadow: 0 6px 24px rgba(255, 122, 89, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: var(--sc-bg-surface);
+  color: var(--sc-text-primary);
+  border-color: var(--sc-border-base);
+}
+
+.btn-secondary:hover {
+  background: var(--sc-bg-surface-elevated);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--sc-text-secondary);
+  border-color: var(--sc-border-subtle);
+}
+
+.btn-ghost:hover {
+  background: var(--sc-bg-surface);
+  color: var(--sc-text-primary);
+  border-color: var(--sc-border-base);
+}
+
+.btn-lg {
+  font-size: 1.05rem;
+  padding: 0.95rem 1.85rem;
+  border-radius: var(--radius-md);
+}
+
+.btn-sm {
+  font-size: 0.85rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Glass Card */
+.glass-card {
+  background: var(--sc-bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--sc-border-subtle);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass-card:hover {
+  border-color: var(--sc-border-base);
+  box-shadow: var(--shadow-md);
+}
+
+/* Shortcut Badge / Pill */
+.shortcut-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--sc-text-primary);
+  background: var(--sc-bg-surface-elevated);
+  border: 1px solid var(--sc-border-base);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-xs);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Live Pulse Dot */
+.live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--sc-live);
+  box-shadow: 0 0 0 0 var(--sc-live-glow);
+  animation: pulse-live 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Background Grid Overlay */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}

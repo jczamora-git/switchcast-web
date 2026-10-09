@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import ProductPreview from '../components/ProductPreview.astro';
+import Features from '../components/Features.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import UseCases from '../components/UseCases.astro';
+import DownloadSection from '../components/DownloadSection.astro';
+import SystemRequirements from '../components/SystemRequirements.astro';
+import FAQ from '../components/FAQ.astro';
+import Footer from '../components/Footer.astro';
+import releaseData from '../data/release.json';
+
+const pageTitle = "SwitchCast — Windows Screen Sharing & Presentation Management Software";
+const pageDescription = `Download SwitchCast v${releaseData.version} for Windows. Seamlessly switch between applications, physical displays, images, and videos through one stable presentation output.`;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <Navbar />
+  <main id="main-content">
+    <Hero />
+    <ProductPreview />
+    <Features />
+    <HowItWorks />
+    <UseCases />
+    <DownloadSection />
+    <SystemRequirements />
+    <FAQ />
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+  <defs>
+    <linearGradient id="sc-bg" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#222222" />
+      <stop offset="100%" stop-color="#101010" />
+    </linearGradient>
+    <linearGradient id="sc-accent" x1="8" y1="8" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF8E72" />
+      <stop offset="100%" stop-color="#FF7A59" />
+    </linearGradient>
+    <filter id="sc-glow" x="-20%" y="-20%" width="140%" height="140%" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Base App Tile -->
+  <rect x="2" y="2" width="44" height="44" rx="10" fill="url(#sc-bg)" stroke="#2C2C2C" stroke-width="1.5" />
+  
+  <!-- Back Display Layer -->
+  <rect x="8" y="10" width="22" height="15" rx="3" fill="#181818" stroke="#333333" stroke-width="1.2" stroke-dasharray="2 2" />
+  
+  <!-- Front Active Presentation Window -->
+  <g filter="url(#sc-glow)">
+    <rect x="14" y="16" width="24" height="18" rx="4" fill="#141414" stroke="url(#sc-accent)" stroke-width="1.8" />
+  </g>
+  
+  <!-- Window Header Bar -->
+  <path d="M14 21.5H38" stroke="#282828" stroke-width="1" />
+  <circle cx="18" cy="18.8" r="1.2" fill="#FF7A59" />
+  <circle cx="22" cy="18.8" r="1.2" fill="#444444" />
+  <circle cx="26" cy="18.8" r="1.2" fill="#444444" />
+  
+  <!-- Switch Arrows Glyphs -->
+  <path d="M22 28.5H29M29 28.5L26.5 26M29 28.5L26.5 31" stroke="url(#sc-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M30 24.5H23M23 24.5L25.5 22M23 24.5L25.5 27" stroke="#888888" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Live Indicator Dot -->
+  <circle cx="34.5" cy="19" r="2" fill="#FF7A59" />
+</svg>

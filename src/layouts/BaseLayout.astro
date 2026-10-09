@@ -1,0 +1,112 @@
+---
+import '../styles/global.css';
+import '../styles/animations.css';
+import releaseData from '../data/release.json';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
+  image?: string;
+}
+
+const {
+  title = "SwitchCast — Windows Screen Sharing & Presentation Management Software",
+  description = "Download SwitchCast for Windows. Seamlessly switch between application windows, physical displays, images, and videos through one stable presentation output.",
+  canonicalUrl = "https://switchcast.jeiziproductions.com",
+  image = "https://switchcast.jeiziproductions.com/assets/switchcast-og.png"
+} = Astro.props;
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "SwitchCast",
+  "operatingSystem": "Windows 10, Windows 11",
+  "applicationCategory": "BusinessApplication, MultimediaApplication",
+  "softwareVersion": releaseData.version,
+  "fileSize": releaseData.packageSize,
+  "downloadUrl": releaseData.downloadUrl,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "John Christopher King Zamora",
+    "url": "https://jeiziproductions.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jeizi Productions",
+    "url": "https://jeiziproductions.com"
+  },
+  "description": description
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="theme-color" content="#08080a" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/assets/switchcast-logo.svg" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content="SwitchCast" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <!-- Google Fonts: Inter, Space Grotesk, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
+  </head>
+  <body>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <slot />
+
+    <!-- Scroll Reveal and Global Interactions Script -->
+    <script>
+      // Intersection Observer for staggered scroll reveals
+      document.addEventListener('DOMContentLoaded', () => {
+        const reveals = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+          reveals.forEach(el => observer.observe(el));
+        } else {
+          reveals.forEach(el => el.classList.add('is-visible'));
+        }
+      });
+    </script>
+  </body>
+</html>
