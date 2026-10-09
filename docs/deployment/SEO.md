@@ -31,7 +31,7 @@ This document details the production SEO architecture, Open Graph specifications
 
 ## 3. Open Graph & Social Sharing Specification
 
-* **Asset Filename:** `public/og-switchcast-v2.png` (and `og-switchcast.png`)
+* **Asset Filename:** `public/og-switchcast.png` (mirrored to `og-switchcast-v2.png`)
 * **Standard Resolution:** 1200 x 630 pixels (Aspect Ratio: 1.905:1).
 * **Format:** PNG with compression and palette optimization (~85 KB vs original 1.48 MB).
 * **Design Elements:**

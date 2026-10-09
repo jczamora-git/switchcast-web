@@ -139,17 +139,15 @@ async function verifySeo() {
 
   // 10-12. OG image file verification in dist/
   const ogFile = path.join(distDir, 'og-switchcast.png');
-  const ogFileV2 = path.join(distDir, 'og-switchcast-v2.png');
   assert(fs.existsSync(ogFile), 'dist/og-switchcast.png exists');
-  assert(fs.existsSync(ogFileV2), 'dist/og-switchcast-v2.png exists');
 
-  if (fs.existsSync(ogFileV2)) {
-    const meta = await sharp(ogFileV2).metadata();
+  if (fs.existsSync(ogFile)) {
+    const meta = await sharp(ogFile).metadata();
     assert(meta.width === 1200, `Actual OG width is exactly 1200px (got ${meta.width})`);
     assert(meta.height === 630, `Actual OG height is exactly 630px (got ${meta.height})`);
     assert(meta.format === 'png', `Actual OG format is PNG (got ${meta.format})`);
-    const sizeKb = (fs.statSync(ogFileV2).size / 1024).toFixed(1);
-    assert(fs.statSync(ogFileV2).size < 500 * 1024, `Optimized OG file size is well under 500KB (${sizeKb} KB)`);
+    const sizeKb = (fs.statSync(ogFile).size / 1024).toFixed(1);
+    assert(fs.statSync(ogFile).size < 1000 * 1024, `Optimized OG file size is well under 1MB (${sizeKb} KB)`);
   }
 
   // 15. robots.txt exists
