@@ -47,9 +47,9 @@ npm run harness:status
 
 The website is static-first. Release metadata is tracked in `src/data/release.json` and statically injected into the HTML during build time.
 
-- **Current Published Release**: `v1.2.0` (October 10, 2026)
-- **Verified Package**: `SwitchCast-v1.2.0-win-x64.zip` (63.7 MB)
-- **Verified SHA-256**: `BB8AD7EB346F6372E28FF6F5442072D5D4294F573AE175D73B83333C4C82790D`
+- **Current Published Release**: `v1.2.1` (October 10, 2026)
+- **Verified Package**: `SwitchCast-v1.2.1-win-x64.zip` (63.8 MB)
+- **Verified SHA-256**: `0A6D1EB0970800CF971ACFC2799908FE8D5B38AFFAE2DB6A7513B8B917DF643C`
 
 ---
 

@@ -3,432 +3,287 @@ import releaseData from '../data/release.json';
 ---
 
 <section class="section download-section" id="download">
-  <div class="container">
+  <div class="container container-narrow">
     
     <div class="section-header reveal">
-      <span class="section-tag">Official Release</span>
-      <h2 class="section-title">Download SwitchCast for Windows</h2>
+      <span class="section-tag">Get Started</span>
+      <h2 class="section-title">Your Next Presentation<br />Starts Here.</h2>
       <p class="section-subtitle">
-        Get the latest verified standalone release. Zero installation wizard, zero external runtimes, and 100% offline local privacy.
+        Download SwitchCast for Windows and keep your next presentation moving.
       </p>
     </div>
 
-    <!-- Download Card -->
-    <div class="download-container glass-card reveal">
-      <div class="download-grid">
-        
-        <!-- Left: Download Actions & Specs -->
-        <div class="download-main">
-          <div class="download-release-header">
-            <div class="release-title-block">
-              <span class="product-name">SWITCHCAST FOR WINDOWS</span>
-              <h3 class="release-version">Version {releaseData.version} <span class="stable-tag">Stable</span></h3>
-            </div>
-            <span class="release-date">Published {releaseData.releaseDate}</span>
-          </div>
+    <!-- Main Download Card -->
+    <div class="download-card glass-card reveal">
+      
+      <!-- Primary Action Block -->
+      <div class="download-action-block">
+        <a href={releaseData.downloadUrl} class="btn btn-primary btn-lg download-main-btn" download>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download SwitchCast</span>
+        </a>
 
-          <div class="release-details-list">
-            <div class="detail-row">
-              <span class="detail-label">Platform:</span>
-              <span class="detail-val">{releaseData.platform}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Architecture:</span>
-              <span class="detail-val">{releaseData.architecture}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Package Type:</span>
-              <span class="detail-val">{releaseData.packageType}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Archive File:</span>
-              <span class="detail-val font-mono">{releaseData.filename}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Package Size:</span>
-              <span class="detail-val font-mono">{releaseData.packageSize}</span>
-            </div>
-          </div>
-
-          <!-- Primary Download Button -->
-          <div class="download-cta-block">
-            <a href={releaseData.downloadUrl} class="btn btn-primary btn-lg download-btn" download>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              <span>Download SwitchCast (ZIP)</span>
-            </a>
-
-            <div class="download-secondary-links">
-              <a href={releaseData.releaseNotesUrl} target="_blank" rel="noopener noreferrer" class="sub-link">
-                <span>View Release Notes</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-              <span class="link-dot">•</span>
-              <a href={releaseData.allReleasesUrl} target="_blank" rel="noopener noreferrer" class="sub-link">
-                <span>All Past Releases</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-              <span class="link-dot">•</span>
-              <a href={releaseData.checksumUrl} target="_blank" rel="noopener noreferrer" class="sub-link">
-                <span>Official .sha256 File</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- SHA256 Checksum Verification Box -->
-          <div class="checksum-box">
-            <div class="checksum-header">
-              <span class="checksum-title">SHA-256 CHECKSUM</span>
-              <button class="copy-checksum-btn" id="copyHashBtn" data-hash={releaseData.sha256}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-                <span id="copyBtnText">Copy Hash</span>
-              </button>
-            </div>
-            <code class="checksum-code font-mono">{releaseData.sha256}</code>
-          </div>
+        <!-- Metadata Pill Row -->
+        <div class="download-specs-row">
+          <span>v{releaseData.version}</span>
+          <span class="spec-dot">•</span>
+          <span>{releaseData.platform}</span>
+          <span class="spec-dot">•</span>
+          <span>{releaseData.packageSize}</span>
+          <span class="spec-dot">•</span>
+          <span>Standalone ZIP</span>
         </div>
-
-        <!-- Right: Installation & Verification Instructions -->
-        <div class="installation-sidebar">
-          <h4 class="install-title">Quick Installation</h4>
-          
-          <div class="install-steps">
-            <div class="install-step-item">
-              <span class="inst-num">1</span>
-              <div class="inst-text">
-                <strong>Download & Extract Archive</strong>
-                <p>Download <code class="inline-code">{releaseData.filename}</code> and extract the contents to your preferred folder (e.g. <code>C:\Apps\SwitchCast\</code>).</p>
-              </div>
-            </div>
-
-            <div class="install-step-item">
-              <span class="inst-num">2</span>
-              <div class="inst-text">
-                <strong>Launch Executable</strong>
-                <p>Double-click <code class="inline-code">SwitchCast.exe</code>. No installation wizard or administrator rights required.</p>
-              </div>
-            </div>
-
-            <div class="install-step-item">
-              <span class="inst-num">3</span>
-              <div class="inst-text">
-                <strong>Zero External Dependencies</strong>
-                <p>SwitchCast is pre-packaged with all required Windows App SDK and .NET 8 assemblies (Self-Contained).</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="verify-cli-box">
-            <span class="verify-cli-label">VERIFY CHECKSUM IN POWERSHELL:</span>
-            <pre class="cli-pre"><code>Get-FileHash .\{releaseData.filename} -Algorithm SHA256</code></pre>
-          </div>
-        </div>
-
       </div>
+
+      <!-- Compact 3-Step Setup -->
+      <div class="setup-steps-wrapper">
+        <span class="setup-header-label">QUICK SETUP</span>
+        <div class="setup-steps-grid">
+          <div class="setup-step">
+            <span class="setup-num">1</span>
+            <p>Download the ZIP archive</p>
+          </div>
+          <div class="setup-step">
+            <span class="setup-num">2</span>
+            <p>Extract the files anywhere</p>
+          </div>
+          <div class="setup-step">
+            <span class="setup-num">3</span>
+            <p>Open <strong>SwitchCast.exe</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary Links & Quiet Hash -->
+      <div class="download-footer-links">
+        <div class="sub-links-group">
+          <a href={`/releases/${releaseData.releaseTag}`} class="quiet-link">
+            Release Notes
+          </a>
+          <span class="link-divider">|</span>
+          <a href="/releases" class="quiet-link view-all-link">
+            View All Releases →
+          </a>
+        </div>
+
+        <!-- Quiet Checksum Toggle -->
+        <div class="quiet-checksum">
+          <span class="hash-label">SHA-256:</span>
+          <code class="hash-code" id="hashCodeText" title={releaseData.sha256}>
+            {releaseData.sha256.slice(0, 12)}...{releaseData.sha256.slice(-8)}
+          </code>
+          <button class="hash-copy-btn" id="copyHashBtn" data-hash={releaseData.sha256} title="Copy SHA-256 Checksum">
+            <span id="copyHashLabel">Copy</span>
+          </button>
+        </div>
+      </div>
+
     </div>
 
   </div>
 </section>
 
 <style>
-  .download-container {
+  .download-section {
+    position: relative;
+  }
+
+  .download-card {
     border: 1px solid var(--sc-border-base);
-    padding: 2.5rem;
-    box-shadow: var(--shadow-lg);
+    padding: 3rem 2.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
   }
 
-  .download-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 3rem;
-  }
-
-  .download-release-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: 1px solid var(--sc-border-subtle);
-    padding-bottom: 1.5rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .product-name {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--sc-accent);
-    letter-spacing: 0.1em;
-    display: block;
-    margin-bottom: 0.25rem;
-  }
-
-  .release-version {
-    font-size: 1.75rem;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-
-  .stable-tag {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--sc-success);
-    background: var(--sc-success-soft);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    padding: 0.15rem 0.55rem;
-    border-radius: var(--radius-xs);
-  }
-
-  .release-date {
-    font-size: 0.85rem;
-    color: var(--sc-text-tertiary);
-  }
-
-  .release-details-list {
+  .download-action-block {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
+    align-items: center;
+    margin-bottom: 2.5rem;
   }
 
-  .detail-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-    border-bottom: 1px solid var(--sc-border-subtle);
-    padding-bottom: 0.5rem;
-  }
-
-  .detail-label {
-    color: var(--sc-text-secondary);
-  }
-
-  .detail-val {
-    color: #ffffff;
-    font-weight: 600;
-  }
-
-  .font-mono {
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
-  }
-
-  .download-cta-block {
-    margin-bottom: 2rem;
-  }
-
-  .download-btn {
-    width: 100%;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
+  .download-main-btn {
+    padding: 0.95rem 2.5rem;
+    font-size: 1.05rem;
     margin-bottom: 1rem;
+    width: fit-content;
   }
 
-  .download-secondary-links {
+  .download-specs-row {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 0.6rem;
-    font-size: 0.82rem;
-    color: var(--sc-text-secondary);
-  }
-
-  .sub-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    color: var(--sc-text-secondary);
-  }
-
-  .sub-link:hover {
-    color: var(--sc-accent);
-  }
-
-  .link-dot {
-    color: var(--sc-text-dim);
-  }
-
-  .checksum-box {
-    background: var(--sc-bg-surface);
-    border: 1px solid var(--sc-border-subtle);
-    padding: 1rem;
-    border-radius: var(--radius-sm);
-  }
-
-  .checksum-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.4rem;
-  }
-
-  .checksum-title {
+    gap: 0.5rem;
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.8rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .spec-dot {
+    color: var(--sc-border-base);
+  }
+
+  /* Compact 3-Step Setup */
+  .setup-steps-wrapper {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--sc-border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+
+  .setup-header-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
     font-weight: 700;
     color: var(--sc-text-tertiary);
     letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 1rem;
   }
 
-  .copy-checksum-btn {
-    display: inline-flex;
+  .setup-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .setup-step {
+    display: flex;
     align-items: center;
-    gap: 0.3rem;
+    gap: 0.65rem;
+  }
+
+  .setup-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--sc-accent-soft);
+    color: var(--sc-accent);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .setup-step p {
+    font-size: 0.88rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.35;
+  }
+
+  .setup-step p strong {
+    color: #ffffff;
+  }
+
+  /* Secondary Links */
+  .download-footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--sc-border-subtle);
+    font-size: 0.84rem;
+  }
+
+  .sub-links-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .quiet-link {
+    color: var(--sc-text-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .quiet-link:hover {
+    color: #ffffff;
+  }
+
+  .link-divider {
+    color: var(--sc-border-base);
+  }
+
+  .quiet-checksum {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .hash-code {
+    color: var(--sc-text-secondary);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+  }
+
+  .hash-copy-btn {
     background: transparent;
     border: 1px solid var(--sc-border-base);
     color: var(--sc-text-secondary);
-    font-size: 0.72rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
-  .copy-checksum-btn:hover {
+  .hash-copy-btn:hover {
     color: #ffffff;
     border-color: var(--sc-accent);
   }
 
-  .checksum-code {
-    display: block;
-    word-break: break-all;
-    font-size: 0.75rem;
-    color: var(--sc-accent);
-    line-height: 1.4;
-  }
-
-  /* Right Sidebar */
-  .installation-sidebar {
-    background: var(--sc-bg-surface);
-    border: 1px solid var(--sc-border-subtle);
-    padding: 1.75rem;
-    border-radius: var(--radius-md);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .install-title {
-    font-size: 1.15rem;
-    color: #ffffff;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--sc-border-subtle);
-    padding-bottom: 0.75rem;
-  }
-
-  .install-steps {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    margin-bottom: 2rem;
-    flex: 1;
-  }
-
-  .install-step-item {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-
-  .inst-num {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    background: var(--sc-accent-soft);
-    color: var(--sc-accent);
-    border: 1px solid rgba(255, 122, 89, 0.3);
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    font-weight: 700;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .inst-text strong {
-    display: block;
-    font-size: 0.9rem;
-    color: #ffffff;
-    margin-bottom: 0.2rem;
-  }
-
-  .inst-text p {
-    font-size: 0.85rem;
-    color: var(--sc-text-secondary);
-    line-height: 1.4;
-  }
-
-  .inline-code {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    background: var(--sc-bg-surface-elevated);
-    border: 1px solid var(--sc-border-base);
-    padding: 0.1rem 0.35rem;
-    border-radius: 3px;
-    color: var(--sc-text-primary);
-  }
-
-  .verify-cli-box {
-    background: #0d0e14;
-    border: 1px solid var(--sc-border-subtle);
-    padding: 1rem;
-    border-radius: var(--radius-sm);
-  }
-
-  .verify-cli-label {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: var(--sc-text-tertiary);
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  .cli-pre {
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: #86efac;
-    overflow-x: auto;
-  }
-
-  @media (max-width: 960px) {
-    .download-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+  @media (max-width: 640px) {
+    .download-card {
+      padding: 2rem 1.25rem;
     }
 
-    .download-container {
-      padding: 1.5rem;
+    .setup-steps-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .download-footer-links {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .download-main-btn {
+      width: 100%;
     }
   }
 </style>
 
 <script>
   const copyBtn = document.getElementById('copyHashBtn');
-  const copyBtnText = document.getElementById('copyBtnText');
+  const copyLabel = document.getElementById('copyHashLabel');
 
-  if (copyBtn && copyBtnText) {
+  if (copyBtn && copyLabel) {
     copyBtn.addEventListener('click', () => {
       const hash = copyBtn.getAttribute('data-hash');
       if (hash && navigator.clipboard) {
         navigator.clipboard.writeText(hash).then(() => {
-          copyBtnText.textContent = 'Copied!';
+          copyLabel.textContent = 'Copied';
           setTimeout(() => {
-            copyBtnText.textContent = 'Copy Hash';
-          }, 2500);
+            copyLabel.textContent = 'Copy';
+          }, 2000);
         });
       }
     });

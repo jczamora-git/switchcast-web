@@ -1,0 +1,482 @@
+---
+// Interactive SwitchCast Product Simulator Component
+---
+
+<div class="demo-wrapper">
+  <!-- Top Demo Header Bar -->
+  <div class="demo-header-toolbar">
+    <div class="demo-badge-group">
+      <span class="demo-pill-tag">
+        <span class="demo-pill-pulse" aria-hidden="true"></span>
+        INTERACTIVE DEMO
+      </span>
+      <span class="demo-subtext">Try SwitchCast in your browser.</span>
+    </div>
+
+    <div class="demo-toolbar-actions">
+      <button type="button" class="demo-btn-reset" id="btn-reset-demo" title="Restore initial demo state">
+        <span>🔄</span> Reset Demo
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile View Switcher (for <= 1024px screens) -->
+  <div class="demo-view-switcher" role="tablist" aria-label="Demo Views">
+    <button type="button" class="view-switch-btn active" data-view="app" role="tab" id="tab-view-app">SwitchCast App</button>
+    <button type="button" class="view-switch-btn" data-view="output" role="tab" id="tab-view-output">Audience Output</button>
+    <button type="button" class="view-switch-btn" data-view="dock" role="tab" id="tab-view-dock">Presenter Dock</button>
+  </div>
+
+  <!-- Main Simulator Grid -->
+  <div class="demo-grid">
+    
+    <!-- LEFT PANEL: Main SwitchCast Application Window -->
+    <div class="demo-panel-app" id="demo-panel-app">
+      <div class="win-app-shell">
+        
+        <!-- WinUI Title Bar -->
+        <div class="win-titlebar">
+          <div class="win-titlebar-identity">
+            <img src="/assets/switchcast-logo.svg" alt="" class="win-titlebar-logo" width="16" height="16" />
+            <span class="win-titlebar-name">SwitchCast</span>
+            <span class="win-titlebar-badge">Control App</span>
+          </div>
+          <div class="win-titlebar-controls" aria-hidden="true">
+            <span class="win-ctrl-btn">─</span>
+            <span class="win-ctrl-btn">□</span>
+            <span class="win-ctrl-btn">✕</span>
+          </div>
+        </div>
+
+        <!-- Window Shell Body -->
+        <div class="win-body">
+          
+          <!-- Navigation Sidebar (Desktop vertical / Mobile horizontal) -->
+          <nav class="win-sidebar" aria-label="SwitchCast Navigation">
+            <ul class="win-nav-list">
+              <li class="win-nav-item active" data-tab="dashboard">
+                <button type="button">
+                  <span class="nav-icon">🎛️</span>
+                  <span>Dashboard</span>
+                </button>
+              </li>
+              <li class="win-nav-item" data-tab="sources">
+                <button type="button">
+                  <span class="nav-icon">📂</span>
+                  <span>Sources</span>
+                </button>
+              </li>
+              <li class="win-nav-item" data-tab="settings">
+                <button type="button">
+                  <span class="nav-icon">⚙️</span>
+                  <span>Settings</span>
+                </button>
+              </li>
+            </ul>
+
+            <div class="win-nav-footer">
+              <span class="demo-subtext" style="font-size: 0.68rem; display: block; text-align: center;">v1.2.1 WinUI 3</span>
+            </div>
+          </nav>
+
+          <!-- Main View Panels -->
+          <div class="win-content">
+            
+            <!-- VIEW 1: DASHBOARD -->
+            <div class="view-panel active" data-panel="dashboard">
+              
+              <!-- Dashboard Header -->
+              <div class="view-header">
+                <div class="view-title-group">
+                  <h3>Dashboard</h3>
+                  <p>Manage your presentation session and switch between sources.</p>
+                </div>
+                <div class="view-header-actions">
+                  <button type="button" class="win-toggle-btn active" id="btn-toggle-output" title="Toggle Audience Output Window">
+                    <span>🖥️</span> Output Window
+                  </button>
+                  <button type="button" class="win-toggle-btn active" id="btn-toggle-dock" title="Toggle Floating Presenter Dock">
+                    <span>🎛️</span> Presenter Dock
+                  </button>
+                </div>
+              </div>
+
+              <!-- Status Strip (4 Columns) -->
+              <div class="dash-status-strip">
+                <div class="status-card">
+                  <span class="status-label">STATUS</span>
+                  <span class="status-value" id="dash-val-status">Not Started</span>
+                </div>
+                <div class="status-card">
+                  <span class="status-label">ACTIVE SOURCE</span>
+                  <span class="status-value" id="dash-val-active">(None)</span>
+                </div>
+                <div class="status-card">
+                  <span class="status-label">QUEUED SOURCES</span>
+                  <span class="status-value" id="dash-val-queued">0 Sources</span>
+                </div>
+                <div class="status-card">
+                  <span class="status-label">OUTPUT WINDOW</span>
+                  <span class="status-value" id="dash-val-output">Open (Visible)</span>
+                </div>
+              </div>
+
+              <!-- Primary Control Bar -->
+              <div class="dash-control-bar">
+                <button type="button" class="btn-present-primary" id="btn-start-presenting">
+                  <span>▶</span> Start Presenting
+                </button>
+
+                <div class="dash-source-select-wrap">
+                  <select class="dash-source-select" id="dash-source-select" aria-label="Select Target Presentation Source">
+                    <option value="">-- No Sources Queued --</option>
+                  </select>
+                </div>
+
+                <button type="button" class="dash-ctrl-btn" id="btn-add-source">
+                  <span>➕</span> Add Source
+                </button>
+
+                <button type="button" class="dash-ctrl-btn" id="btn-dash-pause" disabled>
+                  <span>⏸</span> Pause
+                </button>
+
+                <button type="button" class="dash-ctrl-btn" id="btn-dash-blackout" disabled>
+                  <span>🕶️</span> Blackout
+                </button>
+              </div>
+
+              <!-- Queued Sources List -->
+              <div class="dash-queue-section">
+                <div class="section-subhead">
+                  <h4>Active Presentation Lineup</h4>
+                </div>
+
+                <div class="queue-items-list" id="dash-queue-items" style="display: none;">
+                  <!-- Injected via JavaScript controller -->
+                </div>
+
+                <div class="queue-empty-state" id="dash-queue-empty">
+                  No sources queued yet. Click <strong>"Add Source"</strong> or switch to the Sources tab to choose applications, displays, or media.
+                </div>
+              </div>
+
+            </div>
+
+            <!-- VIEW 2: SOURCES -->
+            <div class="view-panel" data-panel="sources">
+              <div class="view-header">
+                <div class="view-title-group">
+                  <h3>Sources</h3>
+                  <p>Select applications, displays, and media to add to your session queue.</p>
+                </div>
+              </div>
+
+              <!-- Category Filter Tabs -->
+              <div class="sources-tab-bar" role="tablist">
+                <button type="button" class="sources-cat-btn active" data-category="windows">Application Windows (3)</button>
+                <button type="button" class="sources-cat-btn" data-category="displays">Displays & Monitors (2)</button>
+                <button type="button" class="sources-cat-btn" data-category="media">Media Files (2)</button>
+              </div>
+
+              <!-- Search Field -->
+              <div class="sources-search-wrap">
+                <input type="text" id="sources-search" class="sources-search-input" placeholder="Search available sources by name..." aria-label="Filter demo sources" />
+              </div>
+
+              <!-- Source Catalog Cards List -->
+              <div class="sources-catalog-list" id="sources-catalog-list">
+                <!-- Dynamically populated -->
+              </div>
+
+              <div class="sources-footer-bar">
+                <span id="sources-queued-summary">0 sources queued for this session</span>
+                <button type="button" class="btn-return-dash" id="btn-return-dash">Return to Dashboard →</button>
+              </div>
+            </div>
+
+            <!-- VIEW 3: SETTINGS -->
+            <div class="view-panel" data-panel="settings">
+              <div class="view-header">
+                <div class="view-title-group">
+                  <h3>Settings</h3>
+                  <p>Application preferences and SwitchCast runtime specifications.</p>
+                </div>
+              </div>
+
+              <div class="settings-content">
+                <div class="settings-card">
+                  <h4>General & About</h4>
+                  <p>SwitchCast is a high-performance Windows screen sharing and presentation manager engineered for uninterrupted multi-source streaming.</p>
+                  
+                  <div class="settings-meta-grid">
+                    <div class="settings-meta-item">
+                      <span class="settings-meta-label">APPLICATION VERSION</span>
+                      <span class="settings-meta-val">v1.2.1 (Official Release)</span>
+                    </div>
+                    <div class="settings-meta-item">
+                      <span class="settings-meta-label">TARGET PLATFORM</span>
+                      <span class="settings-meta-val">Windows 10 / 11 (x64)</span>
+                    </div>
+                    <div class="settings-meta-item">
+                      <span class="settings-meta-label">FRAMEWORK</span>
+                      <span class="settings-meta-val">WinUI 3 • Windows App SDK</span>
+                    </div>
+                    <div class="settings-meta-item">
+                      <span class="settings-meta-label">CREATOR</span>
+                      <span class="settings-meta-val">John Christopher King Zamora</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-card">
+                  <h4>Appearance Theme</h4>
+                  <p>Adaptive theme modes matching Windows Fluent Design guidelines.</p>
+                  <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
+                    <span class="workflow-step-pill completed">Dark (Active)</span>
+                    <span class="workflow-step-pill">Light (System)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: Presentation Output + Floating Dock + Dynamic Explanation -->
+    <div class="demo-panel-companion" id="demo-panel-companion">
+      
+      <!-- PRESENTER OUTPUT WINDOW -->
+      <div class="output-window-card" id="output-window-card">
+        <div class="output-window-bar">
+          <div class="output-bar-title">
+            <img src="/assets/switchcast-logo.svg" alt="" width="14" height="14" />
+            <span>SwitchCast Presentation Output</span>
+          </div>
+          <span class="output-bar-badge standby" id="output-bar-badge">Standby • Ready</span>
+        </div>
+
+        <!-- 16:9 Output Screen -->
+        <div class="output-canvas">
+          <span class="output-audience-badge">AUDIENCE VIEW</span>
+
+          <!-- Standby View -->
+          <div class="canvas-standby-view" id="canvas-standby">
+            <img src="/assets/switchcast-logo.svg" alt="" class="standby-logo" />
+            <h4 class="standby-title">Ready to Present</h4>
+            <p class="standby-desc">Select sources in the dashboard and click <strong>"Start Presenting"</strong> to stream live to this window.</p>
+          </div>
+
+          <!-- Feed: Browser -->
+          <div class="canvas-feed" data-feed-type="browser">
+            <div class="mockup-browser">
+              <div class="mockup-browser-chrome">
+                <span style="font-size: 0.7rem; color: #ff7a59;">🔒</span>
+                <span class="mockup-url-bar">https://switchcast.app/docs/stream-acceleration</span>
+              </div>
+              <div class="mockup-browser-body">
+                <h4 class="mockup-browser-heading">SwitchCast Technical Architecture</h4>
+                <p style="font-size: 0.72rem; color: var(--sc-text-secondary);">Direct D3D11 zero-copy texture surface capture with sub-millisecond pipeline latency.</p>
+                <div class="mockup-browser-cards">
+                  <div class="mockup-browser-card">
+                    <strong>Zero Interruption</strong>
+                    <p>Share this window once in Zoom or Teams.</p>
+                  </div>
+                  <div class="mockup-browser-card">
+                    <strong>Direct Rendering</strong>
+                    <p>DirectComposition native hardware surfaces.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feed: Slides -->
+          <div class="canvas-feed" data-feed-type="slides">
+            <div class="mockup-slides">
+              <div class="mockup-slides-header">
+                <span>POWERPOINT PRESENTATION</span>
+                <span>SLIDE 04 / 18</span>
+              </div>
+              <div class="mockup-slides-body">
+                <h4>Q4 Product Strategy & Roadmap</h4>
+                <ul>
+                  <li>Eliminate awkward screen share restarts across video calls</li>
+                  <li>Enable instant live pause with privacy snapshot retention</li>
+                  <li>Privacy Blackout protects confidential company data instantly</li>
+                </ul>
+              </div>
+              <div class="mockup-slides-footer">
+                <span>Jeizi Productions Confidential</span>
+                <span>SwitchCast v1.2.1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feed: Code Editor -->
+          <div class="canvas-feed" data-feed-type="code">
+            <div class="mockup-editor">
+              <div class="mockup-editor-tabs">
+                <span>📄 SwitchCastEngine.cs • C#</span>
+              </div>
+              <div class="mockup-editor-code">
+                <div><span class="kw">public async</span> <span class="fn">Task</span>&lt;<span class="kw">bool</span>&gt; <span class="fn">SwitchSourceAsync</span>(<span class="kw">string</span> sourceId)</div>
+                <div>&#123;</div>
+                <div>&nbsp;&nbsp;<span class="cm">// Zero-copy hardware switch</span></div>
+                <div>&nbsp;&nbsp;<span class="kw">var</span> surface = <span class="kw">await</span> _captureEngine.<span class="fn">AcquireFrameAsync</span>(sourceId);</div>
+                <div>&nbsp;&nbsp;_presentationWindow.<span class="fn">UpdateLiveFeed</span>(surface);</div>
+                <div>&nbsp;&nbsp;<span class="kw">return true</span>;</div>
+                <div>&#125;</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feed: Displays (Monitors) -->
+          <div class="canvas-feed" data-feed-type="display">
+            <div class="mockup-display">
+              <span class="mockup-display-badge">🖥️ Display Feed (Active Monitor)</span>
+              <div class="mockup-display-center">
+                <strong style="font-size: 1rem; color: #ffffff; display: block; margin-bottom: 0.25rem;">Full Desktop Surface</strong>
+                <p>Hardware accelerated desktop capture streaming to presentation window.</p>
+              </div>
+              <div class="mockup-display-taskbar">
+                <span>🪟 Windows Taskbar</span>
+                <span>• 1920 × 1080 @ 144Hz</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feed: Video -->
+          <div class="canvas-feed" data-feed-type="video">
+            <div class="mockup-video">
+              <span class="mockup-video-banner">🎬 Video Media Playback</span>
+              <div class="mockup-video-center">
+                <span class="video-play-glyph">▶</span>
+              </div>
+              <div class="mockup-video-progress">
+                <div class="video-progress-bar">
+                  <div class="video-progress-fill" id="mockup-video-fill"></div>
+                </div>
+                <div class="video-time-row">
+                  <span id="mockup-video-curr">00:24</span>
+                  <span>02:45</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feed: Image -->
+          <div class="canvas-feed" data-feed-type="image">
+            <div class="mockup-image">
+              <span class="image-preview-icon">🖼️</span>
+              <h4 class="image-preview-title">System Architecture Diagram</h4>
+              <span class="image-preview-meta">3840 × 2160 • High Fidelity Static Render</span>
+            </div>
+          </div>
+
+          <!-- Paused Overlay -->
+          <div class="overlay-paused" id="overlay-paused">
+            <div class="paused-pill-banner">
+              <span>⏸</span> PAUSED — Frame Frozen
+            </div>
+          </div>
+
+          <!-- Blackout Overlay -->
+          <div class="overlay-blackout" id="overlay-blackout">
+            <div class="blackout-pill-banner">
+              <span>🕶️</span> PRIVACY BLACKOUT ACTIVE
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- FLOATING PRESENTER DOCK -->
+      <div class="floating-dock-card" id="floating-dock-card">
+        <div class="dock-header-row">
+          <span class="dock-drag-indicator" title="Always on Top Anchor">⋮⋮ Presenter Dock</span>
+          <span class="dock-title-label">Always On Top Above Any App</span>
+        </div>
+
+        <div class="dock-main-row">
+          <span class="dock-status-pill standby" id="dock-status-pill">STANDBY</span>
+          
+          <div class="dock-divider"></div>
+
+          <!-- Source navigation -->
+          <div class="dock-source-nav">
+            <button type="button" class="dock-btn-icon" id="btn-dock-prev" title="Previous Source" disabled>⏮</button>
+            <span class="dock-source-active-pill" id="dock-source-active">No Source</span>
+            <button type="button" class="dock-btn-icon" id="btn-dock-next" title="Next Source" disabled>⏭</button>
+          </div>
+
+          <div class="dock-divider"></div>
+
+          <!-- Switching Modes -->
+          <div class="dock-mode-group" role="group" aria-label="Switching Modes">
+            <button type="button" class="dock-mode-btn active" data-mode="LiveOnly" title="Live Only: Change audience feed without shifting desktop focus">Live</button>
+            <button type="button" class="dock-mode-btn" data-mode="ActiveLive" title="Active + Live: Change feed and bring app window forward">Act+Live</button>
+            <button type="button" class="dock-mode-btn" data-mode="ActiveOnly" title="Active Only: Bring app forward privately without changing audience feed">Active</button>
+          </div>
+
+          <div class="dock-divider"></div>
+
+          <!-- Presentation Action Buttons -->
+          <button type="button" class="dock-btn-icon" id="btn-dock-pause" title="Freeze Presentation Frame" disabled>⏸</button>
+          <button type="button" class="dock-btn-icon" id="btn-dock-blackout" title="Privacy Blackout Curtain" disabled>🕶️</button>
+          <button type="button" class="dock-btn-icon" id="btn-dock-stop" title="Stop Presentation" disabled>⏹</button>
+          <button type="button" class="dock-btn-icon" id="btn-dock-fullscreen" title="Toggle Borderless Fullscreen">⛶</button>
+        </div>
+
+        <!-- Video Controls Sub-Row (appears when video is active source) -->
+        <div class="dock-video-controls" id="dock-video-controls">
+          <div class="dock-video-btns-row">
+            <div class="dock-video-left-btns">
+              <button type="button" class="dock-btn-icon" id="btn-video-play" title="Play / Pause">▶</button>
+              <button type="button" class="dock-btn-icon" id="btn-video-restart" title="Restart">⏮</button>
+              <button type="button" class="dock-btn-icon" id="btn-video-back10" title="Back 10s">⏪</button>
+              <button type="button" class="dock-btn-icon" id="btn-video-fwd10" title="Forward 10s">⏩</button>
+              <span class="dock-video-timecode" id="dock-video-timecode">00:24 / 02:45</span>
+            </div>
+
+            <div class="dock-video-volume-group">
+              <button type="button" class="dock-btn-icon" id="btn-video-mute" title="Mute / Unmute">🔊</button>
+              <input type="range" id="dock-video-volume" class="dock-vol-slider" min="0" max="100" value="85" aria-label="Media Volume" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DYNAMIC EXPLANATION CARD ("WHAT THIS DOES") -->
+      <div class="explanation-card" role="region" aria-live="polite" aria-label="Action Explanation">
+        <div class="explanation-header">
+          <div class="explanation-title-wrap">
+            <span class="explanation-glyph" id="explanation-glyph">💡</span>
+            <h4 class="explanation-title" id="explanation-title">WHAT THIS DOES</h4>
+          </div>
+          <span class="explanation-tag" id="explanation-tag">Ready</span>
+        </div>
+        <p class="explanation-desc" id="explanation-desc">
+          Explore the controls to see how SwitchCast works.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  import { initInteractiveDemo } from '../../scripts/demo/demo-controller';
+
+  // Initialize once DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initInteractiveDemo());
+  } else {
+    initInteractiveDemo();
+  }
+</script>

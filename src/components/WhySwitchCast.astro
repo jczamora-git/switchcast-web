@@ -1,0 +1,102 @@
+---
+const cards = [
+  {
+    title: "BUSINESS MEETINGS",
+    desc: "Move between reports, dashboards, and applications without interrupting the conversation.",
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>`
+  },
+  {
+    title: "WEBINARS & ONLINE CLASSES",
+    desc: "Transition between lessons, demonstrations, and media while keeping your presentation organized.",
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`
+  },
+  {
+    title: "LIVE DEMONSTRATIONS",
+    desc: "Show different applications and screens through one consistent presentation window.",
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`
+  }
+];
+---
+
+<section class="section why-section" id="why-switchcast">
+  <div class="container">
+    
+    <div class="section-header reveal">
+      <span class="section-tag">Why SwitchCast</span>
+      <h2 class="section-title">Made for Presentations That Don't Stop</h2>
+      <p class="section-subtitle">
+        Present with confidence in meetings, webinars, and demonstrations without the friction of traditional screen sharing.
+      </p>
+    </div>
+
+    <!-- 3 Clean Use-Case Cards -->
+    <div class="why-grid reveal">
+      {cards.map((c) => (
+        <div class="why-card glass-card">
+          <div class="why-icon" set:html={c.icon} />
+          <h3 class="why-card-title">{c.title}</h3>
+          <p class="why-card-desc">{c.desc}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .why-section {
+    position: relative;
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+
+  .why-card {
+    padding: 2.25rem 2rem;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--sc-border-base);
+  }
+
+  .why-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--sc-accent-soft);
+    border: 1px solid rgba(255, 122, 89, 0.2);
+    border-radius: var(--radius-md);
+    color: var(--sc-accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .why-card-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.65rem;
+    letter-spacing: 0.02em;
+  }
+
+  .why-card-desc {
+    font-size: 0.95rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 860px) {
+    .why-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .why-card {
+      padding: 1.75rem 1.5rem;
+    }
+  }
+</style>

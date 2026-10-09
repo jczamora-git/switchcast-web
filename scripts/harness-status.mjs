@@ -26,11 +26,16 @@ function getHarnessStatus() {
   console.log(`Repository Branch:     ${gitBranch}`);
   console.log(`Git Working Tree:      ${gitStatus}`);
 
-  // 2. Release Manifest
+  // 2. Release Manifests
+  const releasesPath = path.join(rootDir, 'src/data/releases.json');
   const releasePath = path.join(rootDir, 'src/data/release.json');
+  if (fs.existsSync(releasesPath)) {
+    const allRel = JSON.parse(fs.readFileSync(releasesPath, 'utf8'));
+    console.log(`Central Manifest:      src/data/releases.json (${allRel.length} published releases)`);
+  }
   if (fs.existsSync(releasePath)) {
     const rel = JSON.parse(fs.readFileSync(releasePath, 'utf8'));
-    console.log(`Release Version:       v${rel.version} (${rel.releaseDate})`);
+    console.log(`Latest Stable Release: v${rel.version} (${rel.releaseDate})`);
     console.log(`Package Target:        ${rel.filename} (${rel.packageSize})`);
     console.log(`SHA-256 Checksum:      ${rel.sha256}`);
   } else {
@@ -64,6 +69,8 @@ function getHarnessStatus() {
   // 5. Verification Commands
   console.log('\nVerification Commands:');
   console.log('  npm run check          (Astro & TypeScript Diagnostics)');
+  console.log('  npm run test:demo      (Interactive Demo State Transition Test Suite)');
+  console.log('  npm run test:releases  (Semantic Version Ordering Regression Test)');
   console.log('  npm run release:verify (Manifest & Release Contract Check)');
   console.log('  npm run build          (Production Static SSG Build -> dist/)');
   console.log('  npm run harness:status (Offline Harness Health Summary)\n');

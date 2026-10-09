@@ -5,110 +5,46 @@ import releaseData from '../data/release.json';
 <section class="hero-section" id="hero">
   <div class="container hero-container">
     
-    <!-- Hero Status Pill -->
-    <div class="hero-badge-wrapper reveal">
-      <div class="hero-badge">
-        <span class="live-dot"></span>
-        <span class="hero-badge-text">SwitchCast v{releaseData.version} Windows Release</span>
-        <span class="hero-badge-divider">|</span>
-        <span class="hero-badge-sub">Images, Videos & Fullscreen Audio Support</span>
-      </div>
+    <!-- Subtle Version Tag -->
+    <div class="hero-tag-wrapper reveal">
+      <span class="hero-tag">
+        v{releaseData.version} for Windows 10 & 11
+      </span>
     </div>
 
     <!-- Main Headline -->
     <div class="hero-headline-group reveal">
       <h1 class="hero-title">
-        <span class="title-line">ONE WINDOW.</span>
-        <span class="title-line">EVERY SOURCE.</span>
-        <span class="title-line text-accent">SEAMLESS PRESENTATIONS.</span>
+        SHARE ONCE.<br />
+        <span class="text-accent">SWITCH SEAMLESSLY.</span>
       </h1>
       <p class="hero-description">
-        Switch between application windows, physical monitors, images, and videos
-        through one stable presentation output—without interrupting your active screen-sharing session.
+        Present different windows, screens, images, and videos without stopping your screen share.
       </p>
     </div>
 
-    <!-- Hero CTA Action Group -->
+    <!-- Primary & Secondary Actions -->
     <div class="hero-actions reveal">
       <a href="#download" class="btn btn-primary btn-lg hero-cta-primary">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
           <polyline points="7 10 12 15 17 10"></polyline>
           <line x1="12" y1="15" x2="12" y2="3"></line>
         </svg>
-        <span class="cta-text-wrapper">
-          <span class="cta-main-text">Download for Windows</span>
-          <span class="cta-sub-text">v{releaseData.version} • {releaseData.packageSize} • x64</span>
-        </span>
+        <span>Download for Windows</span>
       </a>
 
-      <a href="#features" class="btn btn-secondary btn-lg hero-cta-secondary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polygon points="10 8 16 12 10 16 10 8"></polygon>
+      <a href="#experience" class="btn btn-secondary btn-lg hero-cta-secondary">
+        <span>See How It Works</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
-        <span>Explore Features</span>
       </a>
     </div>
 
-    <!-- Compatibility & Trust Strip -->
-    <div class="hero-specs-strip reveal">
-      <div class="spec-item">
-        <div class="spec-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.551H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.902-1.801"/>
-          </svg>
-        </div>
-        <div class="spec-meta">
-          <span class="spec-label">Operating System</span>
-          <span class="spec-value">Windows 10 (1809+) & 11</span>
-        </div>
-      </div>
-
-      <div class="spec-divider"></div>
-
-      <div class="spec-item">
-        <div class="spec-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-            <line x1="8" y1="21" x2="16" y2="21"></line>
-            <line x1="12" y1="17" x2="12" y2="21"></line>
-          </svg>
-        </div>
-        <div class="spec-meta">
-          <span class="spec-label">Architecture</span>
-          <span class="spec-value">64-Bit Native (x64)</span>
-        </div>
-      </div>
-
-      <div class="spec-divider"></div>
-
-      <div class="spec-item">
-        <div class="spec-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-        </div>
-        <div class="spec-meta">
-          <span class="spec-label">Portability</span>
-          <span class="spec-value">Standalone (Self-Contained)</span>
-        </div>
-      </div>
-
-      <div class="spec-divider"></div>
-
-      <div class="spec-item">
-        <div class="spec-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
-        </div>
-        <div class="spec-meta">
-          <span class="spec-label">Privacy</span>
-          <span class="spec-value">100% Offline & Local</span>
-        </div>
-      </div>
+    <!-- Clean Platform Note -->
+    <div class="hero-foot-note reveal">
+      <span>Free Standalone App • No Installation Wizard Required • 100% Offline</span>
     </div>
 
   </div>
@@ -117,10 +53,9 @@ import releaseData from '../data/release.json';
 <style>
   .hero-section {
     position: relative;
-    padding-top: clamp(4rem, 9vw, 7rem);
-    padding-bottom: clamp(3.5rem, 7vw, 6rem);
+    padding-top: clamp(3.5rem, 7vw, 5.5rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
     text-align: center;
-    overflow: hidden;
   }
 
   .hero-container {
@@ -131,69 +66,46 @@ import releaseData from '../data/release.json';
     z-index: 1;
   }
 
-  .hero-badge-wrapper {
-    margin-bottom: 2rem;
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    background: rgba(24, 25, 32, 0.9);
-    border: 1px solid var(--sc-border-base);
-    padding: 0.4rem 1.15rem;
-    border-radius: var(--radius-full);
-    font-size: 0.85rem;
-    color: var(--sc-text-primary);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  }
-
-  .hero-badge-text {
-    font-family: var(--font-mono);
-    font-weight: 600;
-    color: var(--sc-accent);
-  }
-
-  .hero-badge-divider {
-    color: var(--sc-text-dim);
-  }
-
-  .hero-badge-sub {
-    color: var(--sc-text-secondary);
-  }
-
-  .hero-headline-group {
-    max-width: 960px;
-    margin-bottom: 2.75rem;
-  }
-
-  .hero-title {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    font-size: clamp(2.5rem, 6.2vw, 4.8rem);
-    letter-spacing: -0.03em;
-    line-height: 1.08;
+  .hero-tag-wrapper {
     margin-bottom: 1.5rem;
   }
 
-  .title-line {
-    display: block;
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--sc-text-secondary);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--sc-border-base);
+    padding: 0.35rem 0.9rem;
+    border-radius: var(--radius-full);
+  }
+
+  .hero-headline-group {
+    max-width: 860px;
+    margin-bottom: 2.25rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.6rem, 6.2vw, 4.4rem);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
   }
 
   .text-accent {
     color: var(--sc-accent);
-    background: linear-gradient(135deg, #ffffff 0%, #ff8e72 40%, #ff7a59 100%);
+    background: linear-gradient(135deg, #ffffff 15%, #ff8e72 60%, #ff7a59 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .hero-description {
-    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-size: clamp(1.15rem, 2.2vw, 1.35rem);
     color: var(--sc-text-secondary);
-    max-width: 760px;
+    max-width: 680px;
     margin: 0 auto;
-    line-height: 1.6;
+    line-height: 1.55;
   }
 
   .hero-actions {
@@ -201,110 +113,24 @@ import releaseData from '../data/release.json';
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 1.25rem;
-    margin-bottom: 3.5rem;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
   }
 
   .hero-cta-primary {
-    padding: 0.85rem 2.2rem;
-  }
-
-  .cta-text-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    line-height: 1.2;
-  }
-
-  .cta-main-text {
-    font-size: 1.05rem;
-    font-weight: 700;
-  }
-
-  .cta-sub-text {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    opacity: 0.85;
-    font-weight: 500;
+    padding: 0.85rem 2rem;
   }
 
   .hero-cta-secondary {
-    padding: 1.05rem 2rem;
+    padding: 0.85rem 1.75rem;
   }
 
-  .hero-specs-strip {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem 2.5rem;
-    background: var(--sc-bg-card);
-    border: 1px solid var(--sc-border-subtle);
-    padding: 1rem 2rem;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    max-width: 900px;
-    width: 100%;
-  }
-
-  .spec-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .spec-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: var(--sc-bg-surface);
-    border: 1px solid var(--sc-border-base);
-    border-radius: var(--radius-sm);
-    color: var(--sc-accent);
-  }
-
-  .spec-meta {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    line-height: 1.25;
-  }
-
-  .spec-label {
-    font-size: 0.72rem;
+  .hero-foot-note {
+    font-size: 0.82rem;
     color: var(--sc-text-tertiary);
-    text-transform: uppercase;
-    font-family: var(--font-mono);
-    letter-spacing: 0.05em;
   }
 
-  .spec-value {
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--sc-text-primary);
-  }
-
-  .spec-divider {
-    width: 1px;
-    height: 28px;
-    background: var(--sc-border-subtle);
-  }
-
-  @media (max-width: 768px) {
-    .spec-divider {
-      display: none;
-    }
-    
-    .hero-specs-strip {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      padding: 1.25rem;
-    }
-
+  @media (max-width: 640px) {
     .hero-actions {
       flex-direction: column;
       width: 100%;
@@ -314,22 +140,6 @@ import releaseData from '../data/release.json';
     .hero-cta-secondary {
       width: 100%;
       justify-content: center;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .hero-specs-strip {
-      grid-template-columns: 1fr;
-    }
-
-    .hero-badge {
-      flex-direction: column;
-      gap: 0.25rem;
-      padding: 0.6rem 1rem;
-    }
-
-    .hero-badge-divider {
-      display: none;
     }
   }
 </style>
