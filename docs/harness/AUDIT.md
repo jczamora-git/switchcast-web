@@ -82,11 +82,15 @@ Every feature showcased on this website has been directly audited against the lo
 
 ## 6. SEO & Metadata Configuration
 
-- **Title**: `SwitchCast — Windows Screen Sharing & Presentation Management Software`
-- **Canonical Domain**: `https://switchcast.jeiziproductions.com`
-- **OpenGraph & Twitter Cards**: Integrated in `BaseLayout.astro`.
-- **Structured Data**: `SoftwareApplication` JSON-LD schema with author, price ($0), OS requirements, and download links.
-- **Search Directives**: `public/robots.txt`.
+- **Centralized SEO Config**: `src/config/seo.ts` with helper functions for canonical URLs and page metadata.
+- **Production Origin**: `https://switchcast.wasmer.app`
+- **Canonical Trailing Slash Convention**: Standardized across `/`, `/releases/`, and `/releases/vX.X.X/`.
+- **OpenGraph & Twitter Cards**: 1200x630 pixel-perfect social preview (`public/og-switchcast-v2.png` generated via `npm run seo:generate`).
+- **Automated XML Sitemap**: Generated via custom Astro integration at `dist/sitemap.xml` with 6 canonical routes.
+- **Robots Directives**: `public/robots.txt` referencing `https://switchcast.wasmer.app/sitemap.xml`.
+- **Structured Data**: `SoftwareApplication` JSON-LD schema on `/`; `BreadcrumbList` on `/releases/` and release detail pages.
+- **Google Search Console**: Verified via `google8e150a81a712479d.html` and HTML meta tag.
+- **Automated Audit**: 20-point verification script (`npm run seo:verify`).
 
 ---
 

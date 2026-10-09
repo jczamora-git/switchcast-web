@@ -73,6 +73,8 @@ function getHarnessStatus() {
   console.log('  npm run test:releases  (Semantic Version Ordering Regression Test)');
   console.log('  npm run release:verify (Manifest & Release Contract Check)');
   console.log('  npm run build          (Production Static SSG Build -> dist/)');
+  console.log('  npm run seo:generate   (Reproducible 1200x630 OG Banner Generation)');
+  console.log('  npm run seo:verify     (Automated 20-Point Production SEO & Sitemap Audit)');
   console.log('  npm run harness:status (Offline Harness Health Summary)\n');
 }
 

@@ -5,19 +5,22 @@ import Footer from '../../components/Footer.astro';
 import { getAllReleases, type Release } from '../../utils/releases';
 import { renderMarkdown } from '../../utils/markdown';
 
+import { SITE_CONFIG, getCanonicalUrl } from '../../config/seo';
+
 export async function getStaticPaths() {
   const allReleases = getAllReleases();
-  const paths: Array<{ params: { version: string }; props: { release: Release } }> = [];
+  const paths: Array<{ params: { version: string }; props: { release: Release; isAlias: boolean } }> = [];
 
   for (const rel of allReleases) {
-    // Support both /releases/v1.2.0/ and /releases/1.2.0/
+    // Canonical route: /releases/v1.2.1/
     paths.push({
       params: { version: rel.tag },
-      props: { release: rel }
+      props: { release: rel, isAlias: false }
     });
+    // Alias route: /releases/1.2.1/ (served for backward compatibility with noindex)
     paths.push({
       params: { version: rel.version },
-      props: { release: rel }
+      props: { release: rel, isAlias: true }
     });
   }
 
@@ -26,25 +29,61 @@ export async function getStaticPaths() {
 
 interface Props {
   release: Release;
+  isAlias?: boolean;
 }
 
-const { release } = Astro.props;
+const { release, isAlias = false } = Astro.props;
 
-const pageTitle = `SwitchCast v${release.version} — Release Notes & Download`;
-const pageDescription = release.summary;
-const canonicalUrl = `https://switchcast.wasmer.app/releases/${release.tag}`;
+const pageTitle = `SwitchCast v${release.version} — Download & Release Notes`;
+const pageDescription = release.summary 
+  ? `Download SwitchCast v${release.version} for Windows. ${release.summary}`
+  : `Download SwitchCast v${release.version} for Windows with release notes, changelog details, and SHA-256 verification.`;
+
+// Canonical URL is strictly the 'v' tagged route with trailing slash
+const canonicalUrl = getCanonicalUrl(`/releases/${release.tag}`);
 
 const formattedNotesHtml = renderMarkdown(release.releaseNotes);
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": `${SITE_CONFIG.origin}/`
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Releases",
+      "item": getCanonicalUrl('/releases')
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": `v${release.version}`,
+      "item": canonicalUrl
+    }
+  ]
+};
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription} canonicalUrl={canonicalUrl}>
+<BaseLayout 
+  title={pageTitle} 
+  description={pageDescription} 
+  canonicalUrl={canonicalUrl}
+  noindex={isAlias}
+  schema={breadcrumbSchema}
+>
   <Navbar />
   <main id="main-content" class="release-detail-page">
     <div class="container container-narrow">
       
       <!-- Back Navigation Breadcrumb -->
       <nav class="back-nav reveal" aria-label="Breadcrumb">
-        <a href="/releases" class="back-link">
+        <a href="/releases/" class="back-link">
           ← Back to all releases
         </a>
       </nav>

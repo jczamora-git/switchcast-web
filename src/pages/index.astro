@@ -7,11 +7,49 @@ import WhySwitchCast from '../components/WhySwitchCast.astro';
 import DownloadSection from '../components/DownloadSection.astro';
 import Footer from '../components/Footer.astro';
 
-const pageTitle = "SwitchCast — Seamless Screen Sharing for Windows";
-const pageDescription = "Share one presentation window and switch between apps, screens, images, and videos without interrupting your meetings or webinars. Download SwitchCast for Windows.";
+import releaseData from '../data/release.json';
+import { SITE_CONFIG, getCanonicalUrl } from '../config/seo';
+
+const pageTitle = SITE_CONFIG.defaultTitle;
+const pageDescription = SITE_CONFIG.defaultDescription;
+const canonicalUrl = getCanonicalUrl('/');
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "SwitchCast",
+  "operatingSystem": "Windows 10, Windows 11",
+  "applicationCategory": "BusinessApplication, MultimediaApplication",
+  "softwareVersion": releaseData.version,
+  "fileSize": releaseData.packageSize,
+  "downloadUrl": releaseData.downloadUrl,
+  "image": SITE_CONFIG.ogImage.url,
+  "url": `${SITE_CONFIG.origin}/`,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": SITE_CONFIG.author.name,
+    "url": SITE_CONFIG.author.url
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": SITE_CONFIG.publisher.name,
+    "url": SITE_CONFIG.publisher.url
+  },
+  "description": pageDescription
+};
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription}>
+<BaseLayout 
+  title={pageTitle} 
+  description={pageDescription} 
+  canonicalUrl={canonicalUrl}
+  schema={softwareSchema}
+>
   <Navbar />
   <main id="main-content">
     <Hero />

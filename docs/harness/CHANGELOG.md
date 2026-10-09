@@ -4,6 +4,32 @@ All notable changes to the SwitchCast website and its dedicated agent harness ar
 
 ---
 
+## [1.9.0] — 2026-10-10
+
+### Added (Production SEO & Open Graph Overhaul)
+- **Centralized SEO Architecture (`src/config/seo.ts`)**:
+  - Centralized production origin (`https://switchcast.wasmer.app`), default title, description, and canonical trailing-slash URL generator.
+- **Reproducible 1200x630 Open Graph Generator (`scripts/generate-og.mjs`)**:
+  - Implemented automated Sharp-based generator creating a 1200x630 px PNG (`public/og-switchcast-v2.png` and `public/og-switchcast.png`).
+  - Optimized file size from 1.48 MB down to 85.1 KB with authentic vector logo, editorial typography, platform pills, and live presenter dock preview.
+  - Added safe area padding (>80px) for zero-clipping social link previews.
+- **Automated XML Sitemap Integration (`scripts/sitemap-integration.mjs`)**:
+  - Added custom Astro build integration generating `dist/sitemap.xml` with all 6 canonical routes.
+  - Strictly excluded duplicate version aliases (`/releases/1.2.1/`) from sitemap.
+- **Search Engine Canonicalization & Alias Noindex Handling**:
+  - Standardized trailing slash URLs across navbar, footer, buttons, and detail pages.
+  - Added `<meta name="robots" content="noindex, follow" />` on non-canonical version aliases while preserving bookmarks.
+- **Page-Specific Schema.org Structured Data**:
+  - Bound authoritative `SoftwareApplication` JSON-LD schema exclusively to homepage (`/`).
+  - Added `BreadcrumbList` schema to Release Center (`/releases/`) and release detail pages (`/releases/v1.2.1/`).
+- **Google Search Console Readiness**:
+  - Deployed verification file `public/google8e150a81a712479d.html` and meta tag `<meta name="google-site-verification" content="google8e150a81a712479d" />`.
+  - Documented setup guide in `docs/deployment/SEO.md`.
+- **20-Point Automated Verification Suite (`scripts/verify-seo.mjs`)**:
+  - Added `npm run seo:verify` covering 179 distinct assertion checks across build outputs.
+
+---
+
 ## [1.8.0] — 2026-10-10
 
 ### Fixed (Open Graph Domain & Scraper Cache-Busting)

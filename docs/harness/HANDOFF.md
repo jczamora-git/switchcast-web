@@ -1,19 +1,19 @@
 # SWITCHCAST WEBSITE — HARNESS HANDOFF RECORD
 
-**Document Version:** 1.8.0  
+**Document Version:** 1.9.0  
 **Updated:** 2026-10-10  
-**Harness Task:** Open Graph Domain Realignment & Cache Busting  
+**Harness Task:** Production SEO & Open Graph Overhaul  
 
 ---
 
 ## 1. Current Status
-- **Status**: SwitchCast v1.2.1 Integrated as Latest Release; 4 Published Releases Archived
+- **Status**: Production SEO, Open Graph Overhaul, Automated XML Sitemap, and Google Search Console Readiness Complete
 - **Page Structure**:
-  - Landing Page: `/` (`src/pages/index.astro` incorporating `src/components/ProductExperience.astro` and `src/components/demo/InteractiveDemo.astro`)
-  - Release Center Catalog: `/releases/` (`src/pages/releases/index.astro`)
-  - Dynamic Release Detail Pages: `/releases/[version]/` (`src/pages/releases/[version].astro` generating `/releases/v1.2.1/`, `/releases/1.2.1/`, `/releases/v1.2.0/`, `/releases/1.2.0/`, `/releases/v1.1.0/`, `/releases/1.1.0/`, `/releases/v1.0.0/`, `/releases/1.0.0/`)
-- **Static Output**: Pre-rendered into `dist/` (10 static HTML pages)
-- **Framework**: Astro 7.3.8 (Static SSG), Vanilla CSS, TypeScript, Vanilla JS
+  - Landing Page: `/` (`src/pages/index.astro` with authoritative `SoftwareApplication` JSON-LD schema)
+  - Release Center Catalog: `/releases/` (`src/pages/releases/index.astro` with `BreadcrumbList` schema)
+  - Dynamic Release Detail Pages: `/releases/[version]/` (canonical routes `/releases/v1.2.1/`, etc. with `BreadcrumbList` schema; non-canonical aliases `/releases/1.2.1/` set to `noindex`)
+- **Static Output**: Pre-rendered into `dist/` (10 static HTML pages + `dist/sitemap.xml` + `dist/robots.txt` + `dist/google8e150a81a712479d.html`)
+- **Framework**: Astro 7.3.8 (Static SSG), Vanilla CSS, TypeScript, Vanilla JS, Sharp (build-time imaging)
 - **Official Version Hierarchy**:
   - `v1.2.1` (Latest Release) — Downloadable (`SwitchCast-v1.2.1-win-x64.zip`, 63.8 MB, SHA-256 with file)
   - `v1.2.0` (Previous Release) — Downloadable (`SwitchCast-v1.2.0-win-x64.zip`, 63.7 MB, SHA-256 with file)
@@ -37,11 +37,13 @@
 ---
 
 ## 3. Automation & Verification Workflows
-- **Diagnostics Check**: `npm run check` (0 errors, 0 warnings across 24 files)
+- **Diagnostics Check**: `npm run check` (0 errors, 0 warnings across 28 files)
 - **Interactive Demo State Tests**: `npm run test:demo` (5/5 flows passed)
 - **Release Order Test**: `npm run test:releases` (passed)
-- **Verification Command**: `npm run release:verify` (4 releases verified)
-- **Production Build**: `npm run build` (10 static pages built successfully into `dist/`)
+- **Release Verification**: `npm run release:verify` (4 releases verified)
+- **OG Banner Generation**: `npm run seo:generate` (Builds 1200x630 pixel-perfect 85 KB social preview)
+- **Production Static Build**: `npm run build` (Pre-renders HTML and emits XML sitemap via Astro integration)
+- **Automated SEO Audit**: `npm run seo:verify` (179-point verification across all HTML, metadata, and assets)
 - **Harness Health**: `npm run harness:status`
 
 ---

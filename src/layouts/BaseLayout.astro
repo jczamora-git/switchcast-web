@@ -1,49 +1,42 @@
 ---
 import '../styles/global.css';
 import '../styles/animations.css';
-import releaseData from '../data/release.json';
+import { buildPageMetadata } from '../config/seo';
 
 interface Props {
   title?: string;
   description?: string;
   canonicalUrl?: string;
   image?: string;
+  imageAlt?: string;
+  noindex?: boolean;
+  schema?: Record<string, any> | Array<Record<string, any>>;
 }
 
 const {
-  title = "SwitchCast — Seamless Screen Sharing for Windows",
-  description = "Share one presentation window and switch between apps, screens, images, and videos without interrupting your meetings or webinars. Download SwitchCast for Windows.",
-  canonicalUrl = "https://switchcast.wasmer.app",
-  image = "https://switchcast.wasmer.app/og-switchcast.png?v=1.2.1"
+  title,
+  description,
+  canonicalUrl: customCanonical,
+  image,
+  imageAlt,
+  noindex = false,
+  schema
 } = Astro.props;
 
-const softwareSchema = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "SwitchCast",
-  "operatingSystem": "Windows 10, Windows 11",
-  "applicationCategory": "BusinessApplication, MultimediaApplication",
-  "softwareVersion": releaseData.version,
-  "fileSize": releaseData.packageSize,
-  "downloadUrl": releaseData.downloadUrl,
-  "image": image,
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "John Christopher King Zamora",
-    "url": "https://jeiziproductions.com"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Jeizi Productions",
-    "url": "https://jeiziproductions.com"
-  },
-  "description": description
-};
+// Determine current pathname safely from Astro.url
+const pathname = Astro.url ? Astro.url.pathname : '/';
+
+const meta = buildPageMetadata({
+  title,
+  description,
+  pathname: customCanonical ? undefined : pathname,
+  image,
+  imageAlt,
+  noindex
+});
+
+// If custom canonical is explicitly passed, honor it
+const canonicalHref = customCanonical ?? meta.canonicalUrl;
 ---
 
 <!doctype html>
@@ -51,9 +44,11 @@ const softwareSchema = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl} />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={canonicalHref} />
+    <meta name="robots" content={meta.noindex ? "noindex, follow" : "index, follow, max-image-preview:large"} />
+    <meta name="google-site-verification" content={meta.googleSiteVerification} />
     <meta name="theme-color" content="#08080a" />
     <meta name="color-scheme" content="dark" />
 
@@ -63,29 +58,33 @@ const softwareSchema = {
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
-    <meta property="og:image:width" content="1731" />
-    <meta property="og:image:height" content="909" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:site_name" content="SwitchCast" />
+    <meta property="og:site_name" content={meta.siteName} />
+    <meta property="og:url" content={canonicalHref} />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:image" content={meta.image} />
+    <meta property="og:image:width" content={meta.width.toString()} />
+    <meta property="og:image:height" content={meta.height.toString()} />
+    <meta property="og:image:type" content={meta.imageType} />
+    <meta property="og:image:alt" content={meta.imageAlt} />
 
     <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={canonicalUrl} />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={image} />
+    <meta name="twitter:card" content={meta.twitterCard} />
+    <meta name="twitter:url" content={canonicalHref} />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:image" content={meta.image} />
+    <meta name="twitter:image:alt" content={meta.imageAlt} />
 
     <!-- Google Fonts: Inter, Space Grotesk, JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
-    <!-- Structured Data JSON-LD -->
-    <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
+    <!-- Structured Data JSON-LD (Page Specific) -->
+    {schema && (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    )}
   </head>
   <body>
     <div class="bg-grid" aria-hidden="true"></div>
