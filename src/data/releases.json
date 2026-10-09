@@ -1,0 +1,200 @@
+[
+  {
+    "tag": "v1.2.1",
+    "version": "1.2.1",
+    "name": "SwitchCast v1.2.1",
+    "publishedAt": "2026-10-09T21:53:14Z",
+    "releaseDate": "October 10, 2026",
+    "isLatest": true,
+    "published": true,
+    "downloadable": true,
+    "prerelease": false,
+    "draft": false,
+    "status": "Latest Release",
+    "summary": "Improved media source activation across switching modes, enhanced Floating Presenter Dock with direct source removal, fixed mixed-source queue navigation, and updated application branding.",
+    "highlights": [
+      "Improved image and video source activation across different presentation switching modes.",
+      "Enhanced Floating Presenter Dock with direct source removal and smoother window switching.",
+      "Fixed Next/Previous navigation across applications, monitors, images, and videos.",
+      "Updated Windows application branding and improved presentation button feedback."
+    ],
+    "githubUrl": "https://github.com/jczamora-git/SwitchCast/releases/tag/v1.2.1",
+    "package": {
+      "name": "SwitchCast-v1.2.1-win-x64.zip",
+      "size": "63.8 MB",
+      "sizeBytes": 66891945,
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.1/SwitchCast-v1.2.1-win-x64.zip",
+      "platform": "Windows 10 (1809+) & Windows 11",
+      "architecture": "x64 (64-bit)",
+      "type": "Standalone ZIP (Self-Contained)"
+    },
+    "checksum": {
+      "available": true,
+      "filename": "SwitchCast-v1.2.1-win-x64.sha256",
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.1/SwitchCast-v1.2.1-win-x64.sha256",
+      "sha256": "0A6D1EB0970800CF971ACFC2799908FE8D5B38AFFAE2DB6A7513B8B917DF643C"
+    },
+    "assets": [
+      {
+        "name": "SwitchCast-v1.2.1-win-x64.sha256",
+        "sizeBytes": 97,
+        "sizeFormatted": "97 B",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.1/SwitchCast-v1.2.1-win-x64.sha256",
+        "kind": "checksum"
+      },
+      {
+        "name": "SwitchCast-v1.2.1-win-x64.zip",
+        "sizeBytes": 66891945,
+        "sizeFormatted": "63.8 MB",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.1/SwitchCast-v1.2.1-win-x64.zip",
+        "kind": "binary"
+      }
+    ],
+    "releaseNotes": "# SwitchCast v1.2.1 — Release Notes\r\n\r\n**Release Date:** October 10, 2026  \r\n**Target Platform:** Windows 10 (version 1809+) & Windows 11 (x64)  \r\n**Binary Package:** `SwitchCast-v1.2.1-win-x64.zip`  \r\n**Creator:** John Christopher King Zamora  \r\n**Repository:** [https://github.com/jczamora-git/SwitchCast](https://github.com/jczamora-git/SwitchCast)\r\n\r\n---\r\n\r\n## 🚀 Overview\r\n\r\nSwitchCast **v1.2.1** is a focused usability, stability, and branding release. It delivers dedicated Presentation Output activation for media sources under Active + Live and Active Only modes, updates the official application icon with authentic multi-resolution Windows ICO branding, enhances Floating Presenter Dock focus handoff, fixes mixed-source queue navigation, and introduces direct source unqueuing from the dock.\r\n\r\n---\r\n\r\n## ✨ What's New & Fixed in v1.2.1\r\n\r\n### 🖼️ Media Source Presentation Output Activation\r\n- **Active + Live for Media**: When an imported Image or Video source is taken live in `Active + Live` mode, SwitchCast starts media playback and automatically activates the existing **Presentation Output** window (restoring if minimized and bringing it to the desktop foreground via Win32 `SetForegroundWindow`). No external media players (e.g. VLC or Photos) are launched.\r\n- **Active Only for Media**: Navigating to an Image or Video source in `Active Only` mode advances the selection cursor and activates the Presentation Output window without altering the On-Air stream, without starting video playback, and without replacing the current audience-facing frame. If closed, the output opens in Standby mode.\r\n- **Live Only Preserved**: Switching media sources in `Live Only` mode takes them live without stealing focus or requesting foreground focus.\r\n- **Ordinary Window & Monitor Semantics Preserved**: Win32 window sources retain standard application activation, and display monitors retain display capture semantics.\r\n- **Presentation State Continuity**: Reuses the active output instance without recreation, repositioning, or disrupting fullscreen presentations.\r\n\r\n### 🎨 Authentic Multi-Resolution Application Branding\r\n- **Official App Icon**: Packaged high-resolution source icon into standard multi-resolution `SwitchCast.ico` embedding **16x16, 24x24, 32x32, 48x48, 64x64, 128x128, and 256x256** resolutions.\r\n- **Windows Shell Integration**: Seamless integration across Windows Explorer, taskbar, Alt+Tab, and WinUI 3 title bars.\r\n\r\n### 🎛️ Floating Presenter Dock Enhancements & Stability\r\n- **Focus Handoff Coordination**: Popup dropdown menu closes and detaches before executing source transitions, preventing dock teardown from stealing focus away from the activated presentation window.\r\n- **Double-Click Maximize Prevention**: Subclassed dock HWND (`WM_NCLBUTTONDBLCLK` on `HTCAPTION`, `SC_MAXIMIZE` interception, `WM_GETMINMAXINFO` clamping) to guarantee the dock remains a compact, floating companion toolbar without accidental maximization.\r\n- **Direct Source Unqueue**: Presenters can remove individual items directly from the \"Queued Sources\" dropdown using interactive checkmark checkboxes without stopping live presentations.\r\n- **Dock X Dismissal Dashboard Activation**: Clicking the X button on the Floating Presenter Dock automatically restores and brings the Control Dashboard to the foreground while keeping live presentations and video playback completely running.\r\n\r\n### 🔄 Mixed-Source Queue Navigation Fix\r\n- Repaired Next/Previous queue cycling between Window, Monitor, Image, and Video sources by traversing a single authoritative ordered queue across all source types.\r\n\r\n### ⏯️ Dynamic Presentation Button Glyphs\r\n- Main Dashboard button icon dynamically synchronizes with presentation state, updating between Play (`\\uE768`) and Stop square (`\\uE71A`) in lockstep with the button label.\r\n\r\n---\r\n\r\n## 📥 Download & Installation\r\n\r\n### Windows x64 Standalone Package\r\n- **Package Archive:** `SwitchCast-v1.2.1-win-x64.zip`\r\n- **SHA-256 Checksum:** `SwitchCast-v1.2.1-win-x64.sha256`\r\n\r\n### How to Run:\r\n1. Download `SwitchCast-v1.2.1-win-x64.zip`.\r\n2. Extract the archive to any folder on your PC.\r\n3. Launch `SwitchCast.exe`.\r\n4. *Zero external .NET runtimes or Visual Studio installations required (Self-Contained package).*\r\n\r\n---\r\n\r\n## 🧪 Quality & Verification Summary\r\n\r\n- **Unit & Integration Tests:** 281 tests passed (100% pass rate).\r\n- **Target Platform Alignment:** .NET 8 (`net8.0-windows10.0.19041.0`) on Windows App SDK 1.5.\r\n- **Privacy & Telemetry:** 100% offline, zero network telemetry, zero frame persistence.\r\n"
+  },
+  {
+    "tag": "v1.2.0",
+    "version": "1.2.0",
+    "name": "SwitchCast v1.2.0",
+    "publishedAt": "2026-10-09T16:17:06Z",
+    "releaseDate": "October 10, 2026",
+    "isLatest": false,
+    "published": true,
+    "downloadable": true,
+    "prerelease": false,
+    "draft": false,
+    "status": "Previous Release",
+    "summary": "Fullscreen presentation output from the Presenter Dock, refined video playback and audio controls, improved dock dragging, and playback timeline stability fixes.",
+    "highlights": [
+      "Added fullscreen presentation output controlled from the Presenter Dock.",
+      "Improved video playback controls, seeking, and audio management.",
+      "Refined Floating Presenter Dock interactions and window dragging.",
+      "Fixed playback timeline stability issues."
+    ],
+    "githubUrl": "https://github.com/jczamora-git/SwitchCast/releases/tag/v1.2.0",
+    "package": {
+      "name": "SwitchCast-v1.2.0-win-x64.zip",
+      "size": "63.7 MB",
+      "sizeBytes": 66789532,
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.0/SwitchCast-v1.2.0-win-x64.zip",
+      "platform": "Windows 10 (1809+) & Windows 11",
+      "architecture": "x64 (64-bit)",
+      "type": "Standalone ZIP (Self-Contained)"
+    },
+    "checksum": {
+      "available": true,
+      "filename": "SwitchCast-v1.2.0-win-x64.sha256",
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.0/SwitchCast-v1.2.0-win-x64.sha256",
+      "sha256": "BB8AD7EB346F6372E28FF6F5442072D5D4294F573AE175D73B83333C4C82790D"
+    },
+    "assets": [
+      {
+        "name": "SwitchCast-v1.2.0-win-x64.sha256",
+        "sizeBytes": 97,
+        "sizeFormatted": "97 B",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.0/SwitchCast-v1.2.0-win-x64.sha256",
+        "kind": "checksum"
+      },
+      {
+        "name": "SwitchCast-v1.2.0-win-x64.zip",
+        "sizeBytes": 66789532,
+        "sizeFormatted": "63.7 MB",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.0/SwitchCast-v1.2.0-win-x64.zip",
+        "kind": "binary"
+      }
+    ],
+    "releaseNotes": "# SwitchCast v1.2.0 — Release Notes\r\n\r\n**Release Date:** October 10, 2026  \r\n**Target Platform:** Windows 10 (version 1809+) & Windows 11 (x64)  \r\n**Binary Package:** `SwitchCast-v1.2.0-win-x64.zip`  \r\n**Creator:** John Christopher King Zamora  \r\n**Repository:** [https://github.com/jczamora-git/SwitchCast](https://github.com/jczamora-git/SwitchCast)\r\n\r\n---\r\n\r\n## 🚀 Overview\r\n\r\nSwitchCast **v1.2.0** is a major feature and stability release introducing full local media presentation (Images & Videos), high-fidelity video audio playback with volume controls, dedicated dock-controlled fullscreen presentation output, native non-client caption dragging for the Floating Presenter Dock, and a permanent resolution to the playback timeline cross-thread COMException.\r\n\r\n---\r\n\r\n## ✨ What's New in v1.2.0\r\n\r\n### 🖼️ Full Media Presentation Integration (Images & Videos)\r\n- **Direct File Import**: Presenters can now import local images (`.png`, `.jpg`, `.jpeg`, `.bmp`, `.gif`) and video files (`.mp4`, `.mkv`, `.mov`, `.wmv`, `.avi`) directly into the SwitchCast presentation queue.\r\n- **Unified Presentation Queue**: Media sources seamlessly interleave with desktop application windows and physical monitors.\r\n- **Native Video Playback**: Direct hardware-accelerated playback utilizing `Windows.Media.Playback.MediaPlayer` and `MediaPlayerElement`.\r\n\r\n### 🔊 Local Media Audio Playback & Volume Control\r\n- **Audible Local Playback**: Videos now produce audible local sound connected directly to Windows audio endpoints.\r\n- **Mute & Volume Controls**: Dedicated volume slider (0–100%) and instant mute toggle (`\\uE74F`/`\\uE767`) on both the Control Dashboard and the Floating Presenter Dock.\r\n- **Atomic Seek Synchronization**: Audio and video seek, pause, resume, and restart in perfect lockstep.\r\n\r\n### 🖥️ Fullscreen Presentation Output\r\n- **Dock-Controlled Fullscreen Toggle**: Switch between standard windowed mode and true borderless fullscreen (`AppWindowPresenterKind.FullScreen`) directly from the Floating Presenter Dock.\r\n- **Same HWND Continuity**: Transitions preserve the identical Win32 HWND, active capture session, and media stream without interrupting meeting shares.\r\n- **100% Viewport Coverage**: Title bar collapses automatically in fullscreen mode with 16:9 aspect ratio preserved. Press `Escape` to quickly exit fullscreen.\r\n\r\n### 🎛️ Floating Presenter Dock Finalization\r\n- **Native Caption Dragging**: Replaced custom pointer routing with genuine Windows App SDK `InputNonClientPointerSource` caption regions, eliminating sticky dragging or click-to-move anomalies.\r\n- **Adaptive Video Transport Controls**: When a video source is on-air, the dock dynamically reveals timeline scrubber controls (Restart, Backward 10s, Play/Pause, Forward 10s, live timecode `mm:ss / mm:ss`).\r\n- **Unified Toolbar Layout**: Streamlined 680 DIPs single-row baseline layout with instant source switching, mode selector, and fullscreen toggle.\r\n\r\n### 🛡️ Critical Stability & Threading Hotfix\r\n- **Permanent Elimination of `COMException 0x8001010E` (`RPC_E_WRONG_THREAD`)**:\r\n  - Replaced background thread-pool timers with a single, UI-owned `Microsoft.UI.Dispatching.DispatcherQueueTimer`.\r\n  - Enforced strict WinUI 3 UI thread affinity for all `PropertyChanged` notifications bound to XAML slider controls.\r\n  - Eliminated unsafe fallback execution branches on worker threads.\r\n\r\n---\r\n\r\n## 📥 Download & Installation\r\n\r\n### Windows x64 Standalone Package\r\n- **Package Archive:** `SwitchCast-v1.2.0-win-x64.zip`\r\n- **SHA-256 Checksum:** `SwitchCast-v1.2.0-win-x64.sha256`\r\n\r\n### How to Run:\r\n1. Download `SwitchCast-v1.2.0-win-x64.zip`.\r\n2. Extract the archive to any folder on your PC.\r\n3. Launch `SwitchCast.exe`.\r\n4. *Zero external .NET runtimes or Visual Studio installations required (Self-Contained package).*\r\n\r\n---\r\n\r\n## ⌨️ Default Keyboard Shortcuts\r\n\r\n| Shortcut | Action |\r\n| :--- | :--- |\r\n| `Ctrl + Shift + →` | Next Presentation Source |\r\n| `Ctrl + Shift + ←` | Previous Presentation Source |\r\n| `Ctrl + Shift + 1..5` | Direct Queue Switch (Sources 1–5) |\r\n| `Ctrl + Shift + P` | Toggle Pause / Freeze-Frame |\r\n| `Ctrl + Shift + B` | Toggle Blackout / Privacy Curtain |\r\n| `Ctrl + Shift + S` | Stop Presentation |\r\n| `Ctrl + Shift + D` | Toggle Floating Presenter Dock |\r\n| `Ctrl + Shift + M` | Bring Dashboard to Foreground |\r\n\r\n---\r\n\r\n## 📋 System Requirements\r\n- **OS:** Windows 10 (version 1809 / build 17763 or later) or Windows 11\r\n- **Architecture:** 64-bit (x64)\r\n- **Graphics:** Direct3D 11 compatible GPU or WARP software fallback\r\n\r\n---\r\n\r\n## 👨‍💻 Creator & Attribution\r\nDeveloped with precision by **John Christopher King Zamora**  \r\nGitHub: [@jczamora-git](https://github.com/jczamora-git)  \r\nRepository: [https://github.com/jczamora-git/SwitchCast](https://github.com/jczamora-git/SwitchCast)\r\n"
+  },
+  {
+    "tag": "v1.1.0",
+    "version": "1.1.0",
+    "name": "SwitchCast v1.1.0",
+    "publishedAt": "2026-10-09T19:43:36Z",
+    "releaseDate": "October 10, 2026",
+    "isLatest": false,
+    "published": true,
+    "downloadable": true,
+    "prerelease": false,
+    "draft": false,
+    "status": "Previous Release",
+    "summary": "Direct local image and video presentation sources, unified switching, native video playback inside presentation output, and local audio playback with media controls.",
+    "highlights": [
+      "Added image and video files as presentation sources.",
+      "Unified switching between apps, monitors, and media.",
+      "Added video playback directly inside the presentation output.",
+      "Introduced local audio playback and media controls."
+    ],
+    "githubUrl": "https://github.com/jczamora-git/SwitchCast/releases/tag/v1.1.0",
+    "package": {
+      "name": "SwitchCast-v1.1.0-win-x64.zip",
+      "size": "61.6 MB",
+      "sizeBytes": 64577146,
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.1.0/SwitchCast-v1.1.0-win-x64.zip",
+      "platform": "Windows 10 (1809+) & Windows 11",
+      "architecture": "x64 (64-bit)",
+      "type": "Standalone ZIP (Self-Contained)"
+    },
+    "checksum": {
+      "available": true,
+      "filename": null,
+      "downloadUrl": null,
+      "sha256": "B743987499576EDAD4176F4A8B8CA66E0D0570D3E8CE6D9BA02298A7C23D46F4"
+    },
+    "assets": [
+      {
+        "name": "SwitchCast-v1.1.0-win-x64.zip",
+        "sizeBytes": 64577146,
+        "sizeFormatted": "61.6 MB",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.1.0/SwitchCast-v1.1.0-win-x64.zip",
+        "kind": "binary"
+      }
+    ],
+    "releaseNotes": "<html>\r\n<body>\r\n<!--StartFragment--><h1>SwitchCast v1.1.0</h1><p><strong>Seamless Windows Screen Sharing &amp; Presentation Management</strong></p><p><a href=\"https://github.com/jczamora-git/SwitchCast/releases/tag/v1.1.0\"><span><span></span></span></a></p><p>SwitchCast helps presenters switch between application windows, monitors, images, and videos while sharing a single <strong>Presentation Output</strong> window in their meeting software. Prepare your sources in advance, control what goes live, and avoid repeatedly changing the shared window.</p><p><strong><a href=\"https://github.com/jczamora-git/SwitchCast/releases/tag/v1.1.0\"><span><span>Download v1.1.0</span></span></a></strong> · <strong><a href=\"https://github.com/jczamora-git/SwitchCast\"><span><span>Repository</span></span></a></strong> · <strong><a href=\"https://github.com/jczamora-git/SwitchCast/releases\"><span><span>Latest Releases</span></span></a></strong></p><h2>What's New in v1.1.0</h2><ul><li><strong>Direct image and video sources</strong> — Import local media and add it to the presentation queue alongside applications and monitors.</li><li><strong>Unified source switching</strong> — Move between window, display, image, and video sources using the Dashboard, Floating Presenter Dock, or existing shortcuts.</li><li><strong>Native video playback</strong> — Play imported videos inside the existing Presentation Output instead of opening an external media application.</li><li><strong>Local video audio playback</strong> — Play supported audio tracks through the Windows audio output, with mute and volume adjustments in the presenter controls.</li><li><strong>Media-aware controls</strong> — Manage video playback from the Dashboard while retaining existing presentation Pause, Blackout, and Stop actions.</li></ul><h2>Key Features</h2><div><div><div>\r\nFeature | Description\r\n-- | --\r\nWindow and monitor capture | Capture supported desktop windows and displays using Windows Graphics Capture.\r\nStable Presentation Output | Share a dedicated output window and change its content without repeatedly selecting a different meeting share target.\r\nMixed presentation queue | Queue application windows, displays, images, and video files in your preferred order.\r\nThree switching modes | Live Only changes the audience feed; Active + Live also activates supported source windows; Active Only activates supported source windows without taking them live.\r\nFloating Presenter Dock | Control queued sources, switching mode, and presentation actions without returning to the main Dashboard.\r\nVideo and audio | Play supported local videos with synchronized audio, mute, and volume controls.\r\nPresenter privacy controls | Pause or black out the audience-facing output when needed.\r\nGlobal shortcuts | Control common presenter actions while working in another application.\r\nNative application icons | Recognize discovered application windows by their real Windows icons where available.\r\n\r\n</div></div></div><p>Hotkeys may be changed in the application's settings where supported.</p><h2>Notes and Limitations</h2><ul><li><strong>Meeting audio is separate from local audio.</strong> Hearing a video on your computer does not guarantee that meeting participants hear it. Configure audio sharing in your conferencing app where supported.</li><li><strong>Minimized or protected windows may not be capturable.</strong> Windows and individual apps can restrict or suspend capture.</li><li><strong>Video format support varies.</strong> A supported filename extension does not guarantee that its video and audio codecs are available on the target PC.</li><li><strong>Version-specific documentation:</strong> This README describes the <strong>v1.1.0</strong> release. For newer presentation features and fixes, see the <a href=\"https://github.com/jczamora-git/SwitchCast/releases\"><span><span>latest releases</span></span></a>.</li></ul><h2>Technology Stack</h2><ul><li><strong>C# / .NET 8</strong></li><li><strong>WinUI 3 / Windows App SDK</strong></li><li><strong>Windows.Graphics.Capture / Direct3D 11</strong></li><li><strong>Windows.Media.Playback</strong></li><li><strong>Win32 interoperability</strong></li><li><strong>CommunityToolkit.Mvvm</strong></li></ul><h2>Creator</h2><p><strong>John Christopher King Zamora</strong><br>GitHub: <a href=\"https://github.com/jczamora-git\"><span><span>@jczamora-git</span></span></a><br>Project: <a href=\"https://github.com/jczamora-git/SwitchCast\"><span><span>SwitchCast</span></span></a></p><hr><p><strong>Version:</strong> v1.1.0 · <strong>Platform:</strong> Windows x64 · <strong>Release:</strong> <a href=\"https://github.com/jczamora-git/SwitchCast/releases/tag/v1.1.0\"><span><span>GitHub v1.1.0</span></span></a></p><!--EndFragment-->\r\n</body>\r\n</html>SwitchCast v1.1.0\r\nSeamless Windows Screen Sharing & Presentation Management\r\n\r\n\r\n\r\n\r\nSwitchCast helps presenters switch between application windows, monitors, images, and videos while sharing a single Presentation Output window in their meeting software. Prepare your sources in advance, control what goes live, and avoid repeatedly changing the shared window.\r\n[Download v1.1.0](https://github.com/jczamora-git/SwitchCast/releases/tag/v1.1.0) · [Repository](https://github.com/jczamora-git/SwitchCast) · [Latest Releases](https://github.com/jczamora-git/SwitchCast/releases)\r\nWhat's New in v1.1.0\r\n- Direct image and video sources — Import local media and add it to the presentation queue alongside applications and monitors.\r\n- Unified source switching — Move between window, display, image, and video sources using the Dashboard, Floating Presenter Dock, or existing shortcuts.\r\n- Native video playback — Play imported videos inside the existing Presentation Output instead of opening an external media application.\r\n- Local video audio playback — Play supported audio tracks through the Windows audio output, with mute and volume adjustments in the presenter controls.\r\n- Media-aware controls — Manage video playback from the Dashboard while retaining existing presentation Pause, Blackout, and Stop actions.\r\nKey Features\r\nFeature\tDescription\r\nWindow and monitor capture\tCapture supported desktop windows and displays using Windows Graphics Capture.\r\nStable Presentation Output\tShare a dedicated output window and change its content without repeatedly selecting a different meeting share target.\r\nMixed presentation queue\tQueue application windows, displays, images, and video files in your preferred order.\r\nThree switching modes\tLive Only changes the audience feed; Active + Live also activates supported source windows; Active Only activates supported source windows without taking them live.\r\nFloating Presenter Dock\tControl queued sources, switching mode, and presentation actions without returning to the main Dashboard.\r\nVideo and audio\tPlay supported local videos with synchronized audio, mute, and volume controls.\r\nPresenter privacy controls\tPause or black out the audience-facing output when needed.\r\nGlobal shortcuts\tControl common presenter actions while working in another application.\r\nNative application icons\tRecognize discovered application windows by their real Windows icons where available.\r\n\r\n\r\nSystem Requirements\r\n- Operating system: Windows 10 version 1809 or later, or Windows 11\r\n- Architecture: x64\r\n- Graphics: Direct3D 11-compatible hardware or supported software fallback\r\n- Media formats: Playback depends on the codecs supported by Windows and the installed system configuration\r\nInstallation\r\n1. Open the [SwitchCast v1.1.0 release page](https://github.com/jczamora-git/SwitchCast/releases/tag/v1.1.0).\r\n2. Download the available Windows x64 application package from Assets.\r\n3. Extract the archive to a folder on your computer.\r\n4. Launch SwitchCast.exe from the extracted application files.\r\n5. If Windows reports a missing runtime or dependency, follow the requirements included with that specific release asset.\r\nKeep the extracted application files together. The executable may depend on accompanying libraries and resources.\r\n\r\nHow to Present\r\n1. Add sources. Open Sources and queue the application windows or monitors you want to show. Import local images and videos under the media source options.\r\n2. Open Presentation Output. Use the Dashboard to open the dedicated audience-facing window.\r\n3. Share the output. In Google Meet, Zoom, or Microsoft Teams, select the SwitchCast Presentation Output window as your share target.\r\n4. Start presenting. Choose a queued source and click Start Presenting.\r\n5. Switch sources. Use the Dashboard, Floating Presenter Dock, or hotkeys to move through the queue.\r\n6. Control media. When a video source is active, use the available playback and audio controls. Use Pause or Blackout when you need to temporarily conceal the live presentation.\r\n7. Stop. Select Stop Presenting to end the presentation session.\r\nDefault Keyboard Shortcuts\r\nAction\tShortcut\r\nNext presentation source\tCtrl + Shift + →\r\nPrevious presentation source\tCtrl + Shift + ←\r\nSelect queued source 1–5\tCtrl + Shift + 1 through 5\r\nPause / Resume\tCtrl + Shift + P\r\nBlackout\tCtrl + Shift + B\r\nStop presenting\tCtrl + Shift + S\r\nShow / Hide Presenter Dock\tCtrl + Shift + D\r\nShow Control Dashboard\tCtrl + Shift + M\r\n\r\n\r\nHotkeys may be changed in the application's settings where supported.\r\nNotes and Limitations\r\n- Meeting audio is separate from local audio. Hearing a video on your computer does not guarantee that meeting participants hear it. Configure audio sharing in your conferencing app where supported.\r\n- Minimized or protected windows may not be capturable. Windows and individual apps can restrict or suspend capture.\r\n- Video format support varies. A supported filename extension does not guarantee that its video and audio codecs are available on the target PC.\r\n- Version-specific documentation: This README describes the v1.1.0 release. For newer presentation features and fixes, see the [latest releases](https://github.com/jczamora-git/SwitchCast/releases).\r\nTechnology Stack\r\n- C# / .NET 8\r\n- WinUI 3 / Windows App SDK\r\n- Windows.Graphics.Capture / Direct3D 11\r\n- Windows.Media.Playback\r\n- Win32 interoperability\r\n- CommunityToolkit.Mvvm\r\nCreator\r\nJohn Christopher King Zamora\r\nGitHub: [@jczamora-git](https://github.com/jczamora-git)\r\nProject: [SwitchCast](https://github.com/jczamora-git/SwitchCast)\r\nVersion: v1.1.0 · Platform: Windows x64 · Release: [GitHub v1.1.0](https://github.com/jczamora-git/SwitchCast/releases/tag/v1.1.0)"
+  },
+  {
+    "tag": "v1.0.0",
+    "version": "1.0.0",
+    "name": "SwitchCast v1.0.0",
+    "publishedAt": "2026-10-09T05:22:39Z",
+    "releaseDate": "October 9, 2026",
+    "isLatest": false,
+    "published": true,
+    "downloadable": true,
+    "prerelease": false,
+    "draft": false,
+    "status": "Initial Release",
+    "summary": "Initial Windows release with hardware-accelerated window and monitor capture, dedicated presentation output window, floating presenter dock, and global keyboard shortcuts.",
+    "highlights": [
+      "Initial Windows release of SwitchCast.",
+      "Added application window and monitor capture.",
+      "Introduced one stable presentation output window.",
+      "Added source switching, floating presenter controls, and keyboard shortcuts."
+    ],
+    "githubUrl": "https://github.com/jczamora-git/SwitchCast/releases/tag/v1.0.0",
+    "package": {
+      "name": "SwitchCast-v1.0.0-win-x64.zip",
+      "size": "61.5 MB",
+      "sizeBytes": 64538753,
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.0.0/SwitchCast-v1.0.0-win-x64.zip",
+      "platform": "Windows 10 (1809+) & Windows 11",
+      "architecture": "x64 (64-bit)",
+      "type": "Standalone ZIP (Self-Contained)"
+    },
+    "checksum": {
+      "available": true,
+      "filename": null,
+      "downloadUrl": null,
+      "sha256": "6C416C1A274A931EB9B487CCD9A0B5ADAFB8E423A54559386591A67850E495DE"
+    },
+    "assets": [
+      {
+        "name": "SwitchCast-v1.0.0-win-x64.zip",
+        "sizeBytes": 64538753,
+        "sizeFormatted": "61.5 MB",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.0.0/SwitchCast-v1.0.0-win-x64.zip",
+        "kind": "binary"
+      }
+    ],
+    "releaseNotes": "# SwitchCast\r\n\r\n> **Seamless Windows Screen Sharing & Presentation Management**  \r\n> Capture applications and displays, queue your presentation sources, and switch seamlessly in a single stable output window without interrupting your meeting stream.\r\n\r\n[![Release](https://img.shields.io/badge/Release-v1.0.0-FF7A59?style=flat-square)](https://github.com/jczamora-git/SwitchCast/releases)\r\n[![Platform](https://img.shields.io/badge/Platform-Windows%20x64-blue?style=flat-square)](https://github.com/jczamora-git/SwitchCast)\r\n[![Framework](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat-square)](https://dotnet.microsoft.com/)\r\n[![UI](https://img.shields.io/badge/UI-WinUI%203%20%2F%20Windows%20App%20SDK-0078D7?style=flat-square)](https://learn.microsoft.com/en-us/windows/apps/winui/winui3/)\r\n[![License](https://img.shields.io/badge/Privacy-100%25%20Offline%20%26%20Local-2ea44f?style=flat-square)](https://github.com/jczamora-git/SwitchCast)\r\n\r\n---\r\n\r\n## Overview\r\n\r\nDuring virtual presentations and live screen-sharing sessions (Zoom, Microsoft Teams, Google Meet, Discord, OBS), presenters frequently need to transition between slide decks, IDE code editors, terminal windows, browser tabs, and application demos. Standard conferencing tools require stopping screen sharing, selecting another application window, and restarting screen sharing—disrupting the meeting flow and risking accidental exposure of private desktop content.\r\n\r\n**SwitchCast solves this problem.**\r\n\r\nPresenters share one dedicated, stable **Presentation Output** window in their meeting software. Inside SwitchCast, presenters queue multiple applications or monitors and switch between them instantly using the **Control Dashboard**, the lightweight **Floating Presenter Dock**, or **Global Keyboard Shortcuts**—all while the meeting audience sees a continuous, uninterrupted live video feed.\r\n\r\n---\r\n\r\n## Key Features\r\n\r\n- **Live Window & Monitor Capture**: Hardware-accelerated desktop capture via `Windows.Graphics.Capture` and Direct3D 11.\r\n- **Dedicated Shareable Output Window**: Clean 16:9 audience-facing presentation canvas titled `\"SwitchCast Presentation Output\"`, directly selectable by all major conferencing platforms.\r\n- **Instant Seamless Source Switching**: Switch between queued application windows and physical monitors in milliseconds with latest-request-wins concurrency serialization.\r\n- **Three Source Switching Modes**:\r\n  - **Live Only (`L`)** *(Default)*: Switches the shared output stream without changing your active desktop focus.\r\n  - **Active + Live (`A+L`)**: Switches the shared output stream and simultaneously brings the selected application window to the foreground.\r\n  - **Active Only (`A`)**: Brings the application to your desktop foreground for private interaction without altering the live audience feed.\r\n- **Floating Presenter Companion Dock**: Ultra-slim, always-on-top draggable floating toolbar offering on-air status, fast source switching, pause/blackout toggles, and switching mode selection.\r\n- **System-Wide Global Hotkeys**: Direct shortcut control across Windows even when SwitchCast is in the background.\r\n- **Live Presentation Controls**: Instant **Pause / Freeze-Frame** and 100% opaque **Blackout / Privacy Curtain** controls.\r\n- **Dynamic True-Color Native Icons**: Automatically extracts and displays authentic 32-bit Windows application icons (Chrome, Visual Studio, File Explorer, IDEs) in the Sources picker.\r\n- **Modern Fluent Design Shell**: Custom dark title bars, DPI-aware geometry centering, theme synchronization (Dark & Light modes), and Windows 11 Snap Layouts.\r\n- **Safe Window Lifecycle & Exit Confirmation**: Prevents accidental meeting terminations with clear prompts, independent secondary window lifecycle, and clean resource teardown.\r\n- **100% Privacy & Zero Telemetry**: Operates entirely offline on your local device. No network requests, analytics, or cloud dependencies.\r\n\r\n---\r\n\r\n## Technology Stack\r\n\r\n- **Language & Runtime**: C# / .NET 8.0 (`net8.0-windows10.0.19041.0`)\r\n- **UI Framework**: WinUI 3 (Windows App SDK 1.5)\r\n- **Capture Engine**: `Windows.Graphics.Capture` (WinRT Interop) & Direct3D 11 swapchain pipelines\r\n- **Diagnostic Capture**: Win32 GDI `PrintWindow` (`PW_RENDERFULLCONTENT`) and `BitBlt` fail-safe fallbacks\r\n- **Architecture**: Clean Architecture MVVM (`CommunityToolkit.Mvvm`, `Microsoft.Extensions.DependencyInjection`)\r\n- **Target OS**: Windows 10 (version 1809 / build 17763 or later) & Windows 11 (x64)\r\n\r\n---\r\n\r\n## Getting Started\r\n\r\n### System Requirements\r\n- **Operating System**: Windows 10 64-bit (version 1809 or higher) or Windows 11 64-bit\r\n- **Architecture**: x64\r\n- **Graphics**: Direct3D 11 compatible graphics hardware or WARP software rasterizer\r\n\r\n### Installation\r\n\r\n1. Download the latest `SwitchCast-v1.0.0-win-x64.zip` release from [Releases](https://github.com/jczamora-git/SwitchCast/releases).\r\n2. Extract the archive to any folder on your computer.\r\n3. Run `SwitchCast.exe`.\r\n\r\n*Note: SwitchCast is configured as a standalone, unpackaged desktop application.*\r\n\r\n---\r\n\r\n## Basic Usage\r\n\r\n1. **Discover & Queue Sources**:\r\n   - Open SwitchCast and navigate to the **Sources** tab.\r\n   - Check the boxes next to the application windows or displays you want to include in your presentation.\r\n2. **Open Presentation Output**:\r\n   - Click **Open Output Window** from the Dashboard or Presenter Dock.\r\n3. **Share in Meeting**:\r\n   - In Zoom, Microsoft Teams, or Google Meet, choose **Share Window** and select **\"SwitchCast Presentation Output\"**.\r\n4. **Start Presenting**:\r\n   - Click **Start Presenting** on the Dashboard or Presenter Dock.\r\n5. **Switch Between Sources**:\r\n   - Use the Floating Presenter Dock, Dashboard, or **Global Hotkeys** (`Ctrl+Shift+Right` / `Ctrl+Shift+Left`) to switch smoothly between your queued sources.\r\n\r\n---\r\n\r\n## Default Keyboard Shortcuts\r\n\r\n| Action | Default Shortcut | Description |\r\n| :--- | :--- | :--- |\r\n| **Next Presentation Source** | `Ctrl + Shift + →` | Switches to the next source in the presentation queue |\r\n| **Previous Presentation Source** | `Ctrl + Shift + ←` | Switches to the previous source in the presentation queue |\r\n| **Direct Source 1–5** | `Ctrl + Shift + 1..5` | Instantly switches to the corresponding queued source |\r\n| **Toggle Pause / Resume** | `Ctrl + Shift + P` | Freezes or resumes the live video feed |\r\n| **Toggle Blackout** | `Ctrl + Shift + B` | Blanks the output canvas for instant presenter privacy |\r\n| **Stop Presenting** | `Ctrl + Shift + S` | Safely stops live capture and returns output to standby |\r\n| **Toggle Presenter Dock** | `Ctrl + Shift + D` | Shows or hides the floating companion toolbar |\r\n| **Focus Dashboard** | `Ctrl + Shift + M` | Restores and brings the main SwitchCast window forward |\r\n\r\n*Shortcuts can be viewed and configured in the **Settings > Shortcuts** panel.*\r\n\r\n---\r\n\r\n## Known Platform Behaviors\r\n\r\n- **Minimized Application Windows**: In accordance with standard Windows OS graphics compositor policy, minimized application windows suspend DirectX frame generation. SwitchCast retains the last captured frame until the window is restored.\r\n- **OS Protected Windows**: Windows with elevated DRM or display affinity flags (`WDA_MONITOR` / `WDA_EXCLUDEFROMCAPTURE`) cannot be captured by third-party software by design.\r\n\r\n---\r\n\r\n## Creator & Attribution\r\n\r\nCreated by **John Christopher King Zamora**  \r\n- **GitHub**: [@jczamora-git](https://github.com/jczamora-git)  \r\n- **Repository**: [https://github.com/jczamora-git/SwitchCast](https://github.com/jczamora-git/SwitchCast)\r\n\r\n---\r\n\r\n## Releases\r\n\r\nOfficial builds and release packages are published on the [GitHub Releases](https://github.com/jczamora-git/SwitchCast/releases) page.\r\n"
+  }
+]

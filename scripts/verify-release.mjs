@@ -4,81 +4,166 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const releaseDataPath = path.resolve(__dirname, '../src/data/release.json');
+const releasesDataPath = path.resolve(__dirname, '../src/data/releases.json');
+const singleReleaseDataPath = path.resolve(__dirname, '../src/data/release.json');
 
 function verifyRelease() {
   console.log('==================================================');
   console.log('SWITCHCAST WEBSITE — RELEASE MANIFEST VERIFICATION');
   console.log('==================================================\n');
 
-  if (!fs.existsSync(releaseDataPath)) {
-    console.error('FAIL: src/data/release.json does not exist.');
-    process.exit(1);
-  }
-
-  let data;
-  try {
-    data = JSON.parse(fs.readFileSync(releaseDataPath, 'utf8'));
-  } catch (err) {
-    console.error(`FAIL: Failed to parse release.json: ${err.message}`);
-    process.exit(1);
-  }
-
   const errors = [];
-  const requiredFields = [
-    'version',
-    'releaseTag',
-    'releaseDate',
-    'filename',
-    'downloadUrl',
-    'checksumUrl',
-    'sha256',
-    'releaseNotesUrl',
-    'allReleasesUrl',
-    'packageSize',
-    'platform',
-    'architecture',
-    'packageType'
-  ];
 
-  for (const field of requiredFields) {
-    if (!data[field] || typeof data[field] !== 'string' || data[field].trim() === '') {
-      errors.push(`Missing or invalid required field: "${field}"`);
+  // 1. Verify src/data/releases.json
+  if (!fs.existsSync(releasesDataPath)) {
+    console.error('FAIL: src/data/releases.json does not exist.');
+    process.exit(1);
+  }
+
+  let releasesList;
+  try {
+    releasesList = JSON.parse(fs.readFileSync(releasesDataPath, 'utf8'));
+    if (!Array.isArray(releasesList) || releasesList.length === 0) {
+      errors.push('src/data/releases.json must contain a non-empty array of releases.');
+    }
+  } catch (err) {
+    console.error(`FAIL: Failed to parse releases.json: ${err.message}`);
+    process.exit(1);
+  }
+
+  const latestReleases = releasesList.filter(r => r.isLatest);
+  if (latestReleases.length !== 1) {
+    errors.push(`Expected exactly 1 latest release, found ${latestReleases.length}.`);
+  } else if (latestReleases[0].version !== '1.2.1') {
+    errors.push(`Expected latest release to be v1.2.1 by semantic versioning, found v${latestReleases[0].version}.`);
+  }
+
+  console.log(`Checking ${releasesList.length} release entries in src/data/releases.json:`);
+
+  for (const rel of releasesList) {
+    const prefix = `[${rel.tag || 'unknown'}]`;
+
+    if (!rel.tag || !rel.version) {
+      errors.push(`${prefix} Missing tag or version.`);
+    }
+
+    if (!rel.summary) {
+      errors.push(`${prefix} Missing summary.`);
+    }
+
+    if (!rel.releaseNotes) {
+      errors.push(`${prefix} Missing releaseNotes.`);
+    }
+
+    if (rel.highlights && !Array.isArray(rel.highlights)) {
+      errors.push(`${prefix} Highlights must be an array of strings.`);
+    }
+
+    // Published downloadable releases contract
+    if (rel.published && rel.downloadable) {
+      if (!rel.releaseDate) {
+        errors.push(`${prefix} Published release missing releaseDate.`);
+      }
+
+      if (!rel.package || typeof rel.package !== 'object') {
+        errors.push(`${prefix} Published release missing package object.`);
+        continue;
+      }
+
+      const { name, downloadUrl, size, platform, architecture } = rel.package;
+      if (!name || !name.endsWith('.zip')) {
+        errors.push(`${prefix} Package name must end with .zip (got "${name}").`);
+      }
+
+      if (!downloadUrl || !downloadUrl.startsWith('https://github.com/jczamora-git/SwitchCast/releases/download/')) {
+        errors.push(`${prefix} Package downloadUrl must point to official GitHub Releases (got "${downloadUrl}").`);
+      }
+
+      if (!size) {
+        errors.push(`${prefix} Missing package size.`);
+      }
+
+      if (!platform || !architecture) {
+        errors.push(`${prefix} Missing platform or architecture specification.`);
+      }
+
+      // Checksum verification
+      if (rel.checksum) {
+        if (rel.checksum.available) {
+          if (!rel.checksum.sha256 || rel.checksum.sha256.length !== 64) {
+            errors.push(`${prefix} Checksum is marked available but sha256 is not 64 hex characters (got "${rel.checksum.sha256}").`);
+          }
+          if (rel.checksum.downloadUrl && !rel.checksum.downloadUrl.startsWith('https://github.com/jczamora-git/SwitchCast/releases/download/')) {
+            errors.push(`${prefix} Checksum downloadUrl must point to official GitHub Releases if provided.`);
+          }
+        } else {
+          // Must be cleanly null or empty without broken link
+          if (rel.checksum.downloadUrl || rel.checksum.sha256) {
+            errors.push(`${prefix} Checksum is marked unavailable but has dangling URL or hash.`);
+          }
+        }
+      } else {
+        errors.push(`${prefix} Missing checksum specification object.`);
+      }
+
+      const checksumStatus = rel.checksum?.available
+        ? `SHA-256 (${rel.checksum.sha256.slice(0, 10)}...${rel.checksum.downloadUrl ? ' with file' : ' digest only'})`
+        : 'No checksum asset';
+      console.log(`  ✓ ${rel.tag.padEnd(8)} | ${rel.releaseDate?.padEnd(18) || 'N/A'.padEnd(18)} | ${rel.package.size.padEnd(9)} | Published (${checksumStatus})`);
+    } else {
+      // Historical milestone contract
+      if (rel.isLatest) {
+        errors.push(`${prefix} Unpublished milestone must not be marked as latest release.`);
+      }
+
+      if (rel.downloadable) {
+        errors.push(`${prefix} Unpublished milestone must have downloadable: false.`);
+      }
+
+      if (rel.package && rel.package.downloadUrl) {
+        errors.push(`${prefix} Unpublished milestone must not have a downloadable package URL.`);
+      }
+
+      if (rel.checksum && rel.checksum.available) {
+        errors.push(`${prefix} Unpublished milestone must not advertise available checksum.`);
+      }
+
+      console.log(`  ✓ ${rel.tag.padEnd(8)} | ${rel.releaseDate?.padEnd(18) || 'Milestone'.padEnd(18)} | No binary | Milestone (Unpublished)`);
     }
   }
 
-  if (data.sha256 && data.sha256.length !== 64) {
-    errors.push(`SHA-256 checksum must be a 64-character hex string (got ${data.sha256.length} chars).`);
-  }
-
-  if (data.downloadUrl && !data.downloadUrl.startsWith('https://github.com/jczamora-git/SwitchCast/releases/')) {
-    errors.push(`Download URL must point to official GitHub Releases (got "${data.downloadUrl}").`);
-  }
-
-  if (data.filename && !data.filename.endsWith('.zip')) {
-    errors.push(`Package filename must be a .zip archive (got "${data.filename}").`);
+  // 2. Verify src/data/release.json matches the latest published release (v1.2.0)
+  if (!fs.existsSync(singleReleaseDataPath)) {
+    errors.push('src/data/release.json does not exist.');
+  } else {
+    try {
+      const singleData = JSON.parse(fs.readFileSync(singleReleaseDataPath, 'utf8'));
+      const latest = latestReleases[0];
+      if (latest) {
+        if (singleData.version !== latest.version) {
+          errors.push(`release.json version (${singleData.version}) does not match latest release in releases.json (${latest.version}).`);
+        }
+        if (singleData.downloadUrl !== latest.package?.downloadUrl) {
+          errors.push('release.json downloadUrl does not match latest release in releases.json.');
+        }
+        if (latest.checksum?.available && singleData.sha256 !== latest.checksum.sha256) {
+          errors.push('release.json sha256 does not match latest release in releases.json.');
+        }
+      }
+    } catch (e) {
+      errors.push(`Failed to parse release.json: ${e.message}`);
+    }
   }
 
   if (errors.length > 0) {
-    console.error('Verification failed with the following issues:');
+    console.error('\nVerification failed with the following issues:');
     for (const err of errors) {
       console.error(` - ❌ ${err}`);
     }
     process.exit(1);
   }
 
-  console.log('✅ Version:            ' + data.version);
-  console.log('✅ Release Tag:        ' + data.releaseTag);
-  console.log('✅ Release Date:       ' + data.releaseDate);
-  console.log('✅ Package Filename:   ' + data.filename);
-  console.log('✅ Package Size:       ' + data.packageSize);
-  console.log('✅ Platform:           ' + data.platform + ' [' + data.architecture + ']');
-  console.log('✅ Package Type:       ' + data.packageType);
-  console.log('✅ SHA-256 Hash:       ' + data.sha256);
-  console.log('✅ Download URL:       ' + data.downloadUrl);
-  console.log('✅ Checksum URL:       ' + data.checksumUrl);
-  console.log('✅ Release Notes URL:  ' + data.releaseNotesUrl);
-  console.log('\nSUCCESS: Release manifest is valid and release-ready.\n');
+  console.log('\nSUCCESS: Release manifests (releases.json and release.json) are valid and synchronized.\n');
 }
 
 verifyRelease();

@@ -1,0 +1,601 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { getLatestRelease, getPreviousReleases } from '../../utils/releases';
+
+const latestRelease = getLatestRelease();
+const previousReleases = getPreviousReleases();
+
+const pageTitle = "SwitchCast Releases — Download Previous Versions";
+const pageDescription = "Browse SwitchCast release history, discover updates, and download official Windows versions.";
+const canonicalUrl = "https://switchcast.jeiziproductions.com/releases";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} canonicalUrl={canonicalUrl}>
+  <Navbar />
+  <main id="main-content" class="releases-page">
+    <div class="container container-narrow">
+      
+      <!-- Release Center Hero -->
+      <header class="releases-hero reveal">
+        <span class="section-tag">Release Center</span>
+        <h1 class="releases-title">SWITCHCAST<br />RELEASES.</h1>
+        <p class="releases-description">
+          Explore official releases, review what's new, and download verified Windows packages.
+        </p>
+      </header>
+
+      <!-- Latest Stable Release Card -->
+      <section class="latest-release-section reveal" aria-labelledby="latest-release-heading">
+        <div class="latest-release-card glass-card">
+          <div class="latest-header-row">
+            <span class="badge-status badge-latest">LATEST RELEASE</span>
+            <time class="release-date" datetime={latestRelease.publishedAt || undefined}>{latestRelease.releaseDate}</time>
+          </div>
+
+          <h2 id="latest-release-heading" class="latest-version-title">
+            SwitchCast v{latestRelease.version}
+          </h2>
+
+          <p class="latest-summary">
+            {latestRelease.summary}
+          </p>
+
+          <!-- Brief Highlights -->
+          {latestRelease.highlights && latestRelease.highlights.length > 0 && (
+            <ul class="release-highlights-list" aria-label="Version Highlights">
+              {latestRelease.highlights.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          )}
+
+          <!-- Specifications Row -->
+          <div class="release-specs-row">
+            <span class="spec-item">Windows 10 / 11</span>
+            <span class="spec-dot">•</span>
+            <span class="spec-item">{latestRelease.package?.architecture || 'x64'}</span>
+            <span class="spec-dot">•</span>
+            <span class="spec-item">{latestRelease.package?.size || ''}</span>
+            <span class="spec-dot">•</span>
+            <span class="spec-item">Standalone ZIP</span>
+          </div>
+
+          <!-- Main Action Buttons -->
+          <div class="latest-actions-row">
+            {latestRelease.package?.downloadUrl && (
+              <a href={latestRelease.package.downloadUrl} class="btn btn-primary btn-lg download-btn" download>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Download v{latestRelease.version} for Windows</span>
+              </a>
+            )}
+
+            <a href={`/releases/${latestRelease.tag}`} class="btn btn-secondary btn-lg details-btn">
+              What's New & Release Notes →
+            </a>
+          </div>
+
+          <!-- Quiet Checksum Toggle -->
+          {latestRelease.checksum?.available && latestRelease.checksum.sha256 && (
+            <div class="latest-checksum-row">
+              <span class="hash-label">SHA-256:</span>
+              <code class="hash-code" id="hashCodeText" title={latestRelease.checksum.sha256}>
+                {latestRelease.checksum.sha256.slice(0, 12)}...{latestRelease.checksum.sha256.slice(-8)}
+              </code>
+              <button class="hash-copy-btn" id="copyHashBtn" data-hash={latestRelease.checksum.sha256} title="Copy SHA-256 Checksum">
+                <span id="copyHashLabel">Copy</span>
+              </button>
+              {latestRelease.checksum.downloadUrl && (
+                <a href={latestRelease.checksum.downloadUrl} target="_blank" rel="noopener noreferrer" class="checksum-raw-link">
+                  .sha256 file
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <!-- Previous Versions Stacked List / Timeline -->
+      <section class="previous-versions-section reveal" aria-labelledby="previous-versions-heading">
+        <div class="section-title-row">
+          <h2 id="previous-versions-heading" class="previous-heading">PREVIOUS VERSIONS</h2>
+          <span class="versions-count">{previousReleases.length} {previousReleases.length === 1 ? 'version' : 'versions'} archived</span>
+        </div>
+
+        <div class="previous-list">
+          {previousReleases.map((rel) => (
+            <article class="previous-release-card glass-card">
+              <div class="previous-card-header">
+                <div class="version-meta">
+                  <span class="version-tag">v{rel.version}</span>
+                  <span class="badge-status badge-previous">
+                    {rel.status}
+                  </span>
+                  {rel.releaseDate && (
+                    <time class="release-date" datetime={rel.publishedAt || undefined}>{rel.releaseDate}</time>
+                  )}
+                </div>
+                {rel.package && (
+                  <div class="package-size-badge">{rel.package.size}</div>
+                )}
+              </div>
+
+              <p class="previous-summary">
+                {rel.summary}
+              </p>
+
+              <!-- Brief Highlights -->
+              {rel.highlights && rel.highlights.length > 0 && (
+                <ul class="release-highlights-list" aria-label="Version Highlights">
+                  {rel.highlights.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
+
+              <div class="previous-card-actions">
+                <div class="action-buttons-group">
+                  {rel.downloadable && rel.package?.downloadUrl && (
+                    <a href={rel.package.downloadUrl} class="btn btn-secondary btn-sm prev-download-btn" download>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                      </svg>
+                      <span>Download ({rel.package.size})</span>
+                    </a>
+                  )}
+
+                  <a href={`/releases/${rel.tag}`} class="notes-link">
+                    Release Notes →
+                  </a>
+                </div>
+
+                {rel.checksum?.available && rel.checksum.sha256 ? (
+                  <div class="previous-checksum">
+                    <span class="hash-label">SHA-256:</span>
+                    <code class="hash-code" title={rel.checksum.sha256}>{rel.checksum.sha256.slice(0, 10)}...</code>
+                    <button class="hash-copy-btn" data-hash={rel.checksum.sha256} title="Copy SHA-256 Checksum">
+                      Copy
+                    </button>
+                    {rel.checksum.downloadUrl && (
+                      <a href={rel.checksum.downloadUrl} target="_blank" rel="noopener noreferrer" class="checksum-raw-link">
+                        .sha256
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <span class="no-checksum-label">Verified GitHub Release</span>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- Hosting & Verification Notice -->
+      <footer class="releases-info-footer reveal">
+        <p>
+          Official SwitchCast binaries are hosted securely on 
+          <a href="https://github.com/jczamora-git/SwitchCast/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a>.
+          All packages are self-contained standalone ZIP archives for 64-bit Windows. Zero external .NET runtimes or installers required.
+        </p>
+      </footer>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .releases-page {
+    padding-top: 3.5rem;
+    padding-bottom: 5rem;
+    min-height: 80vh;
+  }
+
+  .releases-hero {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .releases-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin: 1rem 0;
+    color: #ffffff;
+  }
+
+  .releases-description {
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    color: var(--sc-text-secondary);
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Latest Release Section */
+  .latest-release-section {
+    margin-bottom: 4rem;
+  }
+
+  .latest-release-card {
+    border: 1px solid var(--sc-border-base);
+    padding: 2.75rem 2.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    background: linear-gradient(180deg, rgba(255, 122, 89, 0.04) 0%, rgba(20, 20, 26, 0.7) 100%);
+  }
+
+  .latest-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .badge-status {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .badge-latest {
+    background: var(--sc-accent-soft);
+    color: var(--sc-accent);
+    border: 1px solid rgba(255, 122, 89, 0.35);
+  }
+
+  .badge-previous {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--sc-text-secondary);
+    border: 1px solid var(--sc-border-subtle);
+  }
+
+  .release-date {
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .latest-version-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .latest-summary {
+    font-size: 1.05rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  /* Brief Highlights List */
+  .release-highlights-list {
+    list-style: none;
+    margin: 0.75rem 0 1.5rem 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .release-highlights-list li {
+    font-size: 0.92rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.5;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .release-highlights-list li::before {
+    content: '▸';
+    color: var(--sc-accent);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  .release-specs-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--sc-text-tertiary);
+    margin-bottom: 2rem;
+  }
+
+  .spec-dot {
+    color: var(--sc-border-base);
+  }
+
+  .latest-actions-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .download-btn {
+    padding: 0.85rem 1.75rem;
+  }
+
+  .details-btn {
+    padding: 0.85rem 1.5rem;
+  }
+
+  .latest-checksum-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--sc-border-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .hash-label {
+    font-weight: 600;
+  }
+
+  .hash-code {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--sc-text-secondary);
+    padding: 0.18rem 0.45rem;
+    border-radius: 3px;
+  }
+
+  .hash-copy-btn {
+    background: transparent;
+    border: 1px solid var(--sc-border-base);
+    color: var(--sc-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.18rem 0.5rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .hash-copy-btn:hover {
+    color: #ffffff;
+    border-color: var(--sc-accent);
+  }
+
+  .checksum-raw-link {
+    color: var(--sc-text-tertiary);
+    text-decoration: underline;
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+  }
+
+  .checksum-raw-link:hover {
+    color: var(--sc-accent);
+  }
+
+  /* Previous Versions Section */
+  .previous-versions-section {
+    margin-bottom: 4rem;
+  }
+
+  .section-title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--sc-border-subtle);
+    padding-bottom: 0.75rem;
+  }
+
+  .previous-heading {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--sc-text-primary);
+  }
+
+  .versions-count {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .previous-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .previous-release-card {
+    border: 1px solid var(--sc-border-subtle);
+    padding: 1.75rem 2rem;
+    border-radius: var(--radius-md);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .previous-release-card:hover {
+    border-color: var(--sc-border-base);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .previous-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .version-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .version-tag {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .package-size-badge {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--sc-text-tertiary);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--sc-border-subtle);
+  }
+
+  .previous-summary {
+    font-size: 0.95rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+
+  .previous-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sc-border-subtle);
+  }
+
+  .action-buttons-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .prev-download-btn {
+    padding: 0.45rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .notes-link {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--sc-text-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .notes-link:hover {
+    color: var(--sc-accent);
+  }
+
+  .previous-checksum {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .no-checksum-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  /* Info Footer */
+  .releases-info-footer {
+    text-align: center;
+    border-top: 1px solid var(--sc-border-subtle);
+    padding-top: 2rem;
+  }
+
+  .releases-info-footer p {
+    font-size: 0.88rem;
+    color: var(--sc-text-tertiary);
+    line-height: 1.6;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .releases-info-footer a {
+    color: var(--sc-text-secondary);
+    text-decoration: underline;
+  }
+
+  .releases-info-footer a:hover {
+    color: var(--sc-accent);
+  }
+
+  @media (max-width: 640px) {
+    .latest-release-card {
+      padding: 1.75rem 1.25rem;
+    }
+
+    .previous-release-card {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .latest-actions-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .download-btn, .details-btn {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .previous-card-actions {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.hash-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const hash = btn.getAttribute('data-hash');
+      if (hash && navigator.clipboard) {
+        navigator.clipboard.writeText(hash).then(() => {
+          const originalText = btn.textContent;
+          btn.textContent = 'Copied';
+          setTimeout(() => {
+            btn.textContent = originalText;
+          }, 2000);
+        });
+      }
+    });
+  });
+</script>

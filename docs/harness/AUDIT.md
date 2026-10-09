@@ -50,12 +50,22 @@ Every feature showcased on this website has been directly audited against the lo
 
 ## 4. Release Integration Architecture
 
-- **Manifest File**: `src/data/release.json` (Static source of truth).
-- **Verified Version**: `v1.2.0` (Published October 10, 2026).
-- **Verified Download URL**: `https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.0/SwitchCast-v1.2.0-win-x64.zip`
-- **Verified SHA-256 Checksum**: `BB8AD7EB346F6372E28FF6F5442072D5D4294F573AE175D73B83333C4C82790D`
-- **Sync Script**: `scripts/sync-release.mjs` (fetches newest release, ignores drafts/prereleases, updates manifest).
-- **Validation Script**: `scripts/verify-release.mjs` (verifies required fields, checksum length, and GitHub asset URLs).
+- **Authoritative Manifest Files**:
+  - `src/data/releases.json`: Centralized array of all published releases (`v1.2.0`, `v1.0.0`).
+  - `src/data/release.json`: Synced latest stable release record (`v1.2.0`) for backward compatibility.
+- **Release Center Routes**:
+  - Main Catalog: `/releases/` (`src/pages/releases/index.astro`).
+  - Version Detail Static Pages: `/releases/[version]/` (`src/pages/releases/[version].astro` generating `/releases/v1.2.0/`, `/releases/1.2.0/`, `/releases/v1.0.0/`, `/releases/1.0.0/`).
+- **Binary Hosting & Download URL Ownership**:
+  - Official binaries are hosted exclusively on GitHub Releases.
+  - Direct download links point directly to GitHub asset URLs (e.g. `https://github.com/jczamora-git/SwitchCast/releases/download/v1.2.0/SwitchCast-v1.2.0-win-x64.zip`).
+  - No binary `.zip` files are stored in `public/` or `dist/`.
+- **Markdown Notes Rendering**:
+  - Pure TypeScript safe renderer (`src/utils/markdown.ts`) formats markdown headings, lists, tables, code blocks, and blockquotes into clean, sanitized HTML with zero client dependencies.
+- **Sync Workflow**:
+  - `scripts/sync-release.mjs` (`npm run releases:sync`): Fetches published releases from GitHub API, ignores drafts, normalizes sizes/dates, and writes both `releases.json` and `release.json`. If network fails, local manifests are preserved.
+- **Validation Script**:
+  - `scripts/verify-release.mjs` (`npm run release:verify`): Enforces manifest contract for all releases, validating URLs, package format, and optional SHA-256 integrity.
 
 ---
 
@@ -80,8 +90,30 @@ Every feature showcased on this website has been directly audited against the lo
 
 ---
 
-## 7. Verification Results
+## 7. Interactive Product Demonstration Architecture
 
-- `npm run check`: Validated with zero diagnostic errors.
+The website features an authentic, fully interactive in-browser simulation of the SwitchCast Windows desktop application (`src/components/demo/InteractiveDemo.astro`):
+
+- **Purpose**: Allows website visitors to experience the core SwitchCast workflow before downloading the application.
+- **Architecture**:
+  - `src/scripts/demo/demo-types.ts`: TypeScript contracts for simulated sources, presentation states, tabs, switching modes, and explanations.
+  - `src/scripts/demo/demo-data.ts`: 7 synthetic demo sources spanning Application Windows (Browser, Slides, Code Editor), Displays & Monitors (Display 1 & 2), and Media Files (Video, Architecture Diagram).
+  - `src/scripts/demo/demo-store.ts`: Centralized single source of truth managing tab navigation, queue management, presentation lifecycle (start/stop), source switching, pause, privacy blackout, switching modes (`LiveOnly`, `ActiveLive`, `ActiveOnly`), video transport, and dynamic single explanation state.
+  - `src/scripts/demo/demo-controller.ts`: Pure Vanilla DOM event binding, subscriber controller, and mobile view switcher handler (`App`, `Output`, `Dock`).
+  - `src/styles/interactive-demo.css`: Dedicated styling replicating the WinUI 3 dark shell, custom title bars, Fluent-styled buttons, floating dock, 16:9 presentation canvas, stable desktop window geometry (`height: 520px` with internal scrolling), stable explanation container (`min-height: 86px`), and mobile responsive layout.
+- **Safety & Sandbox Discipline**:
+  - Purely synthetic simulation running inside the browser DOM.
+  - Does NOT access visitor windows, monitors, cameras, or OS APIs (`getDisplayMedia()` is strictly prohibited).
+  - Zero server-side state or external telemetry.
+
+---
+
+## 8. Verification Results
+
+- `npm run check`: Validated with zero diagnostic errors across 24 Astro & TypeScript files.
+- `npm run test:demo`: 5/5 interactive simulator state transition flows passed cleanly.
+- `npm run test:releases`: Semantic version ordering test passed.
 - `npm run release:verify`: Validated with verified SHA-256 and GitHub assets.
-- `npm run build`: Static SSG generated into `dist/`.
+- `npm run build`: Static SSG generated into `dist/` (8 pages).
+- `npm run harness:status`: Offline health verified.
+

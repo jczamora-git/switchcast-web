@@ -1,0 +1,659 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { getAllReleases, type Release } from '../../utils/releases';
+import { renderMarkdown } from '../../utils/markdown';
+
+export async function getStaticPaths() {
+  const allReleases = getAllReleases();
+  const paths: Array<{ params: { version: string }; props: { release: Release } }> = [];
+
+  for (const rel of allReleases) {
+    // Support both /releases/v1.2.0/ and /releases/1.2.0/
+    paths.push({
+      params: { version: rel.tag },
+      props: { release: rel }
+    });
+    paths.push({
+      params: { version: rel.version },
+      props: { release: rel }
+    });
+  }
+
+  return paths;
+}
+
+interface Props {
+  release: Release;
+}
+
+const { release } = Astro.props;
+
+const pageTitle = `SwitchCast v${release.version} — Release Notes & Download`;
+const pageDescription = release.summary;
+const canonicalUrl = `https://switchcast.jeiziproductions.com/releases/${release.tag}`;
+
+const formattedNotesHtml = renderMarkdown(release.releaseNotes);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} canonicalUrl={canonicalUrl}>
+  <Navbar />
+  <main id="main-content" class="release-detail-page">
+    <div class="container container-narrow">
+      
+      <!-- Back Navigation Breadcrumb -->
+      <nav class="back-nav reveal" aria-label="Breadcrumb">
+        <a href="/releases" class="back-link">
+          ← Back to all releases
+        </a>
+      </nav>
+
+      <!-- Release Header -->
+      <header class="detail-header reveal">
+        <div class="detail-badges">
+          <span class={`badge-status ${release.isLatest ? 'badge-latest' : 'badge-previous'}`}>
+            {release.status}
+          </span>
+          {release.releaseDate && (
+            <time class="detail-date" datetime={release.publishedAt || undefined}>
+              {release.releaseDate}
+            </time>
+          )}
+        </div>
+
+        <h1 class="detail-title">
+          SwitchCast v{release.version}
+        </h1>
+
+        <p class="detail-summary">
+          {release.summary}
+        </p>
+      </header>
+
+      <!-- 1. What's New Summary First (Concise User Highlights) -->
+      {release.highlights && release.highlights.length > 0 && (
+        <section class="highlights-card glass-card reveal" aria-labelledby="highlights-heading">
+          <h2 id="highlights-heading" class="highlights-heading">
+            What's New in v{release.version}
+          </h2>
+          <ul class="highlights-list">
+            {release.highlights.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <!-- 2. Prominent Download Box -->
+      {release.downloadable && release.package ? (
+        <section class="download-banner glass-card reveal" aria-labelledby="package-download-heading">
+          <div class="download-banner-main">
+            <div class="download-banner-info">
+              <h2 id="package-download-heading" class="download-banner-title">
+                Official Windows Package
+              </h2>
+              <div class="banner-specs">
+                <span>{release.package.name}</span>
+                <span class="spec-dot">•</span>
+                <span>{release.package.size}</span>
+                <span class="spec-dot">•</span>
+                <span>{release.package.architecture}</span>
+              </div>
+              <p class="banner-subtext">
+                Standalone ZIP archive. No installer or runtime setup needed.
+              </p>
+            </div>
+
+            <div class="download-banner-action">
+              <a href={release.package.downloadUrl} class="btn btn-primary btn-lg banner-dl-btn" download>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Download ZIP ({release.package.size})</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Checksum Verification Row -->
+          <div class="banner-footer-row">
+            {release.checksum?.available && release.checksum.sha256 ? (
+              <div class="checksum-block">
+                <span class="hash-label">SHA-256 Checksum:</span>
+                <code class="hash-code" id="hashCodeText" title={release.checksum.sha256}>
+                  {release.checksum.sha256}
+                </code>
+                <button class="hash-copy-btn" id="copyHashBtn" data-hash={release.checksum.sha256} title="Copy SHA-256 Checksum">
+                  <span id="copyHashLabel">Copy</span>
+                </button>
+                {release.checksum.downloadUrl && (
+                  <a href={release.checksum.downloadUrl} target="_blank" rel="noopener noreferrer" class="checksum-raw-link">
+                    .sha256 file
+                  </a>
+                )}
+              </div>
+            ) : (
+              <div class="checksum-block">
+                <span class="no-checksum-label">Package verification: Verified official GitHub release binary.</span>
+              </div>
+            )}
+
+            {release.githubUrl && (
+              <div class="source-link-block">
+                <a href={release.githubUrl} target="_blank" rel="noopener noreferrer" class="gh-release-link">
+                  View on GitHub Releases ↗
+                </a>
+              </div>
+            )}
+          </div>
+        </section>
+      ) : null}
+
+      <!-- 3. Collapsible Detailed Technical Notes -->
+      <section class="release-notes-section glass-card reveal">
+        <details class="full-notes-accordion" open>
+          <summary class="full-notes-summary">
+            <span class="notes-heading">Full Release Documentation & Details</span>
+            <span class="accordion-icon">▾</span>
+          </summary>
+          <div class="notes-content" set:html={formattedNotesHtml} />
+        </details>
+      </section>
+
+      <!-- Bottom Navigation -->
+      <div class="bottom-nav reveal">
+        <a href="/releases" class="back-link">
+          ← Back to all releases
+        </a>
+      </div>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .release-detail-page {
+    padding-top: 2.5rem;
+    padding-bottom: 5rem;
+    min-height: 80vh;
+  }
+
+  .back-nav {
+    margin-bottom: 2rem;
+  }
+
+  .back-link {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--sc-text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--sc-accent);
+  }
+
+  /* Release Header */
+  .detail-header {
+    margin-bottom: 2rem;
+  }
+
+  .detail-badges {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .badge-status {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+  }
+
+  .badge-latest {
+    background: var(--sc-accent-soft);
+    color: var(--sc-accent);
+    border: 1px solid rgba(255, 122, 89, 0.35);
+  }
+
+  .badge-previous {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--sc-text-secondary);
+    border: 1px solid var(--sc-border-subtle);
+  }
+
+  .detail-date {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .detail-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.25rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+  }
+
+  .detail-summary {
+    font-size: 1.12rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.6;
+    max-width: 680px;
+  }
+
+  /* Highlights Card */
+  .highlights-card {
+    border: 1px solid var(--sc-border-base);
+    padding: 1.75rem 2rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 2rem;
+    background: linear-gradient(180deg, rgba(255, 122, 89, 0.03) 0%, rgba(18, 18, 24, 0.6) 100%);
+  }
+
+  .highlights-heading {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1rem;
+  }
+
+  .highlights-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .highlights-list li {
+    font-size: 0.95rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.5;
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+  }
+
+  .highlights-list li::before {
+    content: '▸';
+    color: var(--sc-accent);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  /* Download Banner */
+  .download-banner {
+    border: 1px solid var(--sc-border-base);
+    padding: 2rem 2.25rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 2.5rem;
+    background: linear-gradient(180deg, rgba(255, 122, 89, 0.03) 0%, rgba(18, 18, 24, 0.6) 100%);
+  }
+
+  .download-banner-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .download-banner-info {
+    flex: 1;
+    min-width: 260px;
+  }
+
+  .download-banner-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.4rem;
+  }
+
+  .banner-specs {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--sc-text-secondary);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .spec-dot {
+    color: var(--sc-border-base);
+  }
+
+  .banner-subtext {
+    font-size: 0.82rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .banner-dl-btn {
+    padding: 0.85rem 1.75rem;
+    white-space: nowrap;
+  }
+
+  .banner-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--sc-border-subtle);
+  }
+
+  .checksum-block {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .hash-label {
+    font-weight: 600;
+  }
+
+  .hash-code {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--sc-text-secondary);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    word-break: break-all;
+    font-size: 0.75rem;
+  }
+
+  .hash-copy-btn {
+    background: transparent;
+    border: 1px solid var(--sc-border-base);
+    color: var(--sc-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.18rem 0.5rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .hash-copy-btn:hover {
+    color: #ffffff;
+    border-color: var(--sc-accent);
+  }
+
+  .checksum-raw-link {
+    color: var(--sc-text-tertiary);
+    text-decoration: underline;
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+  }
+
+  .checksum-raw-link:hover {
+    color: var(--sc-accent);
+  }
+
+  .no-checksum-label {
+    font-size: 0.78rem;
+    color: var(--sc-text-tertiary);
+  }
+
+  .gh-release-link {
+    font-size: 0.82rem;
+    color: var(--sc-text-secondary);
+    text-decoration: underline;
+    transition: color 0.2s ease;
+  }
+
+  .gh-release-link:hover {
+    color: var(--sc-accent);
+  }
+
+  /* Formatted Release Notes Container */
+  .release-notes-section {
+    border: 1px solid var(--sc-border-base);
+    padding: 2rem 2.25rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 3rem;
+  }
+
+  .full-notes-accordion {
+    width: 100%;
+  }
+
+  .full-notes-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--sc-border-subtle);
+  }
+
+  .full-notes-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion-icon {
+    font-size: 1.1rem;
+    color: var(--sc-text-tertiary);
+    transition: transform 0.2s ease;
+  }
+
+  .full-notes-accordion[open] .accordion-icon {
+    transform: rotate(180deg);
+  }
+
+  .notes-heading {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .notes-content {
+    padding-top: 1.5rem;
+  }
+
+  .notes-content :global(.release-heading) {
+    font-family: var(--font-display);
+    color: #ffffff;
+    margin-top: 2.25rem;
+    margin-bottom: 1rem;
+    line-height: 1.25;
+  }
+
+  .notes-content :global(.h1) {
+    display: none; /* Title already displayed in header */
+  }
+
+  .notes-content :global(.h2) {
+    font-size: 1.35rem;
+    font-weight: 700;
+    border-bottom: 1px solid var(--sc-border-subtle);
+    padding-bottom: 0.5rem;
+  }
+
+  .notes-content :global(.h3) {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 1.75rem;
+  }
+
+  .notes-content :global(.release-p) {
+    font-size: 0.95rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.65;
+    margin-bottom: 1rem;
+  }
+
+  .notes-content :global(.release-p strong) {
+    color: #ffffff;
+  }
+
+  .notes-content :global(.release-list) {
+    margin: 0.75rem 0 1.5rem 1.25rem;
+    padding: 0;
+    list-style-type: disc;
+  }
+
+  .notes-content :global(.release-list li) {
+    font-size: 0.94rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.45rem;
+  }
+
+  .notes-content :global(.release-list li strong) {
+    color: #ffffff;
+  }
+
+  .notes-content :global(.release-quote) {
+    border-left: 3px solid var(--sc-accent);
+    padding: 0.75rem 1.25rem;
+    margin: 1.25rem 0;
+    background: rgba(255, 122, 89, 0.04);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 0.92rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.5;
+  }
+
+  .notes-content :global(.release-divider) {
+    border: none;
+    border-top: 1px solid var(--sc-border-subtle);
+    margin: 2.25rem 0;
+  }
+
+  .notes-content :global(.code-block) {
+    background: #060608;
+    border: 1px solid var(--sc-border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1.25rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #e2e2ec;
+  }
+
+  .notes-content :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.15rem 0.35rem;
+    border-radius: 3px;
+    color: #ffffff;
+  }
+
+  .notes-content :global(a) {
+    color: var(--sc-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .notes-content :global(a:hover) {
+    color: #ff9d85;
+  }
+
+  .notes-content :global(.table-container) {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid var(--sc-border-subtle);
+    border-radius: var(--radius-sm);
+  }
+
+  .notes-content :global(.release-table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+  }
+
+  .notes-content :global(.release-table th) {
+    background: rgba(255, 255, 255, 0.03);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--sc-border-base);
+  }
+
+  .notes-content :global(.release-table td) {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--sc-border-subtle);
+    color: var(--sc-text-secondary);
+  }
+
+  .notes-content :global(.release-table tr:last-child td) {
+    border-bottom: none;
+  }
+
+  .bottom-nav {
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .download-banner {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .banner-dl-btn {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .release-notes-section {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .banner-footer-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  const copyBtn = document.getElementById('copyHashBtn');
+  const copyLabel = document.getElementById('copyHashLabel');
+
+  if (copyBtn && copyLabel) {
+    copyBtn.addEventListener('click', () => {
+      const hash = copyBtn.getAttribute('data-hash');
+      if (hash && navigator.clipboard) {
+        navigator.clipboard.writeText(hash).then(() => {
+          copyLabel.textContent = 'Copied';
+          setTimeout(() => {
+            copyLabel.textContent = 'Copy';
+          }, 2000);
+        });
+      }
+    });
+  }
+</script>
