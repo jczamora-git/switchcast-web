@@ -1,8 +1,8 @@
 # SWITCHCAST WEBSITE — HARNESS HANDOFF RECORD
 
-**Document Version:** 1.7.0  
+**Document Version:** 1.8.0  
 **Updated:** 2026-10-10  
-**Harness Task:** SwitchCast v1.2.1 Release Integration  
+**Harness Task:** Open Graph Domain Realignment & Cache Busting  
 
 ---
 

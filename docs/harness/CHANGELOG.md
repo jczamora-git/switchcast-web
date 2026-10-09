@@ -4,6 +4,17 @@ All notable changes to the SwitchCast website and its dedicated agent harness ar
 
 ---
 
+## [1.8.0] — 2026-10-10
+
+### Fixed (Open Graph Domain & Scraper Cache-Busting)
+- **Active Wasmer Domain Realignment**:
+  - Updated `astro.config.mjs`, `BaseLayout.astro`, releases pages, and `robots.txt` from non-resolving placeholder domain `https://switchcast.jeiziproductions.com` to the live active domain `https://switchcast.wasmer.app`.
+  - Fixed 404 response on social crawler image scrapers fetching `og-switchcast.png`.
+- **Open Graph Asset Cache-Busting**:
+  - Appended version parameter `?v=1.2.1` to `<meta property="og:image">` and `twitter:image` to bust edge proxy and social crawler image caches.
+
+---
+
 ## [1.7.0] — 2026-10-10
 
 ### Changed (SwitchCast v1.2.1 Release Integration)

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://switchcast.jeiziproductions.com/sitemap.xml
+Sitemap: https://switchcast.wasmer.app/sitemap.xml
