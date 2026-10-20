@@ -1,0 +1,129 @@
+<svg viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Independent background walk-in music isolated from presentation video sound">
+  <defs>
+    <linearGradient id="audioCardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#181a24" />
+      <stop offset="100%" stop-color="#0f1016" />
+    </linearGradient>
+
+    <filter id="audioGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Technical Background Grid -->
+  <g opacity="0.12">
+    <path d="M50 70 H750 M50 170 H750 M50 270 H750 M50 370 H750 M50 470 H750" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="2 6" />
+    <path d="M120 30 V470 M280 30 V470 M440 30 V470 M600 30 V470 M760 30 V470" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="2 6" />
+  </g>
+
+  <!-- Title Pill -->
+  <g transform="translate(60, 45)">
+    <rect width="180" height="24" rx="4" fill="rgba(255, 122, 89, 0.1)" stroke="rgba(255, 122, 89, 0.3)" stroke-width="1" />
+    <text x="90" y="16" fill="#ff7a59" font-family="monospace" font-size="9" font-weight="700" text-anchor="middle">INDEPENDENT AUDIO ISOLATION</text>
+  </g>
+
+  <!-- Top Channel: Video Media Audio -->
+  <g transform="translate(60, 90)">
+    <rect width="680" height="150" rx="10" fill="url(#audioCardGrad)" stroke="#2b2e40" stroke-width="1.2" />
+    
+    <!-- Channel Header -->
+    <g transform="translate(20, 20)">
+      <rect width="32" height="32" rx="6" fill="#1b1d28" stroke="#2b2e40" stroke-width="1" />
+      <text x="16" y="22" font-size="16" text-anchor="middle">🎬</text>
+      
+      <text x="44" y="15" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="700">Presentation Video Audio</text>
+      <text x="44" y="30" fill="#8d90a5" font-family="monospace" font-size="9">Plays only when product videos or clips are active on screen</text>
+
+      <!-- Badge -->
+      <rect x="540" y="4" width="80" height="22" rx="4" fill="#1c1e2a" stroke="#2c3044" stroke-width="0.8" />
+      <text x="580" y="18" fill="#a4a7bc" font-family="monospace" font-size="8.5" font-weight="600" text-anchor="middle">VIDEO SYNC</text>
+    </g>
+
+    <!-- Waveform & Slider -->
+    <g transform="translate(20, 72)">
+      <!-- Waveform Bars -->
+      <g transform="translate(0, 15)">
+        <rect x="0" y="-12" width="4" height="24" rx="2" fill="#2b2e40" />
+        <rect x="8" y="-18" width="4" height="36" rx="2" fill="#2b2e40" />
+        <rect x="16" y="-8" width="4" height="16" rx="2" fill="#2b2e40" />
+        <rect x="24" y="-22" width="4" height="44" rx="2" fill="#ff7a59" />
+        <rect x="32" y="-16" width="4" height="32" rx="2" fill="#ff7a59" />
+        <rect x="40" y="-10" width="4" height="20" rx="2" fill="#ff7a59" />
+        <rect x="48" y="-26" width="4" height="52" rx="2" fill="#ff7a59" />
+        <rect x="56" y="-14" width="4" height="28" rx="2" fill="#ff7a59" />
+        <rect x="64" y="-20" width="4" height="40" rx="2" fill="#2b2e40" />
+        <rect x="72" y="-12" width="4" height="24" rx="2" fill="#2b2e40" />
+        <rect x="80" y="-6" width="4" height="12" rx="2" fill="#2b2e40" />
+      </g>
+
+      <!-- Volume Fader -->
+      <g transform="translate(140, 12)">
+        <text x="0" y="4" fill="#6d7085" font-family="monospace" font-size="8">VOLUME</text>
+        <rect x="60" y="-3" width="300" height="6" rx="3" fill="#181a24" />
+        <rect x="60" y="-3" width="240" height="6" rx="3" fill="#ff7a59" />
+        <circle cx="300" cy="0" r="6" fill="#ffffff" stroke="#ff7a59" stroke-width="2" />
+        <text x="380" y="4" fill="#ffffff" font-family="monospace" font-size="9" font-weight="700">80%</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Bottom Channel: Independent Background Walk-in Music -->
+  <g transform="translate(60, 265)">
+    <rect width="680" height="175" rx="10" fill="url(#audioCardGrad)" stroke="#ff7a59" stroke-width="1.6" filter="url(#audioGlow)" />
+    
+    <!-- Channel Header -->
+    <g transform="translate(20, 20)">
+      <rect width="32" height="32" rx="6" fill="rgba(255, 122, 89, 0.15)" stroke="#ff7a59" stroke-width="1" />
+      <text x="16" y="22" font-size="16" text-anchor="middle">🎵</text>
+      
+      <text x="44" y="15" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="700">Background Walk-in Music Playlist</text>
+      <text x="44" y="30" fill="#a4a7bc" font-family="monospace" font-size="9">Streams continuously during guest arrival & pauses, independent of app switches</text>
+
+      <!-- Live Streaming Badge -->
+      <rect x="525" y="4" width="95" height="22" rx="4" fill="#ff3b30" />
+      <text x="572" y="18" fill="#ffffff" font-family="monospace" font-size="8.5" font-weight="700" text-anchor="middle">STREAMING</text>
+    </g>
+
+    <!-- Playlist Track Lineup -->
+    <g transform="translate(20, 70)">
+      <!-- Track 1: Active -->
+      <rect width="380" height="36" rx="6" fill="#161824" stroke="#ff7a59" stroke-width="1" />
+      <text x="14" y="22" fill="#ff7a59" font-family="monospace" font-size="9">▶ 01</text>
+      <text x="50" y="22" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="600">Ambient Presentation Flow — Keynote Mix</text>
+      <text x="330" y="22" fill="#8d90a5" font-family="monospace" font-size="8.5">03:45</text>
+
+      <!-- Track 2: Next Up -->
+      <g transform="translate(0, 44)">
+        <rect width="380" height="36" rx="6" fill="#12131c" stroke="#222534" stroke-width="0.8" />
+        <text x="14" y="22" fill="#6d7085" font-family="monospace" font-size="9">02</text>
+        <text x="50" y="22" fill="#a4a7bc" font-family="sans-serif" font-size="10">Conference Lounge Walk-In Theme</text>
+        <text x="330" y="22" fill="#6d7085" font-family="monospace" font-size="8.5">04:12</text>
+      </g>
+    </g>
+
+    <!-- Volume & Transport Controls -->
+    <g transform="translate(430, 80)">
+      <!-- Transport Buttons -->
+      <g transform="translate(0, 0)">
+        <rect width="32" height="32" rx="6" fill="#1c1e2a" stroke="#2b2f42" stroke-width="1" />
+        <text x="16" y="20" font-size="12" text-anchor="middle">⏮</text>
+        
+        <rect x="40" width="32" height="32" rx="6" fill="#ff7a59" />
+        <text x="56" y="20" fill="#ffffff" font-size="12" text-anchor="middle">⏸</text>
+
+        <rect x="80" width="32" height="32" rx="6" fill="#1c1e2a" stroke="#2b2f42" stroke-width="1" />
+        <text x="96" y="20" font-size="12" text-anchor="middle">⏭</text>
+      </g>
+
+      <!-- Music Volume -->
+      <g transform="translate(0, 48)">
+        <text x="0" y="10" fill="#8d90a5" font-family="monospace" font-size="8">PLAYLIST VOL</text>
+        <rect x="80" y="4" width="100" height="6" rx="3" fill="#181a24" />
+        <rect x="80" y="4" width="60" height="6" rx="3" fill="#34d399" />
+        <circle cx="140" cy="7" r="5" fill="#ffffff" />
+        <text x="190" y="11" fill="#34d399" font-family="monospace" font-size="8.5" font-weight="700">60%</text>
+      </g>
+    </g>
+  </g>
+</svg>

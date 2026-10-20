@@ -1,0 +1,196 @@
+<svg viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Multiple source windows converging into a single shared presentation output window">
+  <defs>
+    <!-- Background Gradient for Surface Cards -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#181a24" />
+      <stop offset="100%" stop-color="#0f1017" />
+    </linearGradient>
+
+    <!-- Glowing Accent Gradient -->
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9d85" />
+      <stop offset="100%" stop-color="#ff7a59" />
+    </linearGradient>
+
+    <!-- Beam Glow -->
+    <linearGradient id="beamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff7a59" stop-opacity="0.1" />
+      <stop offset="60%" stop-color="#ff7a59" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#ff7a59" stop-opacity="0.2" />
+    </linearGradient>
+
+    <!-- Subdued Line Gradient -->
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2a2d3d" />
+      <stop offset="50%" stop-color="#ff7a59" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ff7a59" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="coralGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Grid Pattern -->
+  <g opacity="0.15">
+    <path d="M50 50 H750 M50 150 H750 M50 250 H750 M50 350 H750 M50 450 H750" stroke="#ffffff" stroke-width="0.75" stroke-dasharray="2 6" />
+    <path d="M100 30 V470 M250 30 V470 M400 30 V470 M550 30 V470 M700 30 V470" stroke="#ffffff" stroke-width="0.75" stroke-dasharray="2 6" />
+  </g>
+
+  <!-- ==================== LEFT: SOURCE WINDOWS ==================== -->
+
+  <!-- SOURCE 1: Web Browser / Dashboard -->
+  <g transform="translate(60, 65)">
+    <!-- Card Frame -->
+    <rect width="240" height="95" rx="8" fill="url(#cardGrad)" stroke="#2b2e3f" stroke-width="1.2" />
+    <!-- Window Bar -->
+    <rect width="240" height="24" rx="8" fill="#14151e" />
+    <rect y="16" width="240" height="8" fill="#14151e" />
+    <circle cx="14" cy="12" r="3.5" fill="#2b2e3f" />
+    <circle cx="25" cy="12" r="3.5" fill="#2b2e3f" />
+    <circle cx="36" cy="12" r="3.5" fill="#2b2e3f" />
+    <text x="52" y="15" fill="#8d90a5" font-family="monospace" font-size="9" letter-spacing="0.5">CHROME • SALES DASHBOARD</text>
+    <!-- Card Content Wireframe -->
+    <rect x="14" y="36" width="95" height="18" rx="3" fill="#222533" />
+    <rect x="14" y="60" width="60" height="20" rx="3" fill="#1e202c" />
+    <rect x="80" y="60" width="60" height="20" rx="3" fill="#1e202c" />
+    <rect x="146" y="60" width="80" height="20" rx="3" fill="#1e202c" />
+    <!-- Source Tag -->
+    <rect x="176" y="36" width="50" height="16" rx="3" fill="rgba(255, 122, 89, 0.12)" stroke="rgba(255, 122, 89, 0.3)" stroke-width="0.8" />
+    <text x="201" y="47" fill="#ff7a59" font-family="monospace" font-size="8" font-weight="600" text-anchor="middle">WINDOW</text>
+  </g>
+
+  <!-- SOURCE 2: PowerPoint Presentation -->
+  <g transform="translate(60, 195)">
+    <!-- Card Frame -->
+    <rect width="240" height="95" rx="8" fill="url(#cardGrad)" stroke="#ff7a59" stroke-width="1.2" stroke-opacity="0.8" />
+    <!-- Window Bar -->
+    <rect width="240" height="24" rx="8" fill="#14151e" />
+    <rect y="16" width="240" height="8" fill="#14151e" />
+    <circle cx="14" cy="12" r="3.5" fill="#ff7a59" />
+    <circle cx="25" cy="12" r="3.5" fill="#2b2e3f" />
+    <circle cx="36" cy="12" r="3.5" fill="#2b2e3f" />
+    <text x="52" y="15" fill="#ffffff" font-family="monospace" font-size="9" letter-spacing="0.5" font-weight="600">POWERPOINT • KEYNOTE.PPTX</text>
+    <!-- Card Content Wireframe -->
+    <rect x="14" y="36" width="130" height="14" rx="3" fill="#222533" />
+    <rect x="14" y="56" width="110" height="8" rx="2" fill="#1e202c" />
+    <rect x="14" y="70" width="80" height="8" rx="2" fill="#1e202c" />
+    <!-- Slide Thumb Wireframe -->
+    <rect x="160" y="36" width="66" height="44" rx="4" fill="#1c1e2a" stroke="#2b2e3f" stroke-width="1" />
+    <circle cx="178" cy="52" r="6" fill="#ff7a59" fill-opacity="0.3" />
+    <rect x="190" y="48" width="26" height="4" rx="1" fill="#ff7a59" fill-opacity="0.5" />
+    <rect x="170" y="66" width="46" height="6" rx="1" fill="#2b2e3f" />
+  </g>
+
+  <!-- SOURCE 3: Camera / Media File -->
+  <g transform="translate(60, 325)">
+    <!-- Card Frame -->
+    <rect width="240" height="95" rx="8" fill="url(#cardGrad)" stroke="#2b2e3f" stroke-width="1.2" />
+    <!-- Window Bar -->
+    <rect width="240" height="24" rx="8" fill="#14151e" />
+    <rect y="16" width="240" height="8" fill="#14151e" />
+    <circle cx="14" cy="12" r="3.5" fill="#2b2e3f" />
+    <circle cx="25" cy="12" r="3.5" fill="#2b2e3f" />
+    <circle cx="36" cy="12" r="3.5" fill="#2b2e3f" />
+    <text x="52" y="15" fill="#8d90a5" font-family="monospace" font-size="9" letter-spacing="0.5">CAMERA • USB / WEBCAM</text>
+    <!-- Card Content Wireframe -->
+    <circle cx="45" cy="60" r="18" fill="#1b1d28" stroke="#2b2e3f" stroke-width="1" />
+    <circle cx="45" cy="56" r="6" fill="#8d90a5" fill-opacity="0.3" />
+    <path d="M34 72 C34 66 38 64 45 64 C52 64 56 66 56 72" fill="#8d90a5" fill-opacity="0.3" />
+    <rect x="76" y="46" width="100" height="10" rx="2" fill="#222533" />
+    <rect x="76" y="64" width="70" height="8" rx="2" fill="#1e202c" />
+    <!-- Source Tag -->
+    <rect x="176" y="58" width="50" height="16" rx="3" fill="rgba(255, 255, 255, 0.05)" stroke="#2b2e3f" stroke-width="0.8" />
+    <text x="201" y="69" fill="#8d90a5" font-family="monospace" font-size="8" font-weight="600" text-anchor="middle">CAMERA</text>
+  </g>
+
+  <!-- ==================== CONVERGENCE PIPELINE ==================== -->
+
+  <!-- Top Line (Source 1 to Center) -->
+  <path d="M300 112 C 370 112, 380 230, 440 235" stroke="url(#lineGrad)" stroke-width="1.8" stroke-dasharray="4 4" fill="none" />
+  
+  <!-- Middle Line (Source 2 to Center - ACTIVE) -->
+  <path d="M300 242 L 440 245" stroke="#ff7a59" stroke-width="2.2" fill="none" filter="url(#coralGlow)" />
+  <circle cx="370" cy="243" r="4" fill="#ff7a59" />
+
+  <!-- Bottom Line (Source 3 to Center) -->
+  <path d="M300 372 C 370 372, 380 260, 440 255" stroke="url(#lineGrad)" stroke-width="1.8" stroke-dasharray="4 4" fill="none" />
+
+  <!-- Central Switch Cast Node -->
+  <g transform="translate(425, 222)">
+    <circle cx="20" cy="20" r="24" fill="#141520" stroke="#ff7a59" stroke-width="1.8" filter="url(#coralGlow)" />
+    <!-- Mini Switch Logo Glyphs -->
+    <path d="M12 16 L20 12 L20 28 L12 24 Z" fill="#ff7a59" fill-opacity="0.6" />
+    <path d="M28 24 L20 28 L20 12 L28 16 Z" fill="#ffffff" />
+  </g>
+
+  <!-- Output Beam -->
+  <path d="M469 242 L 500 242" stroke="#ff7a59" stroke-width="2.5" fill="none" />
+  <polygon points="496,238 504,242 496,246" fill="#ff7a59" />
+
+  <!-- ==================== RIGHT: SINGLE SHARED OUTPUT WINDOW ==================== -->
+
+  <g transform="translate(505, 80)">
+    <!-- Ambient Glow behind Output Window -->
+    <rect x="-8" y="-8" width="246" height="326" rx="14" fill="#ff7a59" fill-opacity="0.06" filter="url(#coralGlow)" />
+
+    <!-- Window Shell -->
+    <rect width="230" height="310" rx="10" fill="#0d0e15" stroke="#ff7a59" stroke-width="1.8" />
+    
+    <!-- Titlebar -->
+    <rect width="230" height="30" rx="10" fill="#181a24" />
+    <rect y="20" width="230" height="10" fill="#181a24" />
+    <line x1="0" y1="30" x2="230" y2="30" stroke="rgba(255, 122, 89, 0.3)" stroke-width="1" />
+    
+    <!-- Titlebar Dots -->
+    <circle cx="14" cy="15" r="3" fill="#ff7a59" />
+    <circle cx="24" cy="15" r="3" fill="#2b2e3f" />
+    <circle cx="34" cy="15" r="3" fill="#2b2e3f" />
+
+    <text x="48" y="18" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="700" letter-spacing="0.5">SWITCHCAST OUTPUT</text>
+    
+    <!-- Meeting Call Indicator Pill -->
+    <rect x="156" y="7" width="64" height="16" rx="8" fill="rgba(52, 211, 153, 0.15)" stroke="#34d399" stroke-width="0.8" />
+    <circle cx="166" cy="15" r="2.5" fill="#34d399" />
+    <text x="174" y="18" fill="#34d399" font-family="monospace" font-size="7.5" font-weight="700">SHARED</text>
+
+    <!-- Canvas Inner Display (Active Source Render) -->
+    <g transform="translate(14, 44)">
+      <!-- Slide Presentation Simulation -->
+      <rect width="202" height="190" rx="6" fill="#131520" stroke="#222533" stroke-width="1" />
+      
+      <!-- Slide Content -->
+      <rect x="14" y="16" width="120" height="12" rx="2" fill="#ffffff" fill-opacity="0.9" />
+      <rect x="14" y="34" width="160" height="6" rx="1.5" fill="#8d90a5" />
+      <rect x="14" y="44" width="140" height="6" rx="1.5" fill="#8d90a5" />
+
+      <!-- Slide Diagram Box -->
+      <rect x="14" y="60" width="174" height="74" rx="4" fill="#1a1c28" stroke="#2a2d3f" stroke-width="0.8" />
+      
+      <!-- Mini Chart Columns -->
+      <rect x="30" y="104" width="18" height="20" rx="2" fill="#2b2e3f" />
+      <rect x="58" y="92" width="18" height="32" rx="2" fill="#2b2e3f" />
+      <rect x="86" y="80" width="18" height="44" rx="2" fill="#ff7a59" />
+      <rect x="114" y="70" width="18" height="54" rx="2" fill="#ff9d85" />
+      <rect x="142" y="64" width="18" height="60" rx="2" fill="#ffffff" />
+
+      <!-- Slide Counter Footnote -->
+      <text x="14" y="152" fill="#ff7a59" font-family="monospace" font-size="8" font-weight="600">SLIDE 04 / 18</text>
+      <text x="136" y="152" fill="#6c6f85" font-family="sans-serif" font-size="7.5">Q4 KEYNOTE</text>
+
+      <!-- Bottom Audio / Media Bar -->
+      <rect y="168" width="202" height="22" rx="0" fill="#0f1017" />
+      <line x1="0" y1="168" x2="202" y2="168" stroke="#222533" stroke-width="0.8" />
+      <circle cx="16" cy="179" r="4" fill="#ff7a59" fill-opacity="0.4" />
+      <rect x="26" y="177" width="70" height="4" rx="2" fill="#2b2e3f" />
+      <text x="150" y="182" fill="#8d90a5" font-family="monospace" font-size="7">1080p 60FPS</text>
+    </g>
+
+    <!-- Bottom Explanatory Banner -->
+    <rect x="14" y="248" width="202" height="48" rx="6" fill="#181a24" stroke="rgba(255, 122, 89, 0.25)" stroke-width="1" />
+    <text x="24" y="267" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="700">Share this window once.</text>
+    <text x="24" y="282" fill="#8d90a5" font-family="sans-serif" font-size="8">Switch sources anytime without interruption.</text>
+  </g>
+</svg>

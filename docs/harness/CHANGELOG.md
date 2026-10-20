@@ -4,6 +4,95 @@ All notable changes to the SwitchCast website and its dedicated agent harness ar
 
 ---
 
+## [3.0.0] — 2026-10-20
+
+### Added (Editorial Storyboard UI Refactor)
+- **Continuous Global Editorial Grid System (`src/styles/global.css`)**:
+  - Implemented `.editorial-shell`, `.editorial-tag`, and `.editorial-divider` utility tokens.
+  - Replaced isolated, individually bordered cards and floating boxes with a continuous structural grid divided by 1px hairline separators (`var(--sc-border-base)`).
+  - Enforced shared boundaries between adjacent cells with zero double borders.
+- **Product Capabilities Asymmetric Grid (`src/components/ProductCapabilities.astro`)**:
+  - Refactored 6 core capabilities into a continuous 12-column modular grid with asymmetric spans (8/4, 4/8, 6/6).
+  - Integrated genuine application screenshots (`presenter-dock.webp`, `powerpoint.webp`, `music-playlists.webp`) and conceptual SVG diagrams (`single-output.svg`, `external-display.svg`, `source-switching.svg`).
+  - Fixed and verified all image paths, completely eliminating broken image tags and placeholder labels.
+- **Product Storyboard Tutorial System (`src/components/TutorialSection.astro`)**:
+  - Redesigned Getting Started into a 6-chapter visual product storyboard sequence:
+    - Chapter 01: *PREPARE* (`/screenshots/sources.webp`)
+    - Chapter 02: *SHARE* (`/screenshots/presentation-output.webp`)
+    - Chapter 03: *SWITCH* (`/screenshots/dashboard.webp`)
+    - Chapter 04: *CONTROL* (`/screenshots/presenter-dock.webp`)
+    - Chapter 05: *PRESENT* (`/screenshots/powerpoint.webp`)
+    - Chapter 06: *PLAY* (`/screenshots/music-playlists.webp`)
+  - Implemented alternating two-column layouts on desktop and stacked mobile order.
+  - Replaced redundant cards with clean vertical numbered step lists separated by subtle dividers.
+  - Built an accessible full-resolution screenshot Lightbox modal with zoom button, backdrop click, and Escape-key dismissal.
+- **Compact Presenter Controls Matrix (`src/components/PresenterControls.astro`)**:
+  - Converted bulky cards into a compact 3×2 continuous matrix with 1px hairline dividers, control icons, and verified keyboard shortcuts.
+- **Streamlined Download Section (`src/components/DownloadSection.astro`)**:
+  - Removed nested card bloat; restructured into a single grid-aligned editorial container.
+  - Kept official Windows Setup EXE as primary CTA (`SwitchCast-Setup-v1.5.0-x64.exe`), with portable ZIP link, compact 3-step setup (`Download → Install → Present`), and quiet SHA-256 copy button.
+- **Hero & Navigation Refinement (`src/components/Hero.astro`, `src/components/Navbar.astro`)**:
+  - Reduced unnecessary vertical space, aligned container widths, and added a subtle 1px lower grid boundary.
+  - Synchronized navigation order: Capabilities -> How It Works -> Controls -> Releases -> Download.
+  - Refactored mobile navigation into a single, unified Raycast-inspired glass overlay panel (`.mobile-panel`):
+    - Merged header row (SwitchCast brand logo & dedicated close X button) inside the blurred glass panel rather than floating detached.
+    - Softened and dimmed page background via fixed `.mobile-backdrop` with `backdrop-filter: blur(14px)`.
+    - Added body scroll locking (`overflow: hidden`) during mobile menu interaction with Escape and backdrop click dismissal.
+    - Preserved full desktop navigation pill and functionality completely intact.
+- **Verification & Testing**:
+  - `npm run check` (0 errors, 0 warnings, 0 hints across 35 files).
+  - `npm run release:verify` (All 7 releases verified).
+  - `npm run build` (16 static HTML pages generated in static mode).
+  - `npm run seo:verify` (277/277 passed).
+  - Visual browser QA on desktop (1920/1440px) and mobile viewports (390×844) confirming zero horizontal overflow and responsive layout.
+
+---
+
+## [2.5.0] — 2026-10-20
+
+### Added (Editorial Grid & Product Tutorial Landing Page)
+- **New Homepage Layout & Simplified Structure (`src/pages/index.astro`)**:
+  - Rebuilt the homepage into an editorial, tutorial-driven landing page: Floating Glass Navigation -> Minimal Hero -> Product Capabilities Grid -> Product Tutorials -> Presenter Controls -> Windows Installer Download -> Spacious Editorial Footer.
+  - Temporarily removed the cinematic product showcase (`ProductShowcase.astro`) and in-browser simulator (`ProductExperience.astro`) from the live homepage, preserving their source code completely in the repository for future reintroduction without loading unnecessary JavaScript.
+- **Asymmetric Editorial Capabilities Grid (`src/components/ProductCapabilities.astro`)**:
+  - Implemented a 12-column asymmetric CSS Grid inspired by Raycast editorial design principles, featuring 1px dividers, dark gradient card surfaces, and coral accents.
+  - Highlights 6 core capabilities with zero technical developer jargon:
+    - 01: *One Shared Window* ("Share once. Switch between everything you present.")
+    - 02: *External Displays* ("Present to a meeting, projector, or second screen.")
+    - 03: *Presenter Dock* ("Keep essential controls within reach.")
+    - 04: *Source Switching* ("Move between apps, slides, videos, and cameras.")
+    - 05: *PowerPoint & Media* ("Present slides, images, and videos without switching your shared window.")
+    - 06: *Background Music* ("Manage presentation music independently of your visual content.")
+- **Custom Original SVG Illustration System (`public/illustrations/`)**:
+  - Authored 7 dark isometric line art SVG illustrations with thin strokes (1–1.5px), subtle depth, and coral accents (`#ff7a59`):
+    - `single-output.svg` (Multi-source convergence into single presentation window)
+    - `source-switching.svg` (Seamless source selection and output cut with 0ms drop)
+    - `presenter-dock.svg` (Always-on-top companion dock with hotkey annotations)
+    - `media-presentation.svg` (Direct PowerPoint deck and MP4 video playback surfaces)
+    - `audio-isolation.svg` (Isolated walk-in music playlist alongside video sound)
+    - `external-display.svg` (Primary presenter workspace routing clean output to projector)
+    - `presentation-workflow.svg` (3-stage presentation setup and streaming flow)
+- **Authentic Application Screenshot Asset Architecture (`src/data/tutorial-assets.ts`, `docs/SCREENSHOT_ASSETS.md`)**:
+  - Configured 10 predictable screenshot slots for the real Windows desktop application (Dashboard, Sources, Queued Sources, Output Window, Presenter Dock, PowerPoint, Video Playback, Music Playlists, Displays, Settings).
+  - Configured concept fallback illustrations for all slots until real screenshots are supplied, guaranteeing zero broken images or layout shifts.
+  - Documented capture instructions, aspect ratios, recommended resolutions, and integration steps in `docs/SCREENSHOT_ASSETS.md`.
+- **Step-by-Step Practical Tutorials (`src/components/TutorialSection.astro`)**:
+  - Authored 5 instructional guides matching verified SwitchCast v1.5.0 features:
+    - 01: *Prepare your presentation* (Sources library and queuing)
+    - 02: *Start with one shared window* (Presentation output in Zoom/Teams/Meet)
+    - 03: *Switch without interrupting your meeting* (Switching modes: Live Only, Active + Live, Active Only)
+    - 04: *Control your presentation anywhere* (Presenter Dock, Pause, Blackout, Hotkeys)
+    - 05: *Present more than just windows* (PowerPoint slide stepping, MP4 video playback, walk-in music)
+  - Features alternating two-column layouts on desktop and single-column reading flow on mobile.
+  - Built lightweight accessible image lightbox modal with zero third-party dependencies (Escape key, backdrop dismissal, full accessibility).
+- **Small Illustrated Presenter Controls Grid (`src/components/PresenterControls.astro`)**:
+  - Highlights 6 verified presenter controls with keyboard hotkeys (`Ctrl+Shift+→/←`, `Ctrl+Shift+P`, `Ctrl+Shift+B`, Modes L/A+L/A, Always on Top, `Ctrl+Shift+1..5`).
+- **Navigation & Mobile Responsiveness (`src/components/Navbar.astro`, `src/components/Footer.astro`)**:
+  - Synchronized navigation links (`How It Works`, `Capabilities`, `Controls`, `Releases`, `Download`).
+  - Verified mobile responsive layouts at 390px, 360px, and 768px with zero horizontal document overflow.
+
+---
+
 ## [2.4.0] — 2026-10-20
 
 ### Added (Official Windows Setup EXE as Primary Download)

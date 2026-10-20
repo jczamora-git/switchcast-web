@@ -1,0 +1,242 @@
+---
+// SwitchCast Presenter Controls Matrix — Compact Quick Reference
+// Verified against SwitchCast v1.5.0 PresenterDockWindow & Win32HotkeyService
+const controls = [
+  {
+    icon: '⏭',
+    title: 'Next / Previous Source',
+    description: 'Step forward or backward through your queued presentation lineup sequentially.',
+    shortcut: 'Ctrl+Shift+→ / ←'
+  },
+  {
+    icon: '⏸',
+    title: 'Freeze-Frame Pause',
+    description: 'Instantly lock the audience view on the current frame while you navigate backstage.',
+    shortcut: 'Ctrl+Shift+P'
+  },
+  {
+    icon: '🕶️',
+    title: 'Privacy Blackout',
+    description: 'Emergency curtain that drops audience output to 100% black and mutes media instantly.',
+    shortcut: 'Ctrl+Shift+B'
+  },
+  {
+    icon: '🎛️',
+    title: 'Switching Modes',
+    description: 'Select Live-only cuts, dual Active+Live sync, or Active-only staging modes.',
+    shortcut: 'Modes L / A+L / A'
+  },
+  {
+    icon: '📌',
+    title: 'Floating Presenter Dock',
+    description: 'Always-on-top companion bar that remains accessible without stealing window focus.',
+    shortcut: 'Always-on-Top'
+  },
+  {
+    icon: '⚡',
+    title: 'Direct Lineup Hotkeys',
+    description: 'Jump directly to any of your first five queued sources with global shortcuts.',
+    shortcut: 'Ctrl+Shift+1..5'
+  }
+];
+---
+
+<section id="controls" class="controls-section" aria-labelledby="controls-heading">
+  <div class="site-container">
+    <div class="controls-header">
+      <div class="controls-header-left">
+        <span class="editorial-tag">QUICK REFERENCE</span>
+        <h2 id="controls-heading" class="controls-title">Presenter Controls Matrix</h2>
+      </div>
+      <p class="controls-subtitle">
+        Direct tactile control over what attendees see with instant privacy toggles, floating dock controls, and global hotkeys.
+      </p>
+    </div>
+
+    <!-- Continuous 3x2 Matrix with Hairline Dividers -->
+    <div class="editorial-shell controls-matrix">
+      {controls.map((item) => (
+        <div class="matrix-cell">
+          <div class="cell-top">
+            <span class="matrix-icon" aria-hidden="true">{item.icon}</span>
+            {item.shortcut && <span class="matrix-shortcut">{item.shortcut}</span>}
+          </div>
+          <h3 class="cell-title">{item.title}</h3>
+          <p class="cell-desc">{item.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .controls-section {
+    padding: 5rem 0 6rem 0;
+    position: relative;
+    background: var(--sc-bg-primary);
+  }
+
+  .controls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.25rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--sc-border-base);
+    padding-bottom: 1.5rem;
+  }
+
+  .controls-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--sc-text-primary);
+    letter-spacing: -0.025em;
+    margin: 0.5rem 0 0 0;
+  }
+
+  .controls-subtitle {
+    max-width: 500px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--sc-text-secondary);
+    margin: 0;
+  }
+
+  /* Continuous Matrix Container */
+  .controls-matrix {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--sc-border-base);
+    border-radius: var(--radius-sm);
+    background: var(--sc-bg-surface);
+    overflow: hidden;
+  }
+
+  .matrix-cell {
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--sc-border-base);
+    border-bottom: 1px solid var(--sc-border-base);
+    background: rgba(18, 18, 22, 0.35);
+    transition: background 0.2s ease;
+  }
+
+  .matrix-cell:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  /* Remove outer perimeter border collision on 3-col layout */
+  .matrix-cell:nth-child(3n) {
+    border-right: none;
+  }
+
+  .matrix-cell:nth-last-child(-n + 3) {
+    border-bottom: none;
+  }
+
+  .cell-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .matrix-icon {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background: rgba(255, 87, 34, 0.1);
+    border: 1px solid rgba(255, 87, 34, 0.25);
+  }
+
+  .matrix-shortcut {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--sc-accent-coral);
+    background: rgba(255, 87, 34, 0.08);
+    border: 1px solid rgba(255, 87, 34, 0.2);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .cell-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--sc-text-primary);
+    letter-spacing: -0.01em;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .cell-desc {
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: var(--sc-text-secondary);
+    margin: 0;
+  }
+
+  /* Tablet: 2 columns */
+  @media (max-width: 960px) {
+    .controls-matrix {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .matrix-cell:nth-child(3n) {
+      border-right: 1px solid var(--sc-border-base);
+    }
+
+    .matrix-cell:nth-child(2n) {
+      border-right: none;
+    }
+
+    .matrix-cell:nth-last-child(-n + 3) {
+      border-bottom: 1px solid var(--sc-border-base);
+    }
+
+    .matrix-cell:nth-last-child(-n + 2) {
+      border-bottom: none;
+    }
+
+    .matrix-cell {
+      padding: 1.75rem 1.5rem;
+    }
+
+    .controls-title {
+      font-size: 1.75rem;
+    }
+  }
+
+  /* Mobile: 1 column */
+  @media (max-width: 640px) {
+    .controls-section {
+      padding: 4rem 0;
+    }
+
+    .controls-matrix {
+      grid-template-columns: 1fr;
+    }
+
+    .matrix-cell {
+      border-right: none !important;
+      border-bottom: 1px solid var(--sc-border-base) !important;
+      padding: 1.5rem 1.25rem;
+    }
+
+    .matrix-cell:last-child {
+      border-bottom: none !important;
+    }
+
+    .cell-title {
+      font-size: 1rem;
+    }
+  }
+</style>

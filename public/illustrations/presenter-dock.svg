@@ -1,0 +1,136 @@
+<svg viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floating Presenter Companion Dock with quick presentation controls">
+  <defs>
+    <linearGradient id="dockCardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#191b26" />
+      <stop offset="100%" stop-color="#0e0f16" />
+    </linearGradient>
+
+    <linearGradient id="dockPillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#242738" />
+      <stop offset="100%" stop-color="#141520" />
+    </linearGradient>
+
+    <filter id="dockGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Ambient Workspace Background (Subtle wireframe of presenter's screen) -->
+  <g opacity="0.25">
+    <rect x="40" y="30" width="720" height="440" rx="12" fill="#0b0c12" stroke="#252839" stroke-width="1.5" />
+    <!-- Workspace Titlebar -->
+    <rect x="40" y="30" width="720" height="32" rx="12" fill="#14151e" />
+    <rect x="40" y="50" width="720" height="12" fill="#14151e" />
+    <circle cx="62" cy="46" r="3.5" fill="#2b2e3f" />
+    <circle cx="74" cy="46" r="3.5" fill="#2b2e3f" />
+    <circle cx="86" cy="46" r="3.5" fill="#2b2e3f" />
+    <text x="105" y="50" fill="#6d7085" font-family="monospace" font-size="9">PRESENTER PRIVATE WORKSPACE</text>
+
+    <!-- Faint Content Wireframes on Workspace -->
+    <rect x="70" y="80" width="280" height="180" rx="6" fill="#12131c" stroke="#1d202e" stroke-width="1" />
+    <rect x="70" y="280" width="280" height="160" rx="6" fill="#12131c" stroke="#1d202e" stroke-width="1" />
+    <rect x="370" y="80" width="360" height="360" rx="6" fill="#12131c" stroke="#1d202e" stroke-width="1" />
+  </g>
+
+  <!-- ==================== FLOATING PRESENTER DOCK ==================== -->
+
+  <!-- Outer Glow Halo -->
+  <g transform="translate(110, 160)">
+    <rect x="-10" y="-10" width="595" height="175" rx="36" fill="#ff7a59" fill-opacity="0.08" filter="url(#dockGlow)" />
+  </g>
+
+  <!-- Main Floating Dock Shell -->
+  <g transform="translate(115, 165)">
+    <!-- Dock Outer Container -->
+    <rect width="570" height="155" rx="28" fill="url(#dockPillGrad)" stroke="#ff7a59" stroke-width="1.8" />
+    
+    <!-- Drag Handle Bar at top -->
+    <g transform="translate(265, 10)">
+      <rect width="40" height="4" rx="2" fill="#44485e" />
+    </g>
+
+    <!-- Dock Upper Strip: Identity & Current Source Display -->
+    <g transform="translate(24, 26)">
+      <!-- SwitchCast Mini Badge -->
+      <rect width="90" height="26" rx="13" fill="rgba(255, 122, 89, 0.15)" stroke="#ff7a59" stroke-width="1" />
+      <circle cx="15" cy="13" r="4" fill="#ff7a59" />
+      <text x="26" y="17" fill="#ff7a59" font-family="sans-serif" font-size="9" font-weight="700">DOCK v1.5</text>
+
+      <!-- Active Source Name Pill -->
+      <rect x="100" width="330" height="26" rx="13" fill="#10111a" stroke="#2a2e40" stroke-width="1" />
+      <text x="114" y="17" fill="#ff7a59" font-family="monospace" font-size="9" font-weight="700">LIVE:</text>
+      <text x="146" y="17" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="600">Quarterly Business Review.pptx</text>
+
+      <!-- Slide Indicator Tag -->
+      <rect x="440" width="82" height="26" rx="13" fill="#1c1e2a" stroke="#2d3042" stroke-width="1" />
+      <text x="481" y="17" fill="#34d399" font-family="monospace" font-size="9" font-weight="700" text-anchor="middle">SLIDE 4/18</text>
+    </g>
+
+    <!-- Dock Lower Strip: Interactive Control Buttons -->
+    <g transform="translate(24, 68)">
+      
+      <!-- Button 1: Previous Source -->
+      <g transform="translate(0, 0)">
+        <rect width="84" height="64" rx="12" fill="#13151f" stroke="#2b2f42" stroke-width="1.2" />
+        <text x="42" y="30" font-size="16" text-anchor="middle">⏮</text>
+        <text x="42" y="50" fill="#a4a7bc" font-family="sans-serif" font-size="8.5" font-weight="600" text-anchor="middle">PREV</text>
+      </g>
+
+      <!-- Button 2: Next Source (Highlighted primary switch) -->
+      <g transform="translate(92, 0)">
+        <rect width="96" height="64" rx="12" fill="rgba(255, 122, 89, 0.16)" stroke="#ff7a59" stroke-width="1.6" />
+        <text x="48" y="30" font-size="16" text-anchor="middle">⏭</text>
+        <text x="48" y="50" fill="#ff7a59" font-family="sans-serif" font-size="9" font-weight="700" text-anchor="middle">NEXT SOURCE</text>
+      </g>
+
+      <!-- Button 3: Freeze-Frame Pause -->
+      <g transform="translate(196, 0)">
+        <rect width="84" height="64" rx="12" fill="#13151f" stroke="#2b2f42" stroke-width="1.2" />
+        <text x="42" y="30" font-size="16" text-anchor="middle">⏸</text>
+        <text x="42" y="50" fill="#a4a7bc" font-family="sans-serif" font-size="8.5" font-weight="600" text-anchor="middle">PAUSE</text>
+      </g>
+
+      <!-- Button 4: Privacy Blackout -->
+      <g transform="translate(288, 0)">
+        <rect width="90" height="64" rx="12" fill="#13151f" stroke="#2b2f42" stroke-width="1.2" />
+        <text x="45" y="30" font-size="16" text-anchor="middle">🕶️</text>
+        <text x="45" y="50" fill="#a4a7bc" font-family="sans-serif" font-size="8.5" font-weight="600" text-anchor="middle">BLACKOUT</text>
+      </g>
+
+      <!-- Button 5: Source Quick Switcher Dropdown -->
+      <g transform="translate(386, 0)">
+        <rect width="136" height="64" rx="12" fill="#13151f" stroke="#2b2f42" stroke-width="1.2" />
+        <text x="14" y="26" fill="#6d7085" font-family="monospace" font-size="7.5" font-weight="700">JUMP TO SOURCE</text>
+        <text x="14" y="44" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="600">Sales Dashboard</text>
+        <polygon points="120,38 126,38 123,43" fill="#ff7a59" />
+      </g>
+
+    </g>
+  </g>
+
+  <!-- Numbered Editorial Annotation Badges -->
+  <g transform="translate(620, 110)">
+    <!-- Annotation 1: Always on Top -->
+    <rect width="130" height="34" rx="6" fill="#14151e" stroke="#2d3144" stroke-width="1" />
+    <circle cx="16" cy="17" r="7" fill="#ff7a59" />
+    <text x="16" y="20" fill="#ffffff" font-family="monospace" font-size="8" font-weight="700" text-anchor="middle">1</text>
+    <text x="32" y="21" fill="#e2e4ef" font-family="sans-serif" font-size="8.5" font-weight="600">Always on Top</text>
+  </g>
+
+  <g transform="translate(50, 360)">
+    <!-- Annotation 2: Instant Privacy -->
+    <rect width="150" height="34" rx="6" fill="#14151e" stroke="#2d3144" stroke-width="1" />
+    <circle cx="16" cy="17" r="7" fill="#ff7a59" />
+    <text x="16" y="20" fill="#ffffff" font-family="monospace" font-size="8" font-weight="700" text-anchor="middle">2</text>
+    <text x="32" y="21" fill="#e2e4ef" font-family="sans-serif" font-size="8.5" font-weight="600">Instant Privacy Controls</text>
+  </g>
+
+  <g transform="translate(580, 360)">
+    <!-- Annotation 3: Global Hotkeys -->
+    <rect width="150" height="34" rx="6" fill="#14151e" stroke="#2d3144" stroke-width="1" />
+    <circle cx="16" cy="17" r="7" fill="#ff7a59" />
+    <text x="16" y="20" fill="#ffffff" font-family="monospace" font-size="8" font-weight="700" text-anchor="middle">3</text>
+    <text x="32" y="21" fill="#e2e4ef" font-family="sans-serif" font-size="8.5" font-weight="600">Ctrl+Shift Navigation</text>
+  </g>
+</svg>

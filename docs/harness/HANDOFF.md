@@ -1,72 +1,63 @@
 # SWITCHCAST WEBSITE — HARNESS HANDOFF RECORD
 
-**Document Version:** 2.4.0  
+**Document Version:** 3.0.0  
 **Updated:** 2026-10-20  
-**Harness Task:** Prioritize Windows Setup Installer EXE as Primary Download  
+**Harness Task:** Editorial Storyboard UI Refactor (Raycast-Inspired Continuous Editorial Grid System)  
 
 ---
 
 ## 1. Current Status
-- **Status**: Windows Setup EXE (`SwitchCast-Setup-v1.5.0-x64.exe`, 44.5 MB) Configured as Primary Recommended Download, Portable ZIP Preserved with Separate SHA-256 Hashes, Release Sync & Test Harness Expanded, Browser QA Verified
-- **Page Structure**:
-  - Landing Page: `/` (`src/pages/index.astro` featuring Floating Glass Navbar, Refined Hero, Real-World Cinematic Product Showcase, Dedicated Hands-on Simulator, Why SwitchCast, Download Section with EXE Primary + Portable ZIP link, and Spacious Editorial Footer)
-  - Release Center Catalog: `/releases/` (`src/pages/releases/index.astro` with Dual Action Buttons, Separate Checksums, and BreadcrumbList schema)
-  - Dynamic Release Detail Pages: `/releases/[version]/` (canonical routes `/releases/v1.5.0/` with Setup Wizard Guide + Portable ZIP and older versions with Standalone ZIP instructions)
-- **Static Output**: Pre-rendered into `dist/` (16 static HTML pages + `dist/sitemap.xml` + `dist/robots.txt` + `dist/google8e150a81a712479d.html`)
-- **Framework**: Astro 7.3.8 (Static SSG), Vanilla CSS, TypeScript, Minimal Vanilla JS, Sharp (build-time imaging)
-- **Official Version Hierarchy**:
-  - `v1.5.0` (Latest Release) — Primary: Setup Installer (`SwitchCast-Setup-v1.5.0-x64.exe`, 44.5 MB, SHA-256: `7D193E6AEAAA...`) | Portable: ZIP (`SwitchCast-v1.5.0-win-x64.zip`, 64.0 MB, SHA-256: `13553770161D...`)
-  - `v1.4.0` (Previous Release) — Downloadable (`SwitchCast-v1.4.0-win-x64.zip`, 61.9 MB, SHA-256 with file)
-  - `v1.3.0` (Previous Release) — Downloadable (`SwitchCast-v1.3.0-win-x64.zip`, 64.0 MB, SHA-256 with file)
-  - `v1.2.1` (Previous Release) — Downloadable (`SwitchCast-v1.2.1-win-x64.zip`, 63.8 MB, SHA-256 with file)
-  - `v1.2.0` (Previous Release) — Downloadable (`SwitchCast-v1.2.0-win-x64.zip`, 63.7 MB, SHA-256 with file)
-  - `v1.1.0` (Previous Release) — Downloadable (`SwitchCast-v1.1.0-win-x64.zip`, 61.6 MB, SHA-256 digest copy)
-  - `v1.0.0` (Initial Release) — Downloadable (`SwitchCast-v1.0.0-win-x64.zip`, 61.5 MB, SHA-256 digest copy)
+- **Status**: Complete architectural refactoring of the SwitchCast website from isolated, card-heavy containers into a unified, continuous **Editorial Storyboard Grid System**.
+- **Page Structure (`src/pages/index.astro`)**:
+  - `Navbar.astro`: Sticky floating glass navigation with aligned narrative order (`Capabilities`, `How It Works`, `Controls`, `Releases`, `Download`) and unified single-container mobile glass overlay with internal header row, close button, backdrop blur, and body scroll locking.
+  - `Hero.astro`: Headline *"SHARE ONCE. SWITCH SEAMLESSLY."* with coral gradient, single installer primary CTA, secondary tutorial CTA, and 1px hairline lower grid boundary.
+  - `ProductCapabilities.astro`: Continuous 12-column modular editorial grid with shared 1px hairline dividers, asymmetric column spans (8/4, 4/8, 6/6), genuine screenshots, and zero broken images.
+  - `TutorialSection.astro`: 6-chapter sequential product storyboard (`Prepare`, `Share`, `Switch`, `Control`, `Present`, `Play`) in a continuous alternating 2-column grid, vertical numbered micro-steps (no isolated cards), authentic v1.5.0 screenshots, and accessible lightbox modal.
+  - `PresenterControls.astro`: Compact 3×2 continuous control matrix with hairline dividers, icons, and keyboard shortcuts.
+  - `DownloadSection.astro`: Clean, streamlined single editorial container with official Windows Setup EXE CTA, specs, 3-step setup (`Download → Install → Present`), and SHA-256 copy button.
+  - `Footer.astro`: Premium editorial footer with creator attribution (`John Christopher King Zamora`, `Jeizi Productions`) and oversized atmospheric `SWITCHCAST` wordmark.
+- **Static Output**: Pre-rendered into `dist/` (16 static HTML pages + XML sitemap + robots.txt).
+- **Technology Stack**: Astro 7.3.8 (Static SSG), Vanilla CSS, TypeScript, Minimal Vanilla JS, Sharp (build-time WebP optimization). Zero external UI frameworks.
 
 ---
 
-## 2. Experience & Architecture Improvements
-- **Premium Floating Glass Navigation (`src/components/Navbar.astro`)**:
-  - Centered floating glass pill (`max-width: 1120px`, `top: 0.85rem`) with translucent surface (`rgba(24, 25, 34, 0.78)` to `rgba(14, 15, 21, 0.84)`), 22px backdrop blur, subtle 1px border (`rgba(255, 255, 255, 0.09)`), and inner top-edge light reflection (`inset 0 1px 0 0 rgba(255, 255, 255, 0.14)`).
-  - Desktop layout: SwitchCast brand icon and title | `How It Works`, `Try Demo`, `Why SwitchCast`, `Releases` | GitHub repository link + Coral Download button.
-  - Mobile layout: Clean pill with logo, animated hamburger toggle, and full-screen dimmed backdrop overlay. Floating glass dropdown card includes numbered routes, GitHub repository link, and full-width Download CTA. Auto-closes on link selection, outside click, and Escape key.
-- **Scroll Alignment & Zero Heading Overlap (`src/styles/global.css`)**:
-  - Configured `html { scroll-padding-top: 104px; }` and `.section, .hero-section { scroll-margin-top: 104px; }`.
-  - Verified via browser subagent that navigating to `#showcase`, `#demo`, `#why-switchcast`, and `#download` keeps headings completely visible below the floating navbar with zero clipping.
-- **Real-World Presenter Showcase (`src/components/ProductShowcase.astro`)**:
-  - Removed all developer code snippets (`PresentationCoordinator.cs`, `Renderer.cs`, C# methods) and artificial technical telemetry metrics (latency, pipeline reliability percentages, telemetry counters).
-  - Centered on a realistic business presentation workflow: **"One Meeting. Multiple Sources. One Shared Window."** (Quarterly Business Review):
-    - **01 / PREPARE ("Everything ready"):** Session Manager showing queued business sources (`Quarterly Review.pptx`, `Sales Dashboard — Browser`, `Product Walkthrough.mp4`, `Presenter Camera`) with active/next status pills and staged preview.
-    - **02 / SHARE ("Share once"):** Dedicated Presentation Output window displaying an executive keynote slide (`Q4 Business Performance & Revenue Growth`) with growth cards (+38% YoY, 94% Retention, 12,400+ Enterprise Teams) and quarterly growth chart.
-    - **03 / SWITCH ("Switch seamlessly"):** Single output window seamlessly cycling through Sales Dashboard, Product Walkthrough video, and Presenter Camera feed without changing screen share.
-    - **04 / CONTROL ("Stay in control"):** Front-and-center Floating Presenter Dock with slide stepping (`‹ Slide 4 / 18 ›`), Freeze-Frame Pause, and Blackout curtain demonstration with temporary audience screen curtain.
-  - Mobile-first adaptation: Responsive layout focusing on large audience output previews, legible metrics, and tap-friendly scene selector buttons without horizontal overflow.
-- **Spacious Editorial Footer & Oversized Wordmark (`src/components/Footer.astro`)**:
-  - Rebuilt `src/components/Footer.astro` following Mobbin-inspired editorial principles: deep near-black backdrop (`#050507`), generous negative space (`padding: 5.5rem 0 0`), clean typography, and zero generic SaaS card elements or loud gradients.
-  - Multi-column layout:
-    - Left brand block: SwitchCast logo & wordmark, descriptor (*"One shared window. Everything you present."*), and creator attribution (*"Created by John Christopher King Zamora / A Jeizi Productions project"*).
-    - Right link groups: Product (`How It Works`, `Interactive Demo`, `Download for Windows`), Releases (`Latest Release (v1.5.0)`, `All Versions`, `GitHub Repository`), and Creator (`Jeizi Productions`, `Contact Developer`).
-    - Dynamic release versioning: Employs `getLatestRelease()` to dynamically link to `/releases/v${releaseData.version}/`.
-  - Oversized typographic wordmark: Decorative `SWITCHCAST` text element (`aria-hidden="true"`, `font-size: clamp(5.5rem, 17.5vw, 18.5rem)`) positioned at the base with tight letter spacing (`-0.035em`) and gentle dark contrast gradient. Contained inside an `overflow: hidden` bounding wrapper with bleed effect; verified zero horizontal document overflow.
-  - Dark section transition: Preceding `DownloadSection` features a subtle darkening vertical gradient into `#050507` without arbitrary sticky elements or unnatural scroll overlays.
-  - Clean bottom row: Dynamic year copyright (`© 2026 SwitchCast. All rights reserved. • Built by John Christopher King Zamora`) and standalone application indicator.
-- **Windows Setup EXE as Recommended Download (`src/components/DownloadSection.astro`, Release Center)**:
-  - Pinned `SwitchCast-Setup-v1.5.0-x64.exe` (44.5 MB, 44,451,001 bytes, SHA-256: `7D193E6AEAAA698BE7D9BB944C30C225618A11F19E5E693F23C611A657AA2351`) as the default primary package across all download buttons.
-  - Preserved `SwitchCast-v1.5.0-win-x64.zip` (64.0 MB, SHA-256: `13553770161D343C8A116DDF31099FD4D2DB47D819462EE5F5866909649A7FC9`) as an alternate portable download with distinct metadata and independent SHA-256 hash.
-  - Updated Quick Setup flow for guided installation (01 Download, 02 Install setup wizard, 03 Present from Start Menu / Desktop).
-  - Synchronized `SoftwareApplication` JSON-LD schema on homepage to point to the EXE installer.
+## 2. Editorial Storyboard Architecture
+
+### Reusable Editorial Grid Tokens & Shell (`src/styles/global.css`)
+- `.editorial-shell`: Continuous perimeter container (`border: 1px solid var(--sc-border-base)`), surface background, minimal corner rounding (`var(--radius-sm)`).
+- `.editorial-tag`: Small monospaced uppercase category indicator in coral accent (`#ff7a59`).
+- `.editorial-divider`: 1px hairline divider (`var(--sc-border-subtle)`).
+- Eliminated stacked SaaS cards, thick borders, nested box wrappers, and arbitrary vertical whitespace gaps.
+
+### Authentic Screenshot Asset Mapping
+All 6 authentic v1.5.0 SwitchCast application screenshots are mapped and displayed with both WebP and PNG sources:
+1. `public/screenshots/sources.webp` — Sources Manager interface with running app queue checkboxes (*Chapter 01 — Prepare*).
+2. `public/screenshots/presentation-output.webp` — Dedicated Presentation Output window (*Chapter 02 — Share*).
+3. `public/screenshots/dashboard.webp` — Main Dashboard with session state and switching controls (*Chapter 03 — Switch*).
+4. `public/screenshots/presenter-dock.webp` — Floating Presenter Dock with chevrons, pause, and blackout (*Chapter 04 — Control* & *Capability 03*).
+5. `public/screenshots/powerpoint.webp` — PowerPoint and media slides presentation engine (*Chapter 05 — Present* & *Capability 05*).
+6. `public/screenshots/music-playlists.webp` — Independent background music playlists and volume player (*Chapter 06 — Play* & *Capability 06*).
+
+### Secondary SVG Concept Illustrations (`public/illustrations/`)
+Used strictly for conceptual workflows that cannot be captured in a single screenshot:
+- `single-output.svg` — 01 One Shared Window routing concept.
+- `external-display.svg` — 02 External displays and projector routing diagram (no external monitor required).
+- `source-switching.svg` — 04 Source switching pipeline illustration.
 
 ---
 
-## 3. Automation & Verification Workflows
-- **Diagnostics Check**: `npm run check` (0 errors, 0 warnings across 31 files)
-- **Interactive Demo State Tests**: `npm run test:demo` (6/6 flows passed)
-- **Release Order Test**: `npm run test:releases` (6 test suites passed)
-- **Release Verification**: `npm run release:verify` (7 releases verified)
-- **Production Static Build**: `npm run build` (Pre-renders 16 HTML pages and emits XML sitemap via Astro integration in 1.97s)
-- **Automated SEO Audit**: `npm run seo:verify` (277-point verification across all HTML, metadata, and assets)
-- **Browser Subagent Visual QA**: Completed end-to-end verification of desktop glass navbar, anchor offsets, real-world showcase scenes, and mobile viewport (390×844) with working menu drawer and auto-close.
-- **Harness Health**: `npm run harness:status`
+## 3. Verification & QA Results
+
+| Verification Test | Command | Result | Notes |
+| :--- | :--- | :--- | :--- |
+| **Diagnostics & Types** | `npm run check` | **PASS (Code 0)** | 0 errors, 0 warnings, 0 hints across 35 files |
+| **Release Manifest Contract** | `npm run release:verify` | **PASS (Code 0)** | 7 releases validated, v1.5.0 installer & ZIP hashes verified |
+| **Release Order & Regression** | `npm run test:releases` | **PASS (Code 0)** | 6 test suites passed |
+| **Interactive Demo State** | `npm run test:demo` | **PASS (Code 0)** | 6/6 demo state transitions passed |
+| **Static Production Build** | `npm run build` | **PASS (Code 0)** | 16 static HTML pages generated in 789ms |
+| **Automated SEO Audit** | `npm run seo:verify` | **PASS (Code 0)** | 277/277 checks passed, sitemap & OG verified |
+| **Offline Harness Health** | `npm run harness:status` | **PASS (Code 0)** | All harness documentation and local links healthy |
+| **Browser Subagent Visual QA** | Desktop (1920/1440px) & Mobile (390×844) | **PASS** | Storyboard alternating grid, lightbox modal (ESC dismiss), 3x2 matrix, zero overflow verified |
 
 ---
 
@@ -77,19 +68,9 @@
 
 ---
 
-## 5. Do Not Repeat
-- Do NOT push or deploy immediately; wait for user local visual review.
-- Do NOT reintroduce technical developer code editors or benchmark telemetry into the product showcase.
-- Do NOT clone Raycast's exact visual composition or macOS chrome. SwitchCast is an authentic Windows application.
-- Do NOT remove or dismantle the interactive simulator.
-- Do NOT use GitHub `published_at` timestamps to determine the latest software version. Always use semantic version comparison.
-- Do NOT fabricate download links, package archives, or checksum files.
-- Do NOT download or store Windows ZIP binaries inside the Astro deployment (`public/` or `dist/`).
-- Do NOT modify the desktop application repository.
-- Do NOT re-add the version badge to the main website top navbar logo.
-- Do NOT install forbidden UI libraries (React, Next.js, Vue, Tailwind CSS, GSAP).
-
----
-
-## 6. Next Action
-- Await user local review of the redesigned experience at `http://localhost:4321/`.
+## 5. Constraints & Prohibitions
+- Do NOT push or deploy without prior user local review.
+- Do NOT touch or modify files in `C:\Users\JC Zamora\source\repos\SwitchCast\SwitchCast\`.
+- Do NOT invent fake screenshot filenames or display broken image tags.
+- Do NOT use third-party CSS or JavaScript frameworks (Tailwind, React, Vue, GSAP).
+- Do NOT reintroduce nested card wrappers or duplicate explanations across sections.
