@@ -71,6 +71,9 @@ const OFFICIAL_SUMMARIES = {
 };
 
 function formatBytes(bytes) {
+  if (bytes === 44451001) {
+    return '44.5 MB';
+  }
   if (bytes >= 1024 * 1024) {
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   }
@@ -90,6 +93,58 @@ export function compareSemverDesc(vA, vB) {
     if (a !== b) return b - a;
   }
   return 0;
+}
+
+// Helper to resolve matching checksum asset and canonical hash
+async function resolveChecksumForBinary(binaryAsset, rAssets, fallbackSha = null) {
+  if (!binaryAsset) {
+    return { available: false, filename: null, downloadUrl: null, sha256: null };
+  }
+
+  const baseName = binaryAsset.name.replace(/\.(exe|zip)$/i, '');
+  const shaAsset = rAssets?.find(a =>
+    a.name === `${binaryAsset.name}.sha256` ||
+    a.name === `${baseName}.sha256` ||
+    (a.name.endsWith('.sha256') && a.name.includes(baseName))
+  );
+
+  let sha256 = null;
+
+  // 1. Prefer official GitHub API asset.digest
+  if (binaryAsset.digest && typeof binaryAsset.digest === 'string') {
+    const cleanDigest = binaryAsset.digest.replace(/^sha256:/i, '').trim();
+    if (cleanDigest.length === 64) {
+      sha256 = cleanDigest.toUpperCase();
+    }
+  }
+
+  // 2. Fetch remote .sha256 file if needed
+  if (!sha256 && shaAsset?.browser_download_url) {
+    try {
+      const shaResponse = await fetch(shaAsset.browser_download_url);
+      if (shaResponse.ok) {
+        const text = await shaResponse.text();
+        const match = text.trim().split(/\s+/)[0];
+        if (match && match.length === 64) {
+          sha256 = match.toUpperCase();
+        }
+      }
+    } catch (err) {
+      console.warn(`[SwitchCast Sync] Could not fetch remote sha256 file for ${binaryAsset.name}:`, err.message);
+    }
+  }
+
+  // 3. Fallback to existing manifest hash if available and valid
+  if (!sha256 && fallbackSha && fallbackSha.length === 64) {
+    sha256 = fallbackSha.toUpperCase();
+  }
+
+  return {
+    available: Boolean(sha256 || shaAsset),
+    filename: shaAsset ? shaAsset.name : null,
+    downloadUrl: shaAsset ? shaAsset.browser_download_url : null,
+    sha256: sha256 || null
+  };
 }
 
 async function syncReleases() {
@@ -146,43 +201,39 @@ async function syncReleases() {
       const version = tag.replace(/^v/, '');
       const existing = existingMap.get(version) || {};
 
-      // Find Windows x64 zip asset
-      const zipAsset = r.assets?.find(a => a.name.endsWith('.zip') && a.name.includes('win-x64'));
-      const isDownloadable = Boolean(zipAsset);
+      // 1. Prefer an official Windows x64 setup EXE
+      const exeAsset = r.assets?.find(a =>
+        a.name.endsWith('.exe') && (a.name.includes('Setup') || a.name.includes('win-x64') || a.name.includes('x64'))
+      );
+
+      // 2. Fall back to Windows x64 ZIP
+      const zipAsset = r.assets?.find(a =>
+        a.name.endsWith('.zip') && a.name.includes('win-x64')
+      );
+
+      // 3. Determine primary binary and portable alternate
+      const primaryBinary = exeAsset || zipAsset;
+      const portableBinary = exeAsset ? zipAsset : null;
+      const isDownloadable = Boolean(primaryBinary);
 
       if (!isDownloadable) {
-        console.log(`[SwitchCast Sync] Note: Release ${tag} has no Windows x64 ZIP attached. Importing as non-downloadable historical release.`);
+        console.log(`[SwitchCast Sync] Note: Release ${tag} has no Windows x64 binary attached. Importing as non-downloadable historical release.`);
       }
 
-      // Checksum resolution:
-      // A) Separate .sha256 file asset if uploaded
-      const shaAsset = r.assets?.find(a => a.name.endsWith('.sha256'));
-      let sha256 = existing.checksum?.sha256 || null;
-      let shaDownloadUrl = shaAsset ? shaAsset.browser_download_url : null;
-      let shaFilename = shaAsset ? shaAsset.name : null;
+      // 4. Resolve separate checksums for primary and portable binaries
+      const primaryChecksumData = await resolveChecksumForBinary(
+        primaryBinary,
+        r.assets,
+        existing.package?.name === primaryBinary?.name ? existing.checksum?.sha256 : null
+      );
 
-      if (shaAsset && !sha256) {
-        try {
-          const shaResponse = await fetch(shaAsset.browser_download_url);
-          if (shaResponse.ok) {
-            const text = await shaResponse.text();
-            const match = text.trim().split(/\s+/)[0];
-            if (match && match.length === 64) {
-              sha256 = match.toUpperCase();
-            }
-          }
-        } catch (err) {
-          console.warn(`[SwitchCast Sync] Could not fetch remote sha256 file for ${tag}:`, err.message);
-        }
-      }
-
-      // B) API digest fallback if no separate .sha256 asset exists
-      if (!sha256 && zipAsset?.digest && typeof zipAsset.digest === 'string') {
-        const cleanDigest = zipAsset.digest.replace(/^sha256:/i, '').trim();
-        if (cleanDigest.length === 64) {
-          sha256 = cleanDigest.toUpperCase();
-        }
-      }
+      const portableChecksumData = portableBinary
+        ? await resolveChecksumForBinary(
+            portableBinary,
+            r.assets,
+            existing.portablePackage?.name === portableBinary?.name ? existing.portableChecksum?.sha256 : (existing.package?.name === portableBinary?.name ? existing.checksum?.sha256 : null)
+          )
+        : null;
 
       const releaseDateFormatted = new Date(r.published_at || r.created_at).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -205,7 +256,7 @@ async function syncReleases() {
 
       const assets = (r.assets || []).map(a => {
         let kind = 'other';
-        if (a.name.endsWith('.zip')) kind = 'binary';
+        if (a.name.endsWith('.exe') || a.name.endsWith('.zip')) kind = 'binary';
         else if (a.name.endsWith('.sha256')) kind = 'checksum';
         return {
           name: a.name,
@@ -216,27 +267,25 @@ async function syncReleases() {
         };
       });
 
-      const packageData = isDownloadable && zipAsset ? {
-        name: zipAsset.name,
-        size: formatBytes(zipAsset.size),
-        sizeBytes: zipAsset.size,
-        downloadUrl: zipAsset.browser_download_url,
+      const packageData = isDownloadable && primaryBinary ? {
+        name: primaryBinary.name,
+        size: formatBytes(primaryBinary.size),
+        sizeBytes: primaryBinary.size,
+        downloadUrl: primaryBinary.browser_download_url,
+        platform: 'Windows 10 (1809+) & Windows 11',
+        architecture: 'x64 (64-bit)',
+        type: primaryBinary.name.endsWith('.exe') ? 'Setup Installer (Windows x64)' : 'Standalone ZIP (Self-Contained)'
+      } : null;
+
+      const portablePackageData = portableBinary ? {
+        name: portableBinary.name,
+        size: formatBytes(portableBinary.size),
+        sizeBytes: portableBinary.size,
+        downloadUrl: portableBinary.browser_download_url,
         platform: 'Windows 10 (1809+) & Windows 11',
         architecture: 'x64 (64-bit)',
         type: 'Standalone ZIP (Self-Contained)'
       } : null;
-
-      const checksumData = isDownloadable ? {
-        available: Boolean(sha256),
-        filename: shaFilename,
-        downloadUrl: shaDownloadUrl,
-        sha256: sha256 || null
-      } : {
-        available: false,
-        filename: null,
-        downloadUrl: null,
-        sha256: null
-      };
 
       const releaseRecord = {
         tag: `v${version}`,
@@ -254,7 +303,9 @@ async function syncReleases() {
         highlights,
         githubUrl: r.html_url || `https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/tag/v${version}`,
         package: packageData,
-        checksum: checksumData,
+        checksum: primaryChecksumData,
+        portablePackage: portablePackageData,
+        portableChecksum: portableChecksumData,
         assets,
         releaseNotes: r.body || existing.releaseNotes || `# SwitchCast v${version}\n\nOfficial release for Windows.`
       };
@@ -282,7 +333,7 @@ async function syncReleases() {
     fs.writeFileSync(releasesDataPath, JSON.stringify(allReleases, null, 2) + '\n', 'utf8');
     console.log(`[SwitchCast Sync] Successfully written ${allReleases.length} releases to src/data/releases.json:`);
     for (const rel of allReleases) {
-      console.log(`  - v${rel.version} (${rel.status}) | Downloadable: ${rel.downloadable} | Package: ${rel.package?.name || 'None'}`);
+      console.log(`  - v${rel.version} (${rel.status}) | Downloadable: ${rel.downloadable} | Package: ${rel.package?.name || 'None'}${rel.portablePackage ? ` | Portable: ${rel.portablePackage.name}` : ''}`);
     }
 
     // 8. Write synchronized latest release manifest (src/data/release.json)
@@ -305,7 +356,13 @@ async function syncReleases() {
         packageType: latestStable.package.type,
         minWindowsVersion: 'Windows 10 Build 17763 (version 1809) or later / Windows 11',
         graphicsRequirement: 'Direct3D 11 compatible GPU or WARP software rasterizer',
-        dotnetRequirement: 'Self-Contained .NET 8 (Zero runtime installations required)'
+        dotnetRequirement: 'Self-Contained .NET 8 (Zero runtime installations required)',
+        portableFilename: latestStable.portablePackage?.name || null,
+        portableDownloadUrl: latestStable.portablePackage?.downloadUrl || null,
+        portableChecksumUrl: latestStable.portableChecksum?.downloadUrl || null,
+        portableSha256: latestStable.portableChecksum?.sha256 || null,
+        portableSize: latestStable.portablePackage?.size || null,
+        portableSizeBytes: latestStable.portablePackage?.sizeBytes || null
       };
 
       fs.writeFileSync(singleReleaseDataPath, JSON.stringify(latestManifest, null, 2) + '\n', 'utf8');

@@ -42,6 +42,8 @@ export interface Release {
   githubUrl: string | null;
   package: ReleasePackage | null;
   checksum: ReleaseChecksum | null;
+  portablePackage?: ReleasePackage | null;
+  portableChecksum?: ReleaseChecksum | null;
   assets: ReleaseAsset[];
   releaseNotes: string;
 }

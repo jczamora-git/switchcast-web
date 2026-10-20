@@ -1,57 +1,25 @@
 ---
 import InteractiveDemo from './demo/InteractiveDemo.astro';
 import '../styles/interactive-demo.css';
-
-const steps = [
-  {
-    num: "1",
-    action: "SELECT",
-    title: "Choose your sources",
-    desc: "Pick the application windows, PowerPoint slides, cameras, displays, or media you want in your session queue."
-  },
-  {
-    num: "2",
-    action: "SHARE",
-    title: "Share the output window",
-    desc: "In Zoom, Teams, Google Meet, or your projector, share the single 'SwitchCast Presentation Output' window."
-  },
-  {
-    num: "3",
-    action: "SWITCH",
-    title: "Switch without interruptions",
-    desc: "Move smoothly between queued apps, slides, and cameras using the dashboard, floating dock, or keyboard shortcuts."
-  }
-];
 ---
 
-<section class="section experience-section" id="experience">
+<section class="section experience-section" id="demo">
+  <!-- Legacy Anchor Alias Support for #experience -->
+  <span id="experience" class="anchor-alias" aria-hidden="true"></span>
+
   <div class="container">
     
     <div class="section-header reveal">
-      <span class="section-tag">Interactive Experience</span>
-      <h2 class="section-title">A Simpler Way to Manage<br />Everything You Present.</h2>
+      <span class="section-tag">Try It Yourself</span>
+      <h2 class="section-title">Hands-on Interactive Simulator</h2>
       <p class="section-subtitle">
-        Switch smoothly between apps, PowerPoint slides, cameras, screens, and media while your audience stays focused on one continuous presentation window.
+        Explore how SwitchCast works with a hands-on interactive demo. Test source queuing, live PowerPoint slide controls, background walk-in music, and presenter dock actions directly in your browser.
       </p>
     </div>
 
     <!-- Interactive Product Simulation -->
-    <div class="reveal" style="margin-bottom: 3.5rem;">
+    <div class="reveal simulator-container">
       <InteractiveDemo />
-    </div>
-
-    <!-- Three Simple Steps Below Showcase -->
-    <div class="steps-row reveal">
-      {steps.map((step) => (
-        <div class="step-card">
-          <div class="step-meta">
-            <span class="step-badge">{step.action}</span>
-            <span class="step-number">0{step.num}</span>
-          </div>
-          <h3 class="step-title">{step.title}</h3>
-          <p class="step-desc">{step.desc}</p>
-        </div>
-      ))}
     </div>
 
   </div>
@@ -60,64 +28,21 @@ const steps = [
 <style>
   .experience-section {
     position: relative;
+    scroll-margin-top: 104px;
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
   }
 
-  /* Three Steps Below */
-  .steps-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+  .anchor-alias {
+    position: absolute;
+    top: 0;
+    left: 0;
+    scroll-margin-top: 104px;
+    pointer-events: none;
+    visibility: hidden;
   }
 
-  .step-card {
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem 0;
-  }
-
-  .step-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;
-  }
-
-  .step-badge {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--sc-accent);
-    letter-spacing: 0.08em;
-  }
-
-  .step-number {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: var(--sc-border-base);
-  }
-
-  .step-title {
-    font-size: 1.15rem;
-    color: #ffffff;
-    margin-bottom: 0.45rem;
-  }
-
-  .step-desc {
-    font-size: 0.92rem;
-    color: var(--sc-text-secondary);
-    line-height: 1.5;
-  }
-
-  @media (max-width: 768px) {
-    .steps-row {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .step-card {
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--sc-border-subtle);
-    }
+  .simulator-container {
+    width: 100%;
   }
 </style>

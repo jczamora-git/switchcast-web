@@ -1,6 +1,6 @@
 # SWITCHCAST WEBSITE — ARCHITECTURAL AUDIT RECORD
 
-**Document Version:** 2.0.0  
+**Document Version:** 2.4.0  
 **Audit Date:** 2026-10-20  
 **Repository Location:** `c:\Users\JC Zamora\Documents\Jeizi_Programming_Apps\switchcast-web`  
 **Application Source Location:** `C:\Users\JC Zamora\source\repos\SwitchCast\SwitchCast\` (**STRICTLY READ-ONLY**)  
@@ -11,7 +11,7 @@
 
 ## 1. Executive Summary
 
-This website serves as the official production landing page, feature showcase, and distribution portal for the SwitchCast Windows desktop application. The website is developed using Astro (Static Generation), TypeScript, and Vanilla CSS with zero heavy UI frameworks or runtime dependencies.
+This website serves as the official production landing page, feature showcase, and distribution portal for the SwitchCast Windows desktop application. The website is developed using Astro (Static Generation), TypeScript, and Vanilla CSS with zero heavy UI frameworks or runtime dependencies. It features a floating translucent glass navigation bar, a real-world presenter workflow showcase (Quarterly Business Review: Prepare -> Share -> Switch -> Control) free of developer code or benchmark telemetry, a dedicated hands-on in-browser simulator, and a streamlined standalone ZIP download portal.
 
 ---
 

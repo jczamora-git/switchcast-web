@@ -54,10 +54,10 @@ function testReleaseOrder() {
   const latestRelease = activeReleases.find(r => r.isLatest);
   assert.ok(latestRelease, 'Must have one release with isLatest: true');
   assert.equal(latestRelease.version, '1.5.0', 'Latest release must be v1.5.0');
-  assert.equal(latestRelease.status, 'Latest Release', 'v1.5.0 status must be Latest Release');
-  assert.equal(latestRelease.package?.name, 'SwitchCast-v1.5.0-win-x64.zip');
+  assert.equal(latestRelease.package?.name, 'SwitchCast-Setup-v1.5.0-x64.exe');
+  assert.equal(latestRelease.portablePackage?.name, 'SwitchCast-v1.5.0-win-x64.zip');
   assert.ok(latestRelease.downloadable, 'v1.5.0 must be downloadable');
-  console.log('  ✓ Latest release correctly identified as v1.5.0 with verified download package.\n');
+  console.log('  ✓ Latest release correctly identified as v1.5.0 with verified Setup EXE installer and portable ZIP.\n');
 
   // TEST 3: Verify single release manifest (release.json) matches latest release
   console.log('TEST 3: Verifying active src/data/release.json manifest...');

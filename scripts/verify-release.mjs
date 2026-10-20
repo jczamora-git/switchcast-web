@@ -78,8 +78,12 @@ function verifyRelease() {
       }
 
       const { name, downloadUrl, size, platform, architecture } = rel.package;
-      if (!name || !name.endsWith('.zip')) {
-        errors.push(`${prefix} Package name must end with .zip (got "${name}").`);
+      if (!name || (!name.endsWith('.exe') && !name.endsWith('.zip'))) {
+        errors.push(`${prefix} Package name must end with .exe or .zip (got "${name}").`);
+      }
+
+      if (!downloadUrl || !downloadUrl.endsWith(name)) {
+        errors.push(`${prefix} Package downloadUrl must end with package filename (got "${downloadUrl}").`);
       }
 
       if (!downloadUrl || !downloadUrl.startsWith('https://github.com/jczamora-git/SwitchCast/releases/download/')) {
@@ -103,6 +107,12 @@ function verifyRelease() {
           if (rel.checksum.downloadUrl && !rel.checksum.downloadUrl.startsWith('https://github.com/jczamora-git/SwitchCast/releases/download/')) {
             errors.push(`${prefix} Checksum downloadUrl must point to official GitHub Releases if provided.`);
           }
+          if (rel.checksum.filename) {
+            const baseStem = name.replace(/\.(exe|zip)$/i, '');
+            if (!rel.checksum.filename.includes(baseStem)) {
+              errors.push(`${prefix} Checksum filename "${rel.checksum.filename}" does not match package stem "${baseStem}".`);
+            }
+          }
         } else {
           // Must be cleanly null or empty without broken link
           if (rel.checksum.downloadUrl || rel.checksum.sha256) {
@@ -113,10 +123,27 @@ function verifyRelease() {
         errors.push(`${prefix} Missing checksum specification object.`);
       }
 
+      // Portable package verification (if present)
+      if (rel.portablePackage) {
+        const port = rel.portablePackage;
+        if (!port.name || !port.name.endsWith('.zip')) {
+          errors.push(`${prefix} Portable package name must end with .zip (got "${port.name}").`);
+        }
+        if (!port.downloadUrl || !port.downloadUrl.endsWith(port.name)) {
+          errors.push(`${prefix} Portable package downloadUrl must end with portable filename.`);
+        }
+        if (rel.portableChecksum?.available) {
+          if (!rel.portableChecksum.sha256 || rel.portableChecksum.sha256.length !== 64) {
+            errors.push(`${prefix} Portable checksum sha256 must be 64 hex characters.`);
+          }
+        }
+      }
+
       const checksumStatus = rel.checksum?.available
         ? `SHA-256 (${rel.checksum.sha256.slice(0, 10)}...${rel.checksum.downloadUrl ? ' with file' : ' digest only'})`
         : 'No checksum asset';
-      console.log(`  ✓ ${rel.tag.padEnd(8)} | ${rel.releaseDate?.padEnd(18) || 'N/A'.padEnd(18)} | ${rel.package.size.padEnd(9)} | Published (${checksumStatus})`);
+      const portableInfo = rel.portablePackage ? ` + Portable ZIP (${rel.portablePackage.size})` : '';
+      console.log(`  ✓ ${rel.tag.padEnd(8)} | ${rel.releaseDate?.padEnd(18) || 'N/A'.padEnd(18)} | ${rel.package.size.padEnd(9)} | Published (${checksumStatus})${portableInfo}`);
     } else if (rel.published && !rel.downloadable) {
       // Published release without binary asset (e.g. historical release notes)
       if (rel.isLatest) {

@@ -39,10 +39,14 @@
   --radius-lg: 18px;
   --radius-full: 9999px;
 
-  /* Elevation */
+  /* Elevation & Glass Tokens */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
   --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
   --shadow-accent: 0 8px 25px rgba(255, 122, 89, 0.25);
+  --sc-glass-bg: rgba(18, 19, 26, 0.72);
+  --sc-glass-border: rgba(255, 255, 255, 0.09);
+  --sc-glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+  --sc-glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
 }
 
 /* Base Reset */
@@ -57,7 +61,7 @@ html {
   background-color: var(--sc-bg-deep);
   color: var(--sc-text-primary);
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: 104px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -155,6 +159,7 @@ a {
   padding-top: clamp(3.25rem, 5.5vw, 5.25rem);
   padding-bottom: clamp(3.25rem, 5.5vw, 5.25rem);
   position: relative;
+  scroll-margin-top: 104px;
 }
 
 /* Section Header */

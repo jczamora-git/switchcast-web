@@ -34,6 +34,8 @@ interface Props {
 
 const { release, isAlias = false } = Astro.props;
 
+const isInstaller = Boolean(release.package?.name?.endsWith('.exe'));
+
 const pageTitle = `SwitchCast v${release.version} — Download & Release Notes`;
 const pageDescription = release.summary 
   ? `Download SwitchCast v${release.version} for Windows. ${release.summary}`
@@ -130,7 +132,7 @@ const breadcrumbSchema = {
           <div class="download-banner-main">
             <div class="download-banner-info">
               <h2 id="package-download-heading" class="download-banner-title">
-                Official Windows Package
+                {isInstaller ? 'Official Windows Setup Package' : 'Official Windows Package'}
               </h2>
               <div class="banner-specs">
                 <span>{release.package.name}</span>
@@ -138,46 +140,80 @@ const breadcrumbSchema = {
                 <span>{release.package.size}</span>
                 <span class="spec-dot">•</span>
                 <span>{release.package.architecture}</span>
+                {isInstaller && (
+                  <>
+                    <span class="spec-dot">•</span>
+                    <span>Setup Installer</span>
+                  </>
+                )}
               </div>
               <p class="banner-subtext">
-                Standalone ZIP archive. No installer or runtime setup needed.
+                {isInstaller 
+                  ? 'Official Windows setup installer. Fast, guided setup with Start Menu and desktop shortcuts.' 
+                  : 'Standalone ZIP archive. No installer or runtime setup needed.'}
               </p>
             </div>
 
-            <div class="download-banner-action">
+            <div class="download-banner-actions-group">
               <a href={release.package.downloadUrl} class="btn btn-primary btn-lg banner-dl-btn" download>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                   <polyline points="7 10 12 15 17 10"></polyline>
                   <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
-                <span>Download ZIP ({release.package.size})</span>
+                <span>{isInstaller ? 'Download Installer (.exe)' : `Download ZIP (${release.package.size})`}</span>
               </a>
+
+              {release.portablePackage?.downloadUrl && (
+                <a href={release.portablePackage.downloadUrl} class="btn btn-secondary btn-lg banner-dl-btn banner-portable-btn" download>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span>Download Portable ZIP ({release.portablePackage.size})</span>
+                </a>
+              )}
             </div>
           </div>
 
           <!-- Checksum Verification Row -->
           <div class="banner-footer-row">
-            {release.checksum?.available && release.checksum.sha256 ? (
-              <div class="checksum-block">
-                <span class="hash-label">SHA-256 Checksum:</span>
-                <code class="hash-code" id="hashCodeText" title={release.checksum.sha256}>
-                  {release.checksum.sha256}
-                </code>
-                <button class="hash-copy-btn" id="copyHashBtn" data-hash={release.checksum.sha256} title="Copy SHA-256 Checksum">
-                  <span id="copyHashLabel">Copy</span>
-                </button>
-                {release.checksum.downloadUrl && (
-                  <a href={release.checksum.downloadUrl} target="_blank" rel="noopener noreferrer" class="checksum-raw-link">
-                    .sha256 file
-                  </a>
-                )}
-              </div>
-            ) : (
-              <div class="checksum-block">
-                <span class="no-checksum-label">Package verification: Verified official GitHub release binary.</span>
-              </div>
-            )}
+            <div class="checksum-container">
+              {release.checksum?.available && release.checksum.sha256 && (
+                <div class="checksum-block">
+                  <span class="hash-label">{isInstaller ? 'Installer SHA-256:' : 'SHA-256 Checksum:'}</span>
+                  <code class="hash-code" title={release.checksum.sha256}>
+                    {release.checksum.sha256}
+                  </code>
+                  <button class="hash-copy-btn" data-hash={release.checksum.sha256} title="Copy SHA-256 Checksum">
+                    Copy
+                  </button>
+                  {release.checksum.downloadUrl && (
+                    <a href={release.checksum.downloadUrl} target="_blank" rel="noopener noreferrer" class="checksum-raw-link">
+                      .sha256 file
+                    </a>
+                  )}
+                </div>
+              )}
+
+              {release.portableChecksum?.available && release.portableChecksum.sha256 && (
+                <div class="checksum-block portable-checksum-block">
+                  <span class="hash-label">Portable ZIP SHA-256:</span>
+                  <code class="hash-code" title={release.portableChecksum.sha256}>
+                    {release.portableChecksum.sha256}
+                  </code>
+                  <button class="hash-copy-btn" data-hash={release.portableChecksum.sha256} title="Copy Portable SHA-256 Checksum">
+                    Copy
+                  </button>
+                  {release.portableChecksum.downloadUrl && (
+                    <a href={release.portableChecksum.downloadUrl} target="_blank" rel="noopener noreferrer" class="checksum-raw-link">
+                      .sha256 file
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
 
             {release.githubUrl && (
               <div class="source-link-block">
@@ -213,6 +249,64 @@ const breadcrumbSchema = {
               ) : null}
             </div>
           </div>
+        </section>
+      )}
+
+      <!-- Quick Installation & Setup Guide -->
+      {release.downloadable && release.package && (
+        <section class="instructions-card glass-card reveal" aria-labelledby="instructions-heading">
+          <h2 id="instructions-heading" class="instructions-heading">
+            {isInstaller ? 'Installation & Getting Started' : 'How to Run SwitchCast'}
+          </h2>
+          {isInstaller ? (
+            <div class="instructions-grid">
+              <div class="instruction-step">
+                <span class="step-badge">01</span>
+                <div class="step-content">
+                  <strong>Download Installer</strong>
+                  <p>Download the official <code>{release.package?.name}</code> package.</p>
+                </div>
+              </div>
+              <div class="instruction-step">
+                <span class="step-badge">02</span>
+                <div class="step-content">
+                  <strong>Run Setup Wizard</strong>
+                  <p>Run the setup wizard and follow the quick on-screen instructions.</p>
+                </div>
+              </div>
+              <div class="instruction-step">
+                <span class="step-badge">03</span>
+                <div class="step-content">
+                  <strong>Launch & Present</strong>
+                  <p>Launch SwitchCast from the Start Menu or Desktop shortcut if created.</p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div class="instructions-grid">
+              <div class="instruction-step">
+                <span class="step-badge">01</span>
+                <div class="step-content">
+                  <strong>Download ZIP</strong>
+                  <p>Download the standalone <code>{release.package?.name}</code> archive.</p>
+                </div>
+              </div>
+              <div class="instruction-step">
+                <span class="step-badge">02</span>
+                <div class="step-content">
+                  <strong>Extract Anywhere</strong>
+                  <p>Extract the archive to any folder on your computer.</p>
+                </div>
+              </div>
+              <div class="instruction-step">
+                <span class="step-badge">03</span>
+                <div class="step-content">
+                  <strong>Open SwitchCast.exe</strong>
+                  <p>Run <strong>SwitchCast.exe</strong> directly (no runtime or installer required).</p>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
       )}
 
@@ -677,8 +771,111 @@ const breadcrumbSchema = {
     border-bottom: none;
   }
 
+  /* Instructions Card */
+  .instructions-card {
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .instructions-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+
+  .instructions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .instruction-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .step-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--sc-accent-soft);
+    color: var(--sc-accent);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .step-content strong {
+    font-size: 0.88rem;
+    color: #ffffff;
+    font-family: var(--font-heading);
+  }
+
+  .step-content p {
+    font-size: 0.82rem;
+    color: var(--sc-text-secondary);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .step-content code {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    color: var(--sc-text-primary);
+  }
+
+  .download-banner-actions-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .checksum-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
   .bottom-nav {
     margin-top: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .instructions-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .download-banner-actions-group {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .banner-portable-btn {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
   }
 
   @media (max-width: 640px) {
@@ -705,20 +902,18 @@ const breadcrumbSchema = {
 </style>
 
 <script>
-  const copyBtn = document.getElementById('copyHashBtn');
-  const copyLabel = document.getElementById('copyHashLabel');
-
-  if (copyBtn && copyLabel) {
-    copyBtn.addEventListener('click', () => {
-      const hash = copyBtn.getAttribute('data-hash');
+  document.querySelectorAll<HTMLButtonElement>('.hash-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const hash = btn.getAttribute('data-hash');
       if (hash && navigator.clipboard) {
         navigator.clipboard.writeText(hash).then(() => {
-          copyLabel.textContent = 'Copied';
+          const originalText = btn.textContent;
+          btn.textContent = 'Copied';
           setTimeout(() => {
-            copyLabel.textContent = 'Copy';
+            btn.textContent = originalText;
           }, 2000);
         });
       }
     });
-  }
+  });
 </script>

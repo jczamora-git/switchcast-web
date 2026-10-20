@@ -6,10 +6,10 @@ import releaseData from '../data/release.json';
   <div class="container container-narrow">
     
     <div class="section-header reveal">
-      <span class="section-tag">Get Started</span>
-      <h2 class="section-title">Your Next Presentation<br />Starts Here.</h2>
+      <span class="section-tag">SwitchCast for Windows</span>
+      <h2 class="section-title">Ready for Your Next<br />Presentation?</h2>
       <p class="section-subtitle">
-        Download SwitchCast for Windows and keep your next presentation moving.
+        Download SwitchCast for Windows. Free, standalone, and ready in seconds.
       </p>
     </div>
 
@@ -19,24 +19,31 @@ import releaseData from '../data/release.json';
       <!-- Primary Action Block -->
       <div class="download-action-block">
         <a href={releaseData.downloadUrl} class="btn btn-primary btn-lg download-main-btn" download>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
-          <span>Download SwitchCast</span>
+          <span>Download for Windows</span>
         </a>
 
         <!-- Metadata Pill Row -->
         <div class="download-specs-row">
-          <span>v{releaseData.version}</span>
+          <span>Setup Installer</span>
           <span class="spec-dot">•</span>
-          <span>{releaseData.platform}</span>
+          <span>Windows x64</span>
           <span class="spec-dot">•</span>
           <span>{releaseData.packageSize}</span>
-          <span class="spec-dot">•</span>
-          <span>Standalone ZIP</span>
         </div>
+
+        <!-- Subtle Secondary Portable Option Link -->
+        {releaseData.portableDownloadUrl && (
+          <div class="portable-option-row">
+            <a href={releaseData.portableDownloadUrl} class="portable-download-link" download>
+              Prefer the portable version? Download ZIP
+            </a>
+          </div>
+        )}
       </div>
 
       <!-- Compact What's New in v1.5 Showcase -->
@@ -53,16 +60,25 @@ import releaseData from '../data/release.json';
         <span class="setup-header-label">QUICK SETUP</span>
         <div class="setup-steps-grid">
           <div class="setup-step">
-            <span class="setup-num">1</span>
-            <p>Download the ZIP archive</p>
+            <span class="setup-num">01</span>
+            <div class="setup-step-body">
+              <strong class="setup-step-title">Download</strong>
+              <p>Download the SwitchCast Windows installer.</p>
+            </div>
           </div>
           <div class="setup-step">
-            <span class="setup-num">2</span>
-            <p>Extract the files anywhere</p>
+            <span class="setup-num">02</span>
+            <div class="setup-step-body">
+              <strong class="setup-step-title">Install</strong>
+              <p>Run the setup wizard and follow the instructions.</p>
+            </div>
           </div>
           <div class="setup-step">
-            <span class="setup-num">3</span>
-            <p>Open <strong>SwitchCast.exe</strong></p>
+            <span class="setup-num">03</span>
+            <div class="setup-step-body">
+              <strong class="setup-step-title">Present</strong>
+              <p>Launch SwitchCast from the Start Menu or Desktop shortcut if one was created.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -99,6 +115,8 @@ import releaseData from '../data/release.json';
 <style>
   .download-section {
     position: relative;
+    background: linear-gradient(180deg, transparent 0%, rgba(17, 18, 25, 0.5) 45%, rgba(10, 11, 15, 0.9) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 
   .download-card {
@@ -212,10 +230,42 @@ import releaseData from '../data/release.json';
     gap: 1.25rem;
   }
 
+  .portable-option-row {
+    margin-top: 0.75rem;
+  }
+
+  .portable-download-link {
+    font-size: 0.82rem;
+    color: var(--sc-text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+  }
+
+  .portable-download-link:hover {
+    color: var(--sc-accent);
+    text-decoration-color: var(--sc-accent);
+  }
+
   .setup-step {
     display: flex;
-    align-items: center;
-    gap: 0.65rem;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .setup-step-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .setup-step-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    letter-spacing: -0.01em;
   }
 
   .setup-num {
@@ -231,16 +281,14 @@ import releaseData from '../data/release.json';
     font-size: 0.75rem;
     font-weight: 700;
     flex-shrink: 0;
+    margin-top: 0.1rem;
   }
 
   .setup-step p {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     color: var(--sc-text-secondary);
-    line-height: 1.35;
-  }
-
-  .setup-step p strong {
-    color: #ffffff;
+    line-height: 1.4;
+    margin: 0;
   }
 
   /* Secondary Links */

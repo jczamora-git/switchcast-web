@@ -4,6 +4,130 @@ All notable changes to the SwitchCast website and its dedicated agent harness ar
 
 ---
 
+## [2.4.0] — 2026-10-20
+
+### Added (Official Windows Setup EXE as Primary Download)
+- **Windows Setup Installer as Primary Download Target**:
+  - Designated `SwitchCast-Setup-v1.5.0-x64.exe` (44.5 MB, 44,451,001 bytes, SHA-256: `7D193E6AEAAA698BE7D9BB944C30C225618A11F19E5E693F23C611A657AA2351`) as the primary recommended package for v1.5.0.
+  - Preserved `SwitchCast-v1.5.0-win-x64.zip` (64.0 MB, 67,121,906 bytes, SHA-256: `13553770161D343C8A116DDF31099FD4D2DB47D819462EE5F5866909649A7FC9`) as the alternate portable version with separate metadata and independent verification checksum.
+- **Enhanced Release Synchronization (`scripts/sync-release.mjs`)**:
+  - Updated asset selection pipeline to prefer official Windows x64 setup EXE installers while retaining ZIP packages as portable alternatives.
+  - Implemented separate checksum matching per binary asset, resolving canonical SHA-256 hashes directly from GitHub API asset digests with remote `.sha256` asset fallback.
+  - Ensured future releases cleanly support both installer EXE and portable ZIP assets without hash cross-contamination.
+- **Verification Harness Expansion (`scripts/verify-release.mjs`, `scripts/test-release-order.mjs`)**:
+  - Removed ZIP-only verification constraints; added full validation for both `.exe` and `.zip` packages, package-specific checksum filenames, and portable package URLs.
+  - Updated regression test assertions to verify v1.5.0 primary Setup EXE and alternate portable ZIP.
+- **Homepage Download Section Updates (`src/components/DownloadSection.astro`)**:
+  - Primary button: "Download for Windows" targeting `SwitchCast-Setup-v1.5.0-x64.exe`.
+  - Supporting label: "Setup Installer · Windows x64 · 44.5 MB".
+  - Subtle secondary option link: "Prefer the portable version? Download ZIP".
+  - Quick Setup updated for installer workflow: 01 Download, 02 Install (Run setup wizard), 03 Present (Launch from Start Menu or Desktop shortcut).
+  - Quick checksum toggle configured to copy installer SHA-256 hash.
+- **Hero Messaging Alignment (`src/components/Hero.astro`)**:
+  - Replaced outdated "No Installation Wizard" messaging with "Easy Windows Setup · Local-First · No Remote Tracking".
+- **Release Center & Detail Pages (`src/pages/releases/index.astro`, `src/pages/releases/[version].astro`)**:
+  - Dual action buttons: Primary "Download Installer (.exe)" and secondary "Download Portable ZIP".
+  - Separate checksum display blocks and one-click copy buttons for both installer and portable packages.
+  - Added "Installation & Getting Started" guide on release detail page.
+  - Updated hosting notice to reflect installer and portable package coexistence.
+- **SEO Structured Data**:
+  - Verified `SoftwareApplication` JSON-LD schema on homepage points to `SwitchCast-Setup-v1.5.0-x64.exe` with `44.5 MB` file size.
+
+---
+
+## [2.3.0] — 2026-10-20
+
+### Added (Premium Editorial Footer High-Pass)
+- **Mobbin-Inspired Editorial Footer Architecture (`src/components/Footer.astro`)**:
+  - Replaced the compact utilitarian footer with a spacious, typography-driven editorial footer adhering to Mobbin's visual principles while strictly preserving SwitchCast's distinct visual branding.
+  - Palette: Deep near-black background (`#050507`), subtle upper divider (`rgba(255, 255, 255, 0.08)`), refined typography hierarchy, and restrained SwitchCast coral accent highlights (`#ff7a59`).
+  - Multi-column editorial layout:
+    - **Brand Column (Left)**: SwitchCast vector icon and title, evocative product descriptor (*"One shared window. Everything you present."*), and formal creator attribution (*"Created by John Christopher King Zamora / A Jeizi Productions project"*).
+    - **Navigation Columns (Right)**:
+      - `Product`: `How It Works` (`/#showcase`), `Interactive Demo` (`/#demo`), `Download for Windows` (`/#download`).
+      - `Releases`: `Latest Release (v1.5.0)` (`/releases/v1.5.0/`), `All Versions` (`/releases/`), `GitHub Repository` (`https://github.com/jczamora-git/SwitchCast`).
+      - `Creator`: `Jeizi Productions` (`https://jeiziproductions.com`), `Contact Developer` (`mailto:jeizi.productions@gmail.com`).
+  - Dynamic release metadata integration: Uses `getLatestRelease()` to dynamically generate `Latest Release v${releaseData.version}` linking directly to its release detail page.
+  - Bottom copyright row: Clean dynamic copyright (`© 2026 SwitchCast. All rights reserved. • Built by John Christopher King Zamora`) and standalone application indicator.
+- **Oversized Background Wordmark (`SWITCHCAST`)**:
+  - Implemented an oversized typography display feature spanning the bottom of the footer: `font-size: clamp(5.5rem, 17.5vw, 18.5rem)`.
+  - Subtle dark-gray contrast gradient with faint coral warmth (`rgba(255, 255, 255, 0.045)` to `rgba(255, 122, 89, 0.015)`).
+  - Strictly decorative (`aria-hidden="true"`, `pointer-events: none`, `user-select: none`).
+  - Contained within `overflow: hidden` bounding wrapper with bleed effect; verified zero horizontal document overflow across all viewports.
+- **Seamless Dark Section Transition (`src/components/DownloadSection.astro`)**:
+  - Refined download section lower edge with subtle vertical gradient fade into the deep `#050507` footer surface, avoiding jarring surface contrasts while preserving natural document scrolling.
+- **Subtle Interactions & Accessibility**:
+  - Restrained hover micro-interactions (soft coral text shifts and directional underlines).
+  - Explicit keyboard focus rings (`outline: 2px solid var(--accent-coral)`).
+  - Full `prefers-reduced-motion` compliance.
+- **Responsive Adaptations**:
+  - Desktop (1440px): 4-column balanced grid with generous negative space and giant wordmark.
+  - Tablet / Mobile (390px, 768px): Stacks brand information with a clean 2-column navigation grid, scaling wordmark to `clamp(4rem, 16vw, 7.5rem)`.
+- **Browser Subagent Visual QA**:
+  - Verified across Desktop (1440x900), Mobile (390x844), and Release Catalog (`/releases/`) with automated screenshot captures.
+
+---
+
+## [2.2.0] — 2026-10-20
+
+### Added (Premium Product Experience & Glass Navbar Redesign)
+- **Removal of Technical Developer Scenes & Metrics**:
+  - Completely purged code editor views (`PresentationCoordinator.cs`, `Renderer.cs`, C# method implementations), Direct3D latency claims, pipeline reliability percentages, and cloud telemetry counters from the showcase.
+  - Refocused the showcase on a realistic business presentation workflow: **"One Meeting. Multiple Sources. One Shared Window."**
+- **Real-World Presenter Showcase (`src/components/ProductShowcase.astro`)**:
+  - Implemented 4 connected business presentation scenes based on an executive Quarterly Business Review:
+    - `01 / PREPARE ("Everything ready")`: Session Manager queueing business sources (`Quarterly Review.pptx`, `Sales Dashboard — Browser`, `Product Walkthrough.mp4`, `Presenter Camera`) with active/next indicators and staged preview.
+    - `02 / SHARE ("Share once")`: Presentation Output window displaying a professional business slide with key metrics (+38% YoY, 94% Retention, 12,400+ Teams) and quarterly performance chart.
+    - `03 / SWITCH ("Switch seamlessly")`: Single persistent output window smoothly cycling through Sales Dashboard, Walkthrough Video, and Presenter Studio Camera without changing the screen share.
+    - `04 / CONTROL ("Stay in control")`: Floating Presenter Dock with slide navigation (`‹ Slide 4 / 18 ›`), Freeze-Frame Pause, and Blackout curtain demonstration.
+  - Mobile-first adaptation: Prioritizes large audience output previews, legible metrics, and tap-friendly scene selector buttons without horizontal overflow.
+- **Premium Floating Glass Navigation (`src/components/Navbar.astro`)**:
+  - Refined floating navbar with dark translucent glass (`rgba(24, 25, 34, 0.78)` to `rgba(14, 15, 21, 0.84)`), 22px backdrop blur, subtle 1px border, and top-edge light reflection highlight (`inset 0 1px 0 0 rgba(255, 255, 255, 0.14)`).
+  - Navigation links: `How It Works`, `Try Demo`, `Why SwitchCast`, `Releases`, GitHub repo icon, and Coral `Download` button.
+  - Added full-screen dimmed backdrop overlay for mobile menu drawer with Escape key, outside-click, and link selection auto-dismissal.
+- **Anchor Offset & Scroll Clearance (`src/styles/global.css`)**:
+  - Configured `html { scroll-padding-top: 104px; }` and `.section, .hero-section { scroll-margin-top: 104px; }` ensuring zero heading overlap under the floating navbar.
+- **Dedicated Interactive Simulator Entry Point (`src/components/ProductExperience.astro`)**:
+  - Streamlined `ProductExperience.astro` to provide a dedicated hands-on invitation (*"Try It Yourself" / "Hands-on Interactive Simulator"*).
+  - Removed redundant duplicate workflow steps to keep homepage concise and non-repetitive.
+- **Comprehensive Visual & Browser QA**:
+  - Executed browser subagent testing on desktop (1280x800) and mobile (390x844) viewports confirming zero overlap, real-world scenes, and working mobile navigation.
+
+---
+
+## [2.1.0] — 2026-10-20
+
+### Added (Cinematic Website & Product Experience High-Pass)
+- **Floating Inset Navigation Bar (`src/components/Navbar.astro`)**:
+  - Implemented centered floating dark surface (`max-width: 1140px`, `top: 0.85rem`) with 20px backdrop blur, subtle 1px border, and controlled shadow.
+  - Desktop: SwitchCast brand icon and title | `How It Works`, `Simulator`, `Why SwitchCast`, `Releases` | GitHub repository link + Download button.
+  - Mobile: Floating pill with logo and animated hamburger toggle button. Dropdown card drawer includes all navigation routes, GitHub repository link, and full-width Download CTA. Auto-closes on link selection, outside click, and Escape key.
+- **Hero Hierarchy & Supporting Copy Refinement (`src/components/Hero.astro`)**:
+  - Preserved headline `SHARE ONCE. SWITCH SEAMLESSLY.`.
+  - Added product identifier pill: `SwitchCast for Windows · v1.5.0` with subtle coral pulse indicator.
+  - Updated supporting copy to exact value proposition: *"Switch between apps, slides, cameras, and media without changing the window your audience sees."*
+  - Dual CTAs: `Download for Windows` (`#download`) and `See How It Works` (`#showcase`).
+- **Cinematic Product Showcase (`src/components/ProductShowcase.astro`)**:
+  - Created a dedicated, reusable component showcasing the authentic Windows desktop presentation environment with subtle coral glow backdrop.
+  - 4-scene interactive storyboard:
+    - `01 One Window`: Presentation Output displaying keynote slide deck with live audience view pill.
+    - `02 Switch Sources`: Seamless source transition into live code editor window.
+    - `03 Stay in Control`: Zoomed view of Floating Presenter Dock with Next/Prev source, slide counter (`4 / 18`), Freeze-Frame Pause, and Blackout curtain.
+    - `04 Ready to Present`: Unified presentation workflow showing Control Application queue, active mode bar, and floating dock.
+  - Autoplays smoothly (4.5s per scene), pauses when offscreen (`IntersectionObserver`), respects `prefers-reduced-motion`, with manual tab triggers and Play/Pause control. Zero layout shift.
+  - Mobile adaptation: Responsive portrait stage with bold titles, readable text, and tap-friendly tabs.
+- **Interactive Simulator Preservation (`src/components/ProductExperience.astro`)**:
+  - Maintained complete interactive simulator (`InteractiveDemo.astro`) as a dedicated hands-on section with `#demo` and `#experience` anchor support.
+  - Accompanied by the 3 simple steps: Select, Share, Switch.
+- **Anchor Navigation & Scroll Alignment (`src/styles/global.css`)**:
+  - Configured `html { scroll-padding-top: 96px; }` and `.section { scroll-margin-top: 96px; }` to eliminate heading clipping under the floating navbar.
+- **Download Section Polish (`src/components/DownloadSection.astro`)**:
+  - Updated section title to `Ready for Your Next Presentation?` and button to `Download for Windows`.
+- **Browser Visual Verification**:
+  - Completed end-to-end browser subagent verification on desktop (1920x1080) and mobile (390x844) viewports.
+
+---
+
 ## [2.0.0] — 2026-10-20
 
 ### Added (SwitchCast v1.5.0 Release Integration & Website Overhaul)

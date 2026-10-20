@@ -3,133 +3,376 @@ import releaseData from '../data/release.json';
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="site-footer">
+<footer class="site-footer" role="contentinfo">
   <div class="container footer-container">
     
-    <div class="footer-main">
-      <!-- Brand & Creator -->
-      <div class="footer-brand">
-        <a href="/" class="brand-link">
-          <img src="/assets/switchcast-logo.svg" alt="" width="22" height="22" />
+    <!-- Top Editorial Columns -->
+    <div class="footer-columns-grid">
+      
+      <!-- Brand & Product Mission Column (Left) -->
+      <div class="footer-brand-column">
+        <a href="/" class="brand-link" aria-label="SwitchCast Home">
+          <div class="brand-icon-wrapper">
+            <img src="/assets/switchcast-logo.svg" alt="" width="22" height="22" />
+          </div>
           <span class="brand-title">SwitchCast</span>
         </a>
-        <p class="footer-desc">
-          Created by <a href="https://jeiziproductions.com" target="_blank" rel="noopener noreferrer">John Christopher King Zamora</a> under <a href="https://jeiziproductions.com" target="_blank" rel="noopener noreferrer">Jeizi Productions</a>.
+
+        <p class="brand-tagline">
+          One shared window.<br />
+          Everything you present.
         </p>
+
+        <div class="creator-attribution">
+          <span class="creator-label">Created by</span>
+          <a href="https://jeiziproductions.com" target="_blank" rel="noopener noreferrer" class="creator-link">
+            John Christopher King Zamora
+          </a>
+          <span class="studio-badge">A <a href="https://jeiziproductions.com" target="_blank" rel="noopener noreferrer">Jeizi Productions</a> project</span>
+        </div>
       </div>
 
-      <!-- Essential Links -->
-      <nav class="footer-nav" aria-label="Footer Links">
-        <a href="/#download" class="footer-link">Download</a>
-        <a href="/releases/" class="footer-link">Releases</a>
-        <a href={releaseData.allReleasesUrl} target="_blank" rel="noopener noreferrer" class="footer-link">GitHub Releases</a>
-        <a href={releaseData.sourceRepoUrl} target="_blank" rel="noopener noreferrer" class="footer-link">GitHub Repository</a>
-        <a href="https://jeiziproductions.com" target="_blank" rel="noopener noreferrer" class="footer-link">Jeizi Productions</a>
-        <a href="mailto:johnchristopherkingzamora@gmail.com" class="footer-link">Contact</a>
-      </nav>
+      <!-- Navigation Columns (Right) -->
+      <div class="footer-nav-groups">
+        
+        <!-- Group 1: Product -->
+        <div class="nav-group">
+          <h4 class="nav-group-title">Product</h4>
+          <ul class="nav-list">
+            <li><a href="/#showcase" class="footer-nav-link">How It Works</a></li>
+            <li><a href="/#demo" class="footer-nav-link">Interactive Demo</a></li>
+            <li><a href="/#download" class="footer-nav-link download-highlight">Download for Windows</a></li>
+          </ul>
+        </div>
+
+        <!-- Group 2: Releases -->
+        <div class="nav-group">
+          <h4 class="nav-group-title">Releases</h4>
+          <ul class="nav-list">
+            <li>
+              <a href={`/releases/v${releaseData.version}/`} class="footer-nav-link">
+                Latest Release <span class="version-tag">v{releaseData.version}</span>
+              </a>
+            </li>
+            <li><a href="/releases/" class="footer-nav-link">All Versions</a></li>
+            <li><a href={releaseData.sourceRepoUrl} target="_blank" rel="noopener noreferrer" class="footer-nav-link">GitHub Repository</a></li>
+          </ul>
+        </div>
+
+        <!-- Group 3: Creator -->
+        <div class="nav-group">
+          <h4 class="nav-group-title">Creator</h4>
+          <ul class="nav-list">
+            <li><a href="https://jeiziproductions.com" target="_blank" rel="noopener noreferrer" class="footer-nav-link">Jeizi Productions</a></li>
+            <li><a href="mailto:johnchristopherkingzamora@gmail.com" class="footer-nav-link">Contact Developer</a></li>
+          </ul>
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="footer-bottom">
-      <span class="footer-copy">© {currentYear} John Christopher King Zamora. All rights reserved.</span>
+    <!-- Editorial Bottom Row (Copyright & Legal) -->
+    <div class="footer-bottom-row">
+      <div class="copyright-info">
+        <span>&copy; {currentYear} SwitchCast. All rights reserved.</span>
+        <span class="credit-dot" aria-hidden="true">•</span>
+        <span>Built by <a href="https://jeiziproductions.com" target="_blank" rel="noopener noreferrer">John Christopher King Zamora</a></span>
+      </div>
+
+      <div class="footer-locale">
+        <span class="platform-indicator">Standalone Windows Application</span>
+      </div>
     </div>
 
+  </div>
+
+  <!-- Oversized Editorial Wordmark (Mobbin-Inspired Atmospheric Typography) -->
+  <div class="footer-wordmark-wrapper" aria-hidden="true">
+    <span class="oversized-wordmark">SWITCHCAST</span>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    border-top: 1px solid var(--sc-border-subtle);
-    padding: 3.5rem 0 2.5rem 0;
-    background: #09090c;
+    position: relative;
+    background: #050507;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    padding-top: clamp(4.5rem, 8vw, 6.5rem);
+    padding-bottom: 0;
+    overflow: hidden;
   }
 
   .footer-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    position: relative;
+    z-index: 2;
   }
 
-  .footer-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 2rem;
+  /* --- Top Columns Grid --- */
+  .footer-columns-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    padding-bottom: clamp(3rem, 5vw, 4.5rem);
   }
 
-  .footer-brand {
+  /* Brand Column */
+  .footer-brand-column {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    max-width: 360px;
+    gap: 1.15rem;
+    max-width: 380px;
   }
 
   .brand-link {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.65rem;
     text-decoration: none;
+    width: fit-content;
+  }
+
+  .brand-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
   }
 
   .brand-title {
     font-family: var(--font-display);
-    font-size: 1.15rem;
+    font-size: 1.22rem;
     font-weight: 700;
+    letter-spacing: -0.02em;
     color: #ffffff;
   }
 
-  .footer-desc {
-    font-size: 0.88rem;
+  .brand-tagline {
+    font-size: 1.05rem;
+    line-height: 1.45;
     color: var(--sc-text-secondary);
-    line-height: 1.5;
+    font-weight: 400;
   }
 
-  .footer-desc a {
+  .creator-attribution {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.82rem;
+    color: var(--sc-text-tertiary);
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .creator-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.75;
+  }
+
+  .creator-link {
     color: var(--sc-text-primary);
-    text-decoration: underline;
-    text-underline-offset: 2px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
   }
 
-  .footer-desc a:hover {
+  .creator-link:hover {
     color: var(--sc-accent);
   }
 
-  .footer-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    align-items: center;
+  .studio-badge {
+    font-size: 0.78rem;
   }
 
-  .footer-link {
-    font-size: 0.88rem;
+  .studio-badge a {
     color: var(--sc-text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
   }
 
-  .footer-link:hover {
+  .studio-badge a:hover {
+    color: var(--sc-accent);
+  }
+
+  /* Navigation Groups (3 Columns) */
+  .footer-nav-groups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  .nav-group-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--sc-text-tertiary);
+    margin-bottom: 1.25rem;
+  }
+
+  .nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .footer-nav-link {
+    font-size: 0.9rem;
+    color: var(--sc-text-secondary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+    width: fit-content;
+  }
+
+  .footer-nav-link:hover {
     color: #ffffff;
+    transform: translateX(2px);
   }
 
-  .footer-bottom {
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--sc-border-subtle);
+  .download-highlight {
+    color: var(--sc-accent);
+    font-weight: 500;
   }
 
-  .footer-copy {
-    font-size: 0.8rem;
+  .download-highlight:hover {
+    color: var(--sc-accent-hover);
+  }
+
+  .version-tag {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--sc-accent);
+    background: var(--sc-accent-soft);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+  }
+
+  /* --- Bottom Copyright Row --- */
+  .footer-bottom-row {
+    position: relative;
+    z-index: 2;
+    padding: 1.75rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.82rem;
     color: var(--sc-text-tertiary);
   }
 
-  @media (max-width: 768px) {
-    .footer-main {
-      flex-direction: column;
-      gap: 1.5rem;
+  .copyright-info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .credit-dot {
+    opacity: 0.4;
+  }
+
+  .copyright-info a {
+    color: var(--sc-text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .copyright-info a:hover {
+    color: var(--sc-accent);
+  }
+
+  .platform-indicator {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--sc-text-tertiary);
+    letter-spacing: 0.04em;
+  }
+
+  /* --- Oversized Background Wordmark --- */
+  .footer-wordmark-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0.75;
+    user-select: none;
+    pointer-events: none;
+    margin-top: 0.5rem;
+    margin-bottom: -1vw;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .oversized-wordmark {
+    font-family: var(--font-display);
+    font-size: clamp(5.5rem, 17.5vw, 18.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 122, 89, 0.035) 70%, transparent 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+    transform: translateY(12%);
+  }
+
+  /* --- Responsive Breakpoints --- */
+  @media (max-width: 900px) {
+    .footer-columns-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
     }
 
-    .footer-nav {
+    .footer-brand-column {
+      max-width: 100%;
+    }
+
+    .footer-nav-groups {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .site-footer {
+      padding-top: 3.5rem;
+    }
+
+    .footer-nav-groups {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem 1.5rem;
+    }
+
+    .footer-bottom-row {
       flex-direction: column;
       align-items: flex-start;
-      gap: 0.85rem;
+      gap: 0.75rem;
+    }
+
+    .oversized-wordmark {
+      font-size: clamp(4rem, 16vw, 7.5rem);
+      transform: translateY(8%);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .footer-nav-groups {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
     }
   }
 </style>

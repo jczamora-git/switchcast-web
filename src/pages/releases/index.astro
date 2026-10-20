@@ -85,7 +85,7 @@ const breadcrumbSchema = {
             <span class="spec-dot">•</span>
             <span class="spec-item">{latestRelease.package?.size || ''}</span>
             <span class="spec-dot">•</span>
-            <span class="spec-item">Standalone ZIP</span>
+            <span class="spec-item">{latestRelease.package?.type || 'Setup Installer'}</span>
           </div>
 
           <!-- Main Action Buttons -->
@@ -97,7 +97,18 @@ const breadcrumbSchema = {
                   <polyline points="7 10 12 15 17 10"></polyline>
                   <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
-                <span>Download v{latestRelease.version} for Windows</span>
+                <span>Download Installer (.exe)</span>
+              </a>
+            )}
+
+            {latestRelease.portablePackage?.downloadUrl && (
+              <a href={latestRelease.portablePackage.downloadUrl} class="btn btn-secondary btn-lg download-portable-btn" download>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Download Portable ZIP ({latestRelease.portablePackage.size})</span>
               </a>
             )}
 
@@ -106,23 +117,42 @@ const breadcrumbSchema = {
             </a>
           </div>
 
-          <!-- Quiet Checksum Toggle -->
-          {latestRelease.checksum?.available && latestRelease.checksum.sha256 && (
-            <div class="latest-checksum-row">
-              <span class="hash-label">SHA-256:</span>
-              <code class="hash-code" id="hashCodeText" title={latestRelease.checksum.sha256}>
-                {latestRelease.checksum.sha256.slice(0, 12)}...{latestRelease.checksum.sha256.slice(-8)}
-              </code>
-              <button class="hash-copy-btn" id="copyHashBtn" data-hash={latestRelease.checksum.sha256} title="Copy SHA-256 Checksum">
-                <span id="copyHashLabel">Copy</span>
-              </button>
-              {latestRelease.checksum.downloadUrl && (
-                <a href={latestRelease.checksum.downloadUrl} target="_blank" rel="noopener noreferrer" class="checksum-raw-link">
-                  .sha256 file
-                </a>
-              )}
-            </div>
-          )}
+          <!-- Checksums Container -->
+          <div class="latest-checksums-container">
+            {latestRelease.checksum?.available && latestRelease.checksum.sha256 && (
+              <div class="latest-checksum-row">
+                <span class="hash-label">Installer SHA-256:</span>
+                <code class="hash-code" id="hashCodeText" title={latestRelease.checksum.sha256}>
+                  {latestRelease.checksum.sha256.slice(0, 12)}...{latestRelease.checksum.sha256.slice(-8)}
+                </code>
+                <button class="hash-copy-btn" id="copyHashBtn" data-hash={latestRelease.checksum.sha256} title="Copy Installer SHA-256 Checksum">
+                  <span id="copyHashLabel">Copy</span>
+                </button>
+                {latestRelease.checksum.downloadUrl && (
+                  <a href={latestRelease.checksum.downloadUrl} target="_blank" rel="noopener noreferrer" class="checksum-raw-link">
+                    .sha256 file
+                  </a>
+                )}
+              </div>
+            )}
+
+            {latestRelease.portableChecksum?.available && latestRelease.portableChecksum.sha256 && (
+              <div class="latest-checksum-row portable-checksum-row">
+                <span class="hash-label">Portable ZIP SHA-256:</span>
+                <code class="hash-code" id="portableHashCodeText" title={latestRelease.portableChecksum.sha256}>
+                  {latestRelease.portableChecksum.sha256.slice(0, 12)}...{latestRelease.portableChecksum.sha256.slice(-8)}
+                </code>
+                <button class="hash-copy-btn" id="copyPortableHashBtn" data-hash={latestRelease.portableChecksum.sha256} title="Copy Portable ZIP SHA-256 Checksum">
+                  <span id="copyPortableHashLabel">Copy</span>
+                </button>
+                {latestRelease.portableChecksum.downloadUrl && (
+                  <a href={latestRelease.portableChecksum.downloadUrl} target="_blank" rel="noopener noreferrer" class="checksum-raw-link">
+                    .sha256 file
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -211,7 +241,7 @@ const breadcrumbSchema = {
         <p>
           Official SwitchCast binaries are hosted securely on 
           <a href="https://github.com/jczamora-git/SwitchCast/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a>.
-          All packages are self-contained standalone ZIP archives for 64-bit Windows. Zero external .NET runtimes or installers required.
+          Starting with v1.5.0, SwitchCast provides an official Windows setup installer as the recommended download alongside portable standalone ZIP archives for 64-bit Windows.
         </p>
       </footer>
 
@@ -376,8 +406,20 @@ const breadcrumbSchema = {
     padding: 0.85rem 1.75rem;
   }
 
+  .download-portable-btn {
+    padding: 0.85rem 1.5rem;
+  }
+
   .details-btn {
     padding: 0.85rem 1.5rem;
+  }
+
+  .latest-checksums-container {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--sc-border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   .latest-checksum-row {
@@ -385,11 +427,13 @@ const breadcrumbSchema = {
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--sc-border-subtle);
     font-family: var(--font-mono);
     font-size: 0.78rem;
     color: var(--sc-text-tertiary);
+  }
+
+  .portable-checksum-row {
+    opacity: 0.9;
   }
 
   .hash-label {
