@@ -6,6 +6,10 @@ import { buildPageMetadata } from '../config/seo';
 interface Props {
   title?: string;
   description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
   canonicalUrl?: string;
   image?: string;
   imageAlt?: string;
@@ -16,6 +20,10 @@ interface Props {
 const {
   title,
   description,
+  ogTitle,
+  ogDescription,
+  twitterTitle,
+  twitterDescription,
   canonicalUrl: customCanonical,
   image,
   imageAlt,
@@ -29,6 +37,10 @@ const pathname = Astro.url ? Astro.url.pathname : '/';
 const meta = buildPageMetadata({
   title,
   description,
+  ogTitle,
+  ogDescription,
+  twitterTitle,
+  twitterDescription,
   pathname: customCanonical ? undefined : pathname,
   image,
   imageAlt,
@@ -60,8 +72,8 @@ const canonicalHref = customCanonical ?? meta.canonicalUrl;
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={meta.siteName} />
     <meta property="og:url" content={canonicalHref} />
-    <meta property="og:title" content={meta.title} />
-    <meta property="og:description" content={meta.description} />
+    <meta property="og:title" content={meta.ogTitle} />
+    <meta property="og:description" content={meta.ogDescription} />
     <meta property="og:image" content={meta.image} />
     <meta property="og:image:width" content={meta.width.toString()} />
     <meta property="og:image:height" content={meta.height.toString()} />
@@ -71,8 +83,8 @@ const canonicalHref = customCanonical ?? meta.canonicalUrl;
     <!-- Twitter Cards -->
     <meta name="twitter:card" content={meta.twitterCard} />
     <meta name="twitter:url" content={canonicalHref} />
-    <meta name="twitter:title" content={meta.title} />
-    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:title" content={meta.twitterTitle} />
+    <meta name="twitter:description" content={meta.twitterDescription} />
     <meta name="twitter:image" content={meta.image} />
     <meta name="twitter:image:alt" content={meta.imageAlt} />
 

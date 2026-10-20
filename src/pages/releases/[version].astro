@@ -37,9 +37,11 @@ const { release, isAlias = false } = Astro.props;
 const isInstaller = Boolean(release.package?.name?.endsWith('.exe'));
 
 const pageTitle = `SwitchCast v${release.version} — Download & Release Notes`;
-const pageDescription = release.summary 
-  ? `Download SwitchCast v${release.version} for Windows. ${release.summary}`
-  : `Download SwitchCast v${release.version} for Windows with release notes, changelog details, and SHA-256 verification.`;
+const baseSummary = release.summary || 'Release notes, changelog details, and SHA-256 verification.';
+const fullDesc = `Download SwitchCast v${release.version} for Windows. ${baseSummary}`;
+const pageDescription = fullDesc.length > 155 
+  ? `${fullDesc.slice(0, 152).trim().replace(/[.,;:]$/, '')}...` 
+  : fullDesc;
 
 // Canonical URL is strictly the 'v' tagged route with trailing slash
 const canonicalUrl = getCanonicalUrl(`/releases/${release.tag}`);

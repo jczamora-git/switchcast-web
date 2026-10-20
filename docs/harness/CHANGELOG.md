@@ -4,6 +4,26 @@ All notable changes to the SwitchCast website and its dedicated agent harness ar
 
 ---
 
+## [3.1.0] — 2026-10-21
+
+### Fixed (SEO & Open Graph Metadata Optimization)
+- **Concise Homepage SEO Metadata (`src/config/seo.ts`, `src/pages/index.astro`)**:
+  - Set `<title>` to `"SwitchCast — Screen Sharing for Meetings & Webinars"` (51 chars, < 60 chars).
+  - Set `<meta name="description">` to `"Share one window and switch between apps, slides, cameras, and videos without interrupting meetings or webinars. Download SwitchCast for Windows."` (145 chars, target 140–155 chars).
+  - Preserved canonical URL (`https://switchcast.wasmer.app/`) and SoftwareApplication JSON-LD structured data.
+- **Dedicated Open Graph & Twitter/X Preview Tags (`src/layouts/BaseLayout.astro`)**:
+  - Decoupled `og:title` and `twitter:title` from the raw HTML page title, setting them to `"SwitchCast — Share Once. Switch Seamlessly."` (44 chars, < 60 chars).
+  - Set `og:description` and `twitter:description` to `"Share one window. Switch between apps, slides, cameras, and videos without interrupting your presentation."` (107 chars, < 125 chars).
+  - Preserved active 1200×630 Open Graph banner image (`https://switchcast.wasmer.app/og-switchcast.png`) and `twitter:card` as `summary_large_image`.
+  - Guaranteed zero duplicate tags across `<title>`, `<meta name="description">`, `og:title`, `og:description`, `twitter:title`, and `twitter:description`.
+- **Release Pages Metadata Optimization (`src/pages/releases/index.astro`, `src/pages/releases/[version].astro`)**:
+  - Set Release Center title to `"SwitchCast Releases — Download Previous Versions"` (48 chars).
+  - Set Release dynamic detail titles to `"SwitchCast v${version} — Download & Release Notes"` (44 chars) with concise descriptions strictly under 160 characters.
+- **Verification Suite Enhancement (`scripts/verify-seo.mjs`)**:
+  - Expanded automated test suite from 277 to 426 assertions verifying character limits, tag uniqueness, and Open Graph content.
+
+---
+
 ## [3.0.0] — 2026-10-20
 
 ### Added (Editorial Storyboard UI Refactor)

@@ -1,13 +1,13 @@
 # SWITCHCAST WEBSITE — HARNESS HANDOFF RECORD
 
-**Document Version:** 3.0.0  
-**Updated:** 2026-10-20  
-**Harness Task:** Editorial Storyboard UI Refactor (Raycast-Inspired Continuous Editorial Grid System)  
+**Document Version:** 3.1.0  
+**Updated:** 2026-10-21  
+**Harness Task:** SEO & Open Graph Metadata Optimization  
 
 ---
 
 ## 1. Current Status
-- **Status**: Complete architectural refactoring of the SwitchCast website from isolated, card-heavy containers into a unified, continuous **Editorial Storyboard Grid System**.
+- **Status**: SEO and social preview metadata optimized for high SERP click-through and clean, un-truncated previews on Twitter/X, LinkedIn, and Facebook/Messenger. Title under 60 chars, description in target 140–155 chars, and OG description under 125 chars. Single unified editorial storyboard structure intact.
 - **Page Structure (`src/pages/index.astro`)**:
   - `Navbar.astro`: Sticky floating glass navigation with aligned narrative order (`Capabilities`, `How It Works`, `Controls`, `Releases`, `Download`) and unified single-container mobile glass overlay with internal header row, close button, backdrop blur, and body scroll locking.
   - `Hero.astro`: Headline *"SHARE ONCE. SWITCH SEAMLESSLY."* with coral gradient, single installer primary CTA, secondary tutorial CTA, and 1px hairline lower grid boundary.

@@ -76,11 +76,17 @@ async function verifySeo() {
 
     // Title tag
     const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
-    assert(!!titleMatch && titleMatch[1].trim().length > 0, `${item.name} has non-empty <title> tag ("${titleMatch ? titleMatch[1].slice(0, 40) + '...' : ''}")`);
+    const titleText = titleMatch ? titleMatch[1].trim() : '';
+    assert(!!titleMatch && titleText.length > 0, `${item.name} has non-empty <title> tag ("${titleText.slice(0, 40) + '...'}")`);
+    assert(titleText.length <= 60, `${item.name} title is within 60 chars (length: ${titleText.length})`);
 
     // Meta description
+    const descMatches = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/gi) || [];
+    assert(descMatches.length === 1, `${item.name} has exactly one meta description tag`);
     const descMatch = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i);
-    assert(!!descMatch && descMatch[1].trim().length > 0, `${item.name} has non-empty meta description`);
+    const descText = descMatch ? descMatch[1].trim() : '';
+    assert(!!descMatch && descText.length > 0, `${item.name} has non-empty meta description`);
+    assert(descText.length <= 160, `${item.name} meta description is within 160 chars (length: ${descText.length})`);
 
     // Canonical URL
     const canonicalMatches = html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/gi) || [];
@@ -95,6 +101,36 @@ async function verifySeo() {
     const headMatch = html.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
     const headContent = headMatch ? headMatch[1] : '';
     assert(!headContent.includes('localhost') && !headContent.includes('127.0.0.1'), `${item.name} has no localhost URLs in <head>`);
+
+    // Open Graph title & description
+    const ogTitleMatches = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/gi) || [];
+    assert(ogTitleMatches.length === 1, `${item.name} has exactly one og:title tag`);
+    const ogTitleMatch = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i);
+    const ogTitleText = ogTitleMatch ? ogTitleMatch[1] : '';
+    assert(ogTitleText.length <= 60, `${item.name} og:title is within 60 chars (length: ${ogTitleText.length})`);
+
+    const ogDescMatches = html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/gi) || [];
+    assert(ogDescMatches.length === 1, `${item.name} has exactly one og:description tag`);
+    const ogDescMatch = html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i);
+    const ogDescText = ogDescMatch ? ogDescMatch[1] : '';
+    assert(ogDescText.length > 0, `${item.name} has non-empty og:description`);
+
+    // Twitter title & description
+    const twTitleMatches = html.match(/<meta[^>]+name=["']twitter:title["'][^>]+content=["']([^"']+)["']/gi) || [];
+    assert(twTitleMatches.length === 1, `${item.name} has exactly one twitter:title tag`);
+
+    const twDescMatches = html.match(/<meta[^>]+name=["']twitter:description["'][^>]+content=["']([^"']+)["']/gi) || [];
+    assert(twDescMatches.length === 1, `${item.name} has exactly one twitter:description tag`);
+
+    // Specific homepage checks
+    if (item.name === 'Homepage') {
+      const decodedTitle = titleText.replace(/&amp;/g, '&');
+      assert(decodedTitle === 'SwitchCast — Screen Sharing for Meetings & Webinars', 'Homepage title matches required text');
+      assert(descText === 'Share one window and switch between apps, slides, cameras, and videos without interrupting meetings or webinars. Download SwitchCast for Windows.', 'Homepage meta description matches required text');
+      assert(ogTitleText === 'SwitchCast — Share Once. Switch Seamlessly.', 'Homepage og:title matches required text');
+      assert(ogDescText === 'Share one window. Switch between apps, slides, cameras, and videos without interrupting your presentation.', 'Homepage og:description matches required text');
+      assert(ogDescText.length <= 125, `Homepage og:description is under 125 chars (got ${ogDescText.length})`);
+    }
 
     // Open Graph tags
     const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
