@@ -16,11 +16,24 @@ export const INITIAL_DEMO_SOURCES: DemoSource[] = [
   },
   {
     id: 'src-slides',
-    name: 'Presentation Slides — PowerPoint',
+    name: 'PowerPoint Slide Deck — Strategy',
     category: 'windows',
     subtitle: 'powerpnt.exe • Q4 Product Strategy & Roadmap Deck',
     glyph: '📊',
     previewType: 'slides',
+    isQueued: false,
+    metadata: {
+      processName: 'powerpnt.exe',
+      resolution: '1920 × 1080'
+    }
+  },
+  {
+    id: 'src-slideshow',
+    name: 'Live PowerPoint Slideshow',
+    category: 'windows',
+    subtitle: 'powerpnt.exe • Windowed Slideshow Mode',
+    glyph: '📽️',
+    previewType: 'slideshow',
     isQueued: false,
     metadata: {
       processName: 'powerpnt.exe',
@@ -54,14 +67,26 @@ export const INITIAL_DEMO_SOURCES: DemoSource[] = [
   },
   {
     id: 'src-disp-2',
-    name: 'Display 2 — Secondary Monitor',
+    name: 'Display 2 — Conference Projector',
     category: 'displays',
-    subtitle: '2560 × 1440 @ 60Hz • HDMI Output',
+    subtitle: '2560 × 1440 @ 60Hz • HDMI External Screen',
     glyph: '🖥️',
     previewType: 'display',
     isQueued: false,
     metadata: {
       resolution: '2560 × 1440'
+    }
+  },
+  {
+    id: 'src-webcam',
+    name: 'Demo Camera / USB Webcam',
+    category: 'displays',
+    subtitle: 'Integrated HD Camera • 1080p30 (Simulated)',
+    glyph: '📷',
+    previewType: 'webcam',
+    isQueued: false,
+    metadata: {
+      resolution: '1920 × 1080'
     }
   },
   {
@@ -120,6 +145,16 @@ export const INITIAL_DEMO_STATE: DemoState = {
   videoDuration: 165,
   volume: 85,
   isMuted: false,
+  slideIndex: 4,
+  slideTotal: 18,
+  musicPlaying: false,
+  musicTrackIndex: 0,
+  musicVolume: 70,
+  musicTracks: [
+    { title: 'Ambient Presentation Flow', artist: 'Jeizi Studio Sessions', duration: '03:45' },
+    { title: 'Tech Keynote Walk-in', artist: 'SwitchCast Audio', duration: '02:50' },
+    { title: 'Gentle Acoustic Uplift', artist: 'Conference Lounge', duration: '04:12' }
+  ],
   hasQueuedSource: false,
   hasOpenedOutput: true,
   hasStartedPresenting: false,

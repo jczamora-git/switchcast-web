@@ -13,6 +13,27 @@ const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/
 
 // Official concise user-facing highlights for each version
 const OFFICIAL_HIGHLIGHTS = {
+  '1.5.0': [
+    'Added automatic rendering optimization for different hardware configurations.',
+    'Improved presentation performance and responsiveness when switching between sources.',
+    'Added automatic graphics recovery during supported device interruptions.',
+    'Introduced live performance monitoring in Settings.',
+    'Improved source selection and floating dock stability.'
+  ],
+  '1.4.0': [
+    'Added background music playback with custom playlists.',
+    'Added music and track controls to the Floating Dock.',
+    'Improved source filtering and queue management.',
+    'Added dedicated diagnostics management in Settings.',
+    'Improved audio playback stability.'
+  ],
+  '1.3.0': [
+    'Added PowerPoint presentations and live slideshow support.',
+    'Added webcam and camera sources.',
+    'Added automatic external monitor/projector handling.',
+    'Introduced local diagnostics and error reporting.',
+    'Improved presentation and dock stability.'
+  ],
   '1.2.1': [
     'Improved image and video source activation across different presentation switching modes.',
     'Enhanced Floating Presenter Dock with direct source removal and smoother window switching.',
@@ -40,6 +61,9 @@ const OFFICIAL_HIGHLIGHTS = {
 };
 
 const OFFICIAL_SUMMARIES = {
+  '1.5.0': 'Automatic rendering optimization for different hardware configurations, zero-copy frame pipeline, self-healing graphics recovery, and live performance monitoring in Settings.',
+  '1.4.0': 'Background music playback with custom playlists, SwitchDeck audio controls, responsive queued-only source filtering, and dedicated incident diagnostics in Settings.',
+  '1.3.0': 'PowerPoint slide decks and live slideshow support, USB webcam and camera sources, smart external display automation, and privacy-first local diagnostics.',
   '1.2.1': 'Improved media source activation across switching modes, enhanced Floating Presenter Dock with direct source removal, fixed mixed-source queue navigation, and updated application branding.',
   '1.2.0': 'Fullscreen presentation output from the Presenter Dock, refined video playback and audio controls, improved dock dragging, and playback timeline stability fixes.',
   '1.1.0': 'Direct local image and video presentation sources, unified switching, native video playback inside presentation output, and local audio playback with media controls.',
@@ -56,7 +80,7 @@ function formatBytes(bytes) {
   return `${bytes} B`;
 }
 
-// Compare semantic versions (e.g. "1.2.0" vs "1.1.0") descending
+// Compare semantic versions (e.g. "1.5.0" vs "1.4.0") descending
 export function compareSemverDesc(vA, vB) {
   const partsA = vA.replace(/^v/, '').split('.').map(n => parseInt(n, 10) || 0);
   const partsB = vB.replace(/^v/, '').split('.').map(n => parseInt(n, 10) || 0);
@@ -85,7 +109,7 @@ async function syncReleases() {
     }
   }
 
-  // Key map by normalized version (e.g. "1.2.0", "1.1.0", "1.0.0")
+  // Key map by normalized version (e.g. "1.5.0", "1.4.0", "1.3.0")
   const existingMap = new Map();
   for (const rel of existingReleases) {
     const vKey = (rel.version || rel.tag || '').replace(/^v/, '');
@@ -124,9 +148,10 @@ async function syncReleases() {
 
       // Find Windows x64 zip asset
       const zipAsset = r.assets?.find(a => a.name.endsWith('.zip') && a.name.includes('win-x64'));
-      if (!zipAsset) {
-        console.warn(`[SwitchCast Sync] No Windows x64 ZIP found for release ${tag}. Skipping binary package.`);
-        continue;
+      const isDownloadable = Boolean(zipAsset);
+
+      if (!isDownloadable) {
+        console.log(`[SwitchCast Sync] Note: Release ${tag} has no Windows x64 ZIP attached. Importing as non-downloadable historical release.`);
       }
 
       // Checksum resolution:
@@ -151,8 +176,8 @@ async function syncReleases() {
         }
       }
 
-      // B) API digest fallback if no separate .sha256 asset exists (e.g. v1.1.0)
-      if (!sha256 && zipAsset.digest && typeof zipAsset.digest === 'string') {
+      // B) API digest fallback if no separate .sha256 asset exists
+      if (!sha256 && zipAsset?.digest && typeof zipAsset.digest === 'string') {
         const cleanDigest = zipAsset.digest.replace(/^sha256:/i, '').trim();
         if (cleanDigest.length === 64) {
           sha256 = cleanDigest.toUpperCase();
@@ -165,11 +190,11 @@ async function syncReleases() {
         day: 'numeric'
       });
 
-      const packageSize = formatBytes(zipAsset.size);
-
       // Determine default status label (will be refined after semver sort)
       let status = 'Previous Release';
-      if (r.prerelease) {
+      if (!isDownloadable) {
+        status = 'Download Unavailable';
+      } else if (r.prerelease) {
         status = 'Pre-release';
       } else if (version === '1.0.0') {
         status = 'Initial Release';
@@ -191,6 +216,28 @@ async function syncReleases() {
         };
       });
 
+      const packageData = isDownloadable && zipAsset ? {
+        name: zipAsset.name,
+        size: formatBytes(zipAsset.size),
+        sizeBytes: zipAsset.size,
+        downloadUrl: zipAsset.browser_download_url,
+        platform: 'Windows 10 (1809+) & Windows 11',
+        architecture: 'x64 (64-bit)',
+        type: 'Standalone ZIP (Self-Contained)'
+      } : null;
+
+      const checksumData = isDownloadable ? {
+        available: Boolean(sha256),
+        filename: shaFilename,
+        downloadUrl: shaDownloadUrl,
+        sha256: sha256 || null
+      } : {
+        available: false,
+        filename: null,
+        downloadUrl: null,
+        sha256: null
+      };
+
       const releaseRecord = {
         tag: `v${version}`,
         version,
@@ -199,28 +246,15 @@ async function syncReleases() {
         releaseDate: releaseDateFormatted,
         isLatest: false,
         published: true,
-        downloadable: true,
+        downloadable: isDownloadable,
         prerelease: Boolean(r.prerelease),
         draft: Boolean(r.draft),
         status,
         summary,
         highlights,
         githubUrl: r.html_url || `https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/tag/v${version}`,
-        package: {
-          name: zipAsset.name,
-          size: packageSize,
-          sizeBytes: zipAsset.size,
-          downloadUrl: zipAsset.browser_download_url,
-          platform: 'Windows 10 (1809+) & Windows 11',
-          architecture: 'x64 (64-bit)',
-          type: 'Standalone ZIP (Self-Contained)'
-        },
-        checksum: {
-          available: Boolean(sha256),
-          filename: shaFilename,
-          downloadUrl: shaDownloadUrl,
-          sha256: sha256 || null
-        },
+        package: packageData,
+        checksum: checksumData,
         assets,
         releaseNotes: r.body || existing.releaseNotes || `# SwitchCast v${version}\n\nOfficial release for Windows.`
       };
@@ -231,10 +265,10 @@ async function syncReleases() {
     // 4. Combine all records into an array (deduplicated by version)
     const allReleases = Array.from(releasesByVersion.values());
 
-    // 5. Sort descending by SEMANTIC VERSION (v1.2.0 > v1.1.0 > v1.0.0)
+    // 5. Sort descending by SEMANTIC VERSION (v1.5.0 > v1.4.0 > v1.3.0 ...)
     allReleases.sort((a, b) => compareSemverDesc(a.version, b.version));
 
-    // 6. Assign isLatest: true exclusively to the highest semantic stable release (v1.2.0)
+    // 6. Assign isLatest: true exclusively to the highest semantic stable downloadable release
     for (const rel of allReleases) {
       rel.isLatest = false;
     }
@@ -248,7 +282,7 @@ async function syncReleases() {
     fs.writeFileSync(releasesDataPath, JSON.stringify(allReleases, null, 2) + '\n', 'utf8');
     console.log(`[SwitchCast Sync] Successfully written ${allReleases.length} releases to src/data/releases.json:`);
     for (const rel of allReleases) {
-      console.log(`  - v${rel.version} (${rel.status}) | Package: ${rel.package?.name} (${rel.package?.size})`);
+      console.log(`  - v${rel.version} (${rel.status}) | Downloadable: ${rel.downloadable} | Package: ${rel.package?.name || 'None'}`);
     }
 
     // 8. Write synchronized latest release manifest (src/data/release.json)

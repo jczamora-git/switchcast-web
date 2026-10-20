@@ -66,6 +66,12 @@
                   <span>Sources</span>
                 </button>
               </li>
+              <li class="win-nav-item" data-tab="music">
+                <button type="button">
+                  <span class="nav-icon">🎵</span>
+                  <span>Playlists</span>
+                </button>
+              </li>
               <li class="win-nav-item" data-tab="settings">
                 <button type="button">
                   <span class="nav-icon">⚙️</span>
@@ -75,7 +81,7 @@
             </ul>
 
             <div class="win-nav-footer">
-              <span class="demo-subtext" style="font-size: 0.68rem; display: block; text-align: center;">v1.2.1 WinUI 3</span>
+              <span class="demo-subtext" style="font-size: 0.68rem; display: block; text-align: center;">v1.5.0 WinUI 3</span>
             </div>
           </nav>
 
@@ -174,8 +180,8 @@
 
               <!-- Category Filter Tabs -->
               <div class="sources-tab-bar" role="tablist">
-                <button type="button" class="sources-cat-btn active" data-category="windows">Application Windows (3)</button>
-                <button type="button" class="sources-cat-btn" data-category="displays">Displays & Monitors (2)</button>
+                <button type="button" class="sources-cat-btn active" data-category="windows">Application Windows (4)</button>
+                <button type="button" class="sources-cat-btn" data-category="displays">Displays & Cameras (3)</button>
                 <button type="button" class="sources-cat-btn" data-category="media">Media Files (2)</button>
               </div>
 
@@ -195,7 +201,59 @@
               </div>
             </div>
 
-            <!-- VIEW 3: SETTINGS -->
+            <!-- VIEW 3: MUSIC & PLAYLISTS -->
+            <div class="view-panel" data-panel="music">
+              <div class="view-header">
+                <div class="view-title-group">
+                  <h3>Background Music</h3>
+                  <p>Stream walk-in audio and ambient playlists independently from presentation video feeds.</p>
+                </div>
+              </div>
+
+              <div class="settings-content">
+                <div class="settings-card">
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                    <div>
+                      <h4 style="margin-bottom: 0.2rem;">📁 Keynote Walk-In Playlist</h4>
+                      <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--sc-text-tertiary);">3 Tracks • 10:47 Total • Local Storage</span>
+                    </div>
+                    <span class="badge-status badge-latest" id="music-status-badge">STANDBY</span>
+                  </div>
+
+                  <div id="music-tracks-list" style="display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem;">
+                    <!-- Tracks populated by controller -->
+                  </div>
+
+                  <!-- Music Transport Controls -->
+                  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--sc-border-subtle);">
+                    <div style="display: flex; align-items: center; gap: 0.35rem;">
+                      <button type="button" class="dock-btn-icon" id="btn-music-prev" title="Previous Track">⏮</button>
+                      <button type="button" class="dock-btn-icon" id="btn-music-play" title="Play / Pause Background Music" style="width: 32px; height: 32px;">
+                        <span id="music-play-icon">▶</span>
+                      </button>
+                      <button type="button" class="dock-btn-icon" id="btn-music-next" title="Next Track">⏭</button>
+                    </div>
+
+                    <div style="flex: 1; min-width: 140px;">
+                      <span style="display: block; font-family: var(--font-mono); font-size: 0.65rem; color: var(--sc-text-tertiary);">NOW STREAMING</span>
+                      <strong id="music-track-title" style="font-size: 0.82rem; color: #ffffff; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Ambient Presentation Flow</strong>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 0.4rem;">
+                      <span style="font-size: 0.8rem;">🔊</span>
+                      <input type="range" class="dock-vol-slider" id="music-vol-slider" min="0" max="100" value="70" aria-label="Background Music Volume" style="width: 65px;" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-card" style="background: rgba(255, 122, 89, 0.03); border-color: rgba(255, 122, 89, 0.2);">
+                  <h4 style="color: var(--sc-accent);">Independent Audio Isolation</h4>
+                  <p style="margin-bottom: 0;">Background music runs on an isolated WinRT audio pipeline. Switching between apps, cameras, or playing presentation videos never stops or interrupts your playlist walk-in music.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- VIEW 4: SETTINGS -->
             <div class="view-panel" data-panel="settings">
               <div class="view-header">
                 <div class="view-title-group">
@@ -212,7 +270,7 @@
                   <div class="settings-meta-grid">
                     <div class="settings-meta-item">
                       <span class="settings-meta-label">APPLICATION VERSION</span>
-                      <span class="settings-meta-val">v1.2.1 (Official Release)</span>
+                      <span class="settings-meta-val">v1.5.0 (Official Release)</span>
                     </div>
                     <div class="settings-meta-item">
                       <span class="settings-meta-label">TARGET PLATFORM</span>
@@ -226,6 +284,39 @@
                       <span class="settings-meta-label">CREATOR</span>
                       <span class="settings-meta-val">John Christopher King Zamora</span>
                     </div>
+                  </div>
+                </div>
+
+                <!-- Live Performance Telemetry Monitor [DEMO DATA] -->
+                <div class="settings-card">
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <h4 style="margin-bottom: 0;">Performance & Telemetry</h4>
+                    <span class="badge-status badge-previous" style="font-size: 0.65rem;">DEMO DATA</span>
+                  </div>
+                  <p>Live graphics pipeline telemetry and adaptive rendering metrics introduced in v1.5.0.</p>
+
+                  <div class="settings-meta-grid">
+                    <div class="settings-meta-item">
+                      <span class="settings-meta-label">RENDERING BACKEND</span>
+                      <span class="settings-meta-val">Auto (Direct3D 11 Hardware)</span>
+                    </div>
+                    <div class="settings-meta-item">
+                      <span class="settings-meta-label">LIVE FRAME RATE</span>
+                      <span class="settings-meta-val" style="color: #34d399;">60.0 FPS (Target 60 FPS)</span>
+                    </div>
+                    <div class="settings-meta-item">
+                      <span class="settings-meta-label">DROPPED FRAMES</span>
+                      <span class="settings-meta-val">0 (0.00%)</span>
+                    </div>
+                    <div class="settings-meta-item">
+                      <span class="settings-meta-label">DIRECTX RECOVERY</span>
+                      <span class="settings-meta-val" style="color: #34d399;">Self-Healing Active</span>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--sc-text-tertiary); display: flex; align-items: center; gap: 0.4rem;">
+                    <span>🔒</span>
+                    <span>Local Diagnostics: Offline log storage (%LOCALAPPDATA%\SwitchCast\Logs) • No remote tracking</span>
                   </div>
                 </div>
 
@@ -300,7 +391,7 @@
             <div class="mockup-slides">
               <div class="mockup-slides-header">
                 <span>POWERPOINT PRESENTATION</span>
-                <span>SLIDE 04 / 18</span>
+                <span id="canvas-slide-indicator">SLIDE 04 / 18</span>
               </div>
               <div class="mockup-slides-body">
                 <h4>Q4 Product Strategy & Roadmap</h4>
@@ -312,7 +403,53 @@
               </div>
               <div class="mockup-slides-footer">
                 <span>Jeizi Productions Confidential</span>
-                <span>SwitchCast v1.2.1</span>
+                <span>SwitchCast v1.5.0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feed: Live Slideshow -->
+          <div class="canvas-feed" data-feed-type="slideshow">
+            <div class="mockup-slides">
+              <div class="mockup-slides-header" style="background: rgba(255, 122, 89, 0.15); border-bottom-color: rgba(255, 122, 89, 0.3);">
+                <span style="color: var(--sc-accent);">📽️ LIVE POWERPOINT SLIDESHOW</span>
+                <span id="canvas-slideshow-indicator">SLIDE 04 / 18</span>
+              </div>
+              <div class="mockup-slides-body">
+                <h4>Windowed Slideshow Presentation</h4>
+                <ul>
+                  <li>Direct PowerPoint COM automation in dedicated windowed mode</li>
+                  <li>Smart external display mode prevents slide decks from hijacking presenter screens</li>
+                  <li>Automatic slide index tracking and state continuity upon switching</li>
+                </ul>
+              </div>
+              <div class="mockup-slides-footer">
+                <span>Microsoft PowerPoint • Windowed Mode</span>
+                <span>SwitchCast v1.5.0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feed: Webcam / Camera -->
+          <div class="canvas-feed" data-feed-type="webcam">
+            <div class="mockup-display" style="border-color: rgba(255, 122, 89, 0.25);">
+              <span class="mockup-display-badge">📷 Live Camera Feed • USB / Integrated</span>
+              <div class="mockup-display-center" style="padding: 1.5rem 1rem;">
+                <svg width="68" height="68" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin: 0 auto 0.75rem auto; display: block;">
+                  <circle cx="50" cy="36" r="18" fill="rgba(255, 255, 255, 0.15)" stroke="var(--sc-accent)" stroke-width="2" />
+                  <path d="M22 84C22 66 34 58 50 58C66 58 78 66 78 84" fill="rgba(255, 255, 255, 0.1)" stroke="var(--sc-accent)" stroke-width="2" />
+                  <circle cx="50" cy="50" r="42" stroke="rgba(255, 122, 89, 0.4)" stroke-width="1.5" stroke-dasharray="4,4" />
+                  <line x1="50" y1="2" x2="50" y2="12" stroke="var(--sc-accent)" stroke-width="2" />
+                  <line x1="50" y1="88" x2="50" y2="98" stroke="var(--sc-accent)" stroke-width="2" />
+                  <line x1="2" y1="50" x2="12" y2="50" stroke="var(--sc-accent)" stroke-width="2" />
+                  <line x1="88" y1="50" x2="98" y2="50" stroke="var(--sc-accent)" stroke-width="2" />
+                </svg>
+                <strong style="font-size: 0.9rem; color: #ffffff; display: block; margin-bottom: 0.25rem;">SIMULATED CAMERA PREVIEW</strong>
+                <p style="font-size: 0.75rem; color: var(--sc-text-secondary); margin: 0;">Demo illustration only • Zero hardware permissions or webcam access required.</p>
+              </div>
+              <div class="mockup-display-taskbar">
+                <span>1920 × 1080 @ 30 FPS • BGRA8</span>
+                <span>• Privacy First: Camera Released When Off-Air</span>
               </div>
             </div>
           </div>
@@ -426,10 +563,23 @@
           <div class="dock-divider"></div>
 
           <!-- Presentation Action Buttons -->
+          <button type="button" class="dock-btn-icon" id="btn-dock-music" title="Toggle Background Music (Play / Pause)">🎵</button>
           <button type="button" class="dock-btn-icon" id="btn-dock-pause" title="Freeze Presentation Frame" disabled>⏸</button>
           <button type="button" class="dock-btn-icon" id="btn-dock-blackout" title="Privacy Blackout Curtain" disabled>🕶️</button>
           <button type="button" class="dock-btn-icon" id="btn-dock-stop" title="Stop Presentation" disabled>⏹</button>
           <button type="button" class="dock-btn-icon" id="btn-dock-fullscreen" title="Toggle Borderless Fullscreen">⛶</button>
+        </div>
+
+        <!-- Slide Controls Sub-Row (appears when PowerPoint slides/slideshow is active) -->
+        <div class="dock-slide-controls" id="dock-slide-controls" style="display: none;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding-top: 0.35rem; border-top: 1px solid var(--sc-border-subtle);">
+            <div style="display: flex; align-items: center; gap: 0.3rem;">
+              <button type="button" class="dock-btn-icon" id="btn-slide-prev" title="Previous Slide">⏮</button>
+              <span id="dock-slide-num" style="font-family: var(--font-mono); font-size: 0.68rem; color: #ffffff; padding: 0 0.25rem;">Slide 4 of 18</span>
+              <button type="button" class="dock-btn-icon" id="btn-slide-next" title="Next Slide">⏭</button>
+            </div>
+            <span style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--sc-accent);">📊 Slide Controls</span>
+          </div>
         </div>
 
         <!-- Video Controls Sub-Row (appears when video is active source) -->

@@ -7,6 +7,8 @@ const __dirname = path.dirname(__filename);
 const releasesDataPath = path.resolve(__dirname, '../src/data/releases.json');
 const singleReleaseDataPath = path.resolve(__dirname, '../src/data/release.json');
 
+import { compareSemverDesc } from './sync-release.mjs';
+
 function verifyRelease() {
   console.log('==================================================');
   console.log('SWITCHCAST WEBSITE — RELEASE MANIFEST VERIFICATION');
@@ -31,11 +33,16 @@ function verifyRelease() {
     process.exit(1);
   }
 
+  // Find expected latest release dynamically by semver ordering of stable downloadable releases
+  const candidateLatest = [...releasesList]
+    .filter(r => r.published && r.downloadable && !r.prerelease && !r.draft)
+    .sort((a, b) => compareSemverDesc(a.version, b.version))[0];
+
   const latestReleases = releasesList.filter(r => r.isLatest);
   if (latestReleases.length !== 1) {
     errors.push(`Expected exactly 1 latest release, found ${latestReleases.length}.`);
-  } else if (latestReleases[0].version !== '1.2.1') {
-    errors.push(`Expected latest release to be v1.2.1 by semantic versioning, found v${latestReleases[0].version}.`);
+  } else if (candidateLatest && latestReleases[0].version !== candidateLatest.version) {
+    errors.push(`Expected latest release to be v${candidateLatest.version} by semantic versioning, found v${latestReleases[0].version}.`);
   }
 
   console.log(`Checking ${releasesList.length} release entries in src/data/releases.json:`);
@@ -110,8 +117,23 @@ function verifyRelease() {
         ? `SHA-256 (${rel.checksum.sha256.slice(0, 10)}...${rel.checksum.downloadUrl ? ' with file' : ' digest only'})`
         : 'No checksum asset';
       console.log(`  ✓ ${rel.tag.padEnd(8)} | ${rel.releaseDate?.padEnd(18) || 'N/A'.padEnd(18)} | ${rel.package.size.padEnd(9)} | Published (${checksumStatus})`);
+    } else if (rel.published && !rel.downloadable) {
+      // Published release without binary asset (e.g. historical release notes)
+      if (rel.isLatest) {
+        errors.push(`${prefix} Non-downloadable release must not be marked as latest release.`);
+      }
+
+      if (rel.package && rel.package.downloadUrl) {
+        errors.push(`${prefix} Non-downloadable release must not have a downloadable package URL.`);
+      }
+
+      if (rel.checksum && rel.checksum.available) {
+        errors.push(`${prefix} Non-downloadable release must not advertise available checksum.`);
+      }
+
+      console.log(`  ✓ ${rel.tag.padEnd(8)} | ${rel.releaseDate?.padEnd(18) || 'N/A'.padEnd(18)} | No binary | Published (Download Unavailable)`);
     } else {
-      // Historical milestone contract
+      // Historical unpublished milestone contract
       if (rel.isLatest) {
         errors.push(`${prefix} Unpublished milestone must not be marked as latest release.`);
       }

@@ -166,7 +166,7 @@ const breadcrumbSchema = {
 
               <div class="previous-card-actions">
                 <div class="action-buttons-group">
-                  {rel.downloadable && rel.package?.downloadUrl && (
+                  {rel.downloadable && rel.package?.downloadUrl ? (
                     <a href={rel.package.downloadUrl} class="btn btn-secondary btn-sm prev-download-btn" download>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -175,6 +175,8 @@ const breadcrumbSchema = {
                       </svg>
                       <span>Download ({rel.package.size})</span>
                     </a>
+                  ) : (
+                    <span class="badge-status badge-unavailable">Download Unavailable</span>
                   )}
 
                   <a href={`/releases/${rel.tag}/`} class="notes-link">
@@ -290,6 +292,12 @@ const breadcrumbSchema = {
   .badge-previous {
     background: rgba(255, 255, 255, 0.05);
     color: var(--sc-text-secondary);
+    border: 1px solid var(--sc-border-subtle);
+  }
+
+  .badge-unavailable {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--sc-text-tertiary);
     border: 1px solid var(--sc-border-subtle);
   }
 

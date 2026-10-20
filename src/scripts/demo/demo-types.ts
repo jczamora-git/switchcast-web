@@ -1,7 +1,7 @@
 export type SourceCategory = 'windows' | 'displays' | 'media';
 export type SwitchingMode = 'LiveOnly' | 'ActiveLive' | 'ActiveOnly';
 export type PresentationStatus = 'Not Started' | 'Presenting' | 'Paused' | 'Blackout' | 'Stopped';
-export type ActiveTab = 'dashboard' | 'sources' | 'settings';
+export type ActiveTab = 'dashboard' | 'sources' | 'music' | 'settings';
 
 export interface DemoSource {
   id: string;
@@ -9,7 +9,7 @@ export interface DemoSource {
   category: SourceCategory;
   subtitle: string;
   glyph: string;
-  previewType: 'browser' | 'slides' | 'code' | 'display' | 'video' | 'image';
+  previewType: 'browser' | 'slides' | 'slideshow' | 'code' | 'display' | 'video' | 'image' | 'webcam';
   isQueued: boolean;
   metadata?: {
     processName?: string;
@@ -48,6 +48,16 @@ export interface DemoState {
   videoDuration: number; // in seconds
   volume: number; // 0 - 100
   isMuted: boolean;
+
+  // PowerPoint Slide Deck state
+  slideIndex: number;
+  slideTotal: number;
+
+  // Background Music Playlists simulation (independent from video playback)
+  musicPlaying: boolean;
+  musicTrackIndex: number;
+  musicVolume: number;
+  musicTracks: Array<{ title: string; artist: string; duration: string }>;
 
   // Guided workflow progress
   hasQueuedSource: boolean;

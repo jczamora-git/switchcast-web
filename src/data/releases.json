@@ -1,16 +1,178 @@
 [
   {
-    "tag": "v1.2.1",
-    "version": "1.2.1",
-    "name": "SwitchCast v1.2.1",
-    "publishedAt": "2026-10-09T21:53:14Z",
-    "releaseDate": "October 10, 2026",
+    "tag": "v1.5.0",
+    "version": "1.5.0",
+    "name": "SwitchCast v1.5.0",
+    "publishedAt": "2026-10-20T02:52:55Z",
+    "releaseDate": "October 20, 2026",
     "isLatest": true,
     "published": true,
     "downloadable": true,
     "prerelease": false,
     "draft": false,
     "status": "Latest Release",
+    "summary": "Automatic rendering optimization for different hardware configurations, zero-copy frame pipeline, self-healing graphics recovery, and live performance monitoring in Settings.",
+    "highlights": [
+      "Added automatic rendering optimization for different hardware configurations.",
+      "Improved presentation performance and responsiveness when switching between sources.",
+      "Added automatic graphics recovery during supported device interruptions.",
+      "Introduced live performance monitoring in Settings.",
+      "Improved source selection and floating dock stability."
+    ],
+    "githubUrl": "https://github.com/jczamora-git/SwitchCast/releases/tag/v1.5.0",
+    "package": {
+      "name": "SwitchCast-v1.5.0-win-x64.zip",
+      "size": "64.0 MB",
+      "sizeBytes": 67120738,
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.5.0/SwitchCast-v1.5.0-win-x64.zip",
+      "platform": "Windows 10 (1809+) & Windows 11",
+      "architecture": "x64 (64-bit)",
+      "type": "Standalone ZIP (Self-Contained)"
+    },
+    "checksum": {
+      "available": true,
+      "filename": "SwitchCast-v1.5.0-win-x64.sha256",
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.5.0/SwitchCast-v1.5.0-win-x64.sha256",
+      "sha256": "DE5D44FDE3BDECF4094A2618E042DFBF4146DABFB1B698D6484E4C7B0C9EB324"
+    },
+    "assets": [
+      {
+        "name": "SwitchCast-v1.5.0-win-x64.sha256",
+        "sizeBytes": 97,
+        "sizeFormatted": "97 B",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.5.0/SwitchCast-v1.5.0-win-x64.sha256",
+        "kind": "checksum"
+      },
+      {
+        "name": "SwitchCast-v1.5.0-win-x64.zip",
+        "sizeBytes": 67120738,
+        "sizeFormatted": "64.0 MB",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.5.0/SwitchCast-v1.5.0-win-x64.zip",
+        "kind": "binary"
+      }
+    ],
+    "releaseNotes": "# SwitchCast v1.5.0 — Release Notes\r\n\r\n**Release Date:** October 20, 2026  \r\n**Target Platform:** Windows 10 (version 1809+) & Windows 11 (x64)  \r\n**Binary Package:** `SwitchCast-v1.5.0-win-x64.zip`  \r\n**Creator:** John Christopher King Zamora  \r\n**Website:** [https://switchcast.wasmer.app/](https://switchcast.wasmer.app/)  \r\n**Repository:** [https://github.com/jczamora-git/SwitchCast](https://github.com/jczamora-git/SwitchCast)\r\n\r\n---\r\n\r\n## 🚀 Overview\r\n\r\nSwitchCast **v1.5.0** is a major architectural performance milestone. Inspired by the efficiency of professional broadcasting suites (OBS Studio), v1.5.0 introduces **Adaptive Rendering**, a **GPU-Backed Zero-Copy Frame Pipeline**, **Self-Healing DirectX Device Recovery**, and a **Live Performance Telemetry Monitor** directly in Settings.\r\n\r\nThis release cuts memory traffic by over 8.3 MB per frame at 1080p, eliminates UI latency during rapid source switching, and guarantees unbroken presentations across GPU driver resets, monitor hotplugs, and system sleep/wake cycles.\r\n\r\n---\r\n\r\n## ✨ What's New & Enhanced in v1.5.0\r\n\r\n### ⚡ Tri-State Adaptive Rendering Engine\r\n- **Hardware Probing (`IGraphicsCapabilityService`)**: Probes GPU capabilities and dedicated video memory (VRAM) using low-overhead DXGI 1.1 COM interop at startup.\r\n- **Three Selectable Rendering Modes**:\r\n  - **Auto (Recommended)**: Automatically selects hardware Direct3D 11 rendering on capable GPUs and smoothly transitions to WARP software rasterization on resource-constrained or virtualized systems.\r\n  - **Prefer Hardware**: Locks rendering to the physical Direct3D 11 GPU adapter for maximum throughput and minimum latency.\r\n  - **Compatibility Mode (WARP)**: Forces high-efficiency Windows Advanced Rasterization Platform (WARP), delivering 100% stable presentation rendering inside Remote Desktop (RDP), VMs, or legacy hardware without hardware driver dependencies.\r\n- **Zero-Restart Switching**: Rendering mode changes take effect instantly for new sessions without requiring application restarts.\r\n\r\n### 🚀 Direct GPU-Backed Frame Pipeline\r\n- **Zero-Copy Surface Copying**: Leverages Direct3D 11 `CopyResource` and `CopySubresourceRegion` to transfer frames directly on the GPU, eliminating CPU-side byte array allocations and saving ~8.3 MB of system RAM per frame at 1080p60.\r\n- **Hardware Backpressure & Frame Pacing**: Implements a bounded latest-frame-wins queue that drops stale frames atomically under load, eliminating presentation drift and UI thread stutter.\r\n\r\n### 🛡️ Self-Healing DirectX Device Loss Recovery\r\n- **Driver Crash & Reset Resilience**: Listens for `DXGI_ERROR_DEVICE_REMOVED`, `DXGI_ERROR_DEVICE_RESET`, and `DXGI_ERROR_DEVICE_HUNG` HRESULT errors.\r\n- **Seamless Pipeline Reconstruction**: Automatically rebuilds D3D11 device, swapchain, render target views, and active source feeds without tearing down the audience-facing presentation window or terminating meeting screen shares.\r\n- **Clean Logging**: Correctly distinguishes initial cold device startup from true recovery resets, eliminating spurious warning logs.\r\n\r\n### 📊 Live Performance Telemetry Monitor\r\n- **Real-Time Performance Dashboard**: Embedded directly within **Settings > Performance**, displaying live metrics:\r\n  - **Live Render FPS**: Real-time output framerate alongside configured target FPS.\r\n  - **Active Rendering Backend**: Visual badge indicating whether Hardware Acceleration (with active GPU model) or WARP Software Rasterizer is rendering.\r\n  - **Frame Render Latency**: Measured rendering duration in milliseconds with adaptive color coding (Green < 16ms, Orange < 33ms, Red >= 33ms).\r\n  - **Dropped Frames**: Real-time dropped frame count and drop rate percentage.\r\n  - **VRAM / Buffer Memory**: Estimated video memory footprint allocated for swapchain and composition buffers.\r\n- **Zero Overhead When Disabled**: Metric sampling and high-resolution stopwatch timers run only when the user explicitly enables telemetry and the settings page is active.\r\n\r\n### 🐛 Sources UI & SwitchDeck Hotfixes\r\n- **Category Dropdown Synchronization**: Resolved an issue where the Sources page category dropdown appeared blank on initial navigation despite \"Application Windows\" being selected.\r\n- **SwitchDeck HWND Teardown Protection**: Hardened native window cleanup to prevent `AccessViolationException` or invalid HWND references when dismissing the SwitchDeck floating presenter dock.\r\n\r\n---\r\n\r\n## 📥 Download & Installation\r\n\r\n### Windows x64 Standalone Package\r\n- **Package Archive:** `SwitchCast-v1.5.0-win-x64.zip`\r\n- **SHA-256 Checksum:** `SwitchCast-v1.5.0-win-x64.sha256`\r\n\r\n### How to Run:\r\n1. Download `SwitchCast-v1.5.0-win-x64.zip`.\r\n2. Extract the archive to any folder on your computer.\r\n3. Launch `SwitchCast.exe`.\r\n4. *Zero external .NET runtimes or Visual Studio installations required (Self-Contained Windows App SDK package).*\r\n\r\n---\r\n\r\n## 🧪 Quality & Verification Summary\r\n\r\n- **Automated Test Matrix:** 476 passing tests (100% pass rate, 0 failures, 0 skipped).\r\n- **Target Platform Alignment:** .NET 8 (`net8.0-windows10.0.19041.0`) on Windows App SDK 1.5.\r\n- **Compiler Health:** 0 compiler errors, 0 compiler warnings on both Debug and Release configurations.\r\n- **Privacy & Security:** 100% offline, zero network telemetry, zero external egress.\r\n"
+  },
+  {
+    "tag": "v1.4.0",
+    "version": "1.4.0",
+    "name": "SwitchCast v1.4.0",
+    "publishedAt": "2026-10-20T10:35:11Z",
+    "releaseDate": "October 20, 2026",
+    "isLatest": false,
+    "published": true,
+    "downloadable": true,
+    "prerelease": false,
+    "draft": false,
+    "status": "Previous Release",
+    "summary": "Background music playback with custom playlists, SwitchDeck audio controls, responsive queued-only source filtering, and dedicated incident diagnostics in Settings.",
+    "highlights": [
+      "Added background music playback with custom playlists.",
+      "Added music and track controls to the Floating Dock.",
+      "Improved source filtering and queue management.",
+      "Added dedicated diagnostics management in Settings.",
+      "Improved audio playback stability."
+    ],
+    "githubUrl": "https://github.com/jczamora-git/SwitchCast/releases/tag/v1.4.0",
+    "package": {
+      "name": "SwitchCast-v1.4.0-win-x64.zip",
+      "size": "61.9 MB",
+      "sizeBytes": 64887060,
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.4.0/SwitchCast-v1.4.0-win-x64.zip",
+      "platform": "Windows 10 (1809+) & Windows 11",
+      "architecture": "x64 (64-bit)",
+      "type": "Standalone ZIP (Self-Contained)"
+    },
+    "checksum": {
+      "available": true,
+      "filename": "SwitchCast-v1.4.0-win-x64.sha256",
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.4.0/SwitchCast-v1.4.0-win-x64.sha256",
+      "sha256": "D881614271A25CBF465D980D935EA78389B658C90DFB3B997962FD12355019D9"
+    },
+    "assets": [
+      {
+        "name": "SwitchCast-v1.4.0-win-x64.sha256",
+        "sizeBytes": 97,
+        "sizeFormatted": "97 B",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.4.0/SwitchCast-v1.4.0-win-x64.sha256",
+        "kind": "checksum"
+      },
+      {
+        "name": "SwitchCast-v1.4.0-win-x64.zip",
+        "sizeBytes": 64887060,
+        "sizeFormatted": "61.9 MB",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.4.0/SwitchCast-v1.4.0-win-x64.zip",
+        "kind": "binary"
+      }
+    ],
+    "releaseNotes": "# SwitchCast v1.4.0 — Release Notes\r\n\r\n**Release Date:** October 18, 2026  \r\n**Target Platform:** Windows 10 (version 1809+) & Windows 11 (x64)  \r\n**Binary Package:** `SwitchCast-v1.4.0-win-x64.zip`  \r\n**Creator:** John Christopher King Zamora  \r\n**Website:** [https://switchcast.wasmer.app/](https://switchcast.wasmer.app/)  \r\n**Repository:** [https://github.com/jczamora-git/SwitchCast](https://github.com/jczamora-git/SwitchCast)\r\n\r\n---\r\n\r\n## 🚀 Overview\r\n\r\nSwitchCast **v1.4.0** introduces a comprehensive **Background Music Subsystem**, dedicated **Playlists Management**, and direct **SwitchDeck Audio Controls**, transforming SwitchCast into an all-in-one broadcast companion for live presentations and webinars. Presenters can now stream calming background audio or walk-in music independently of live presentation media.\r\n\r\nAdditionally, v1.4.0 delivers a **Responsive Sources Experience** with queued-only filtering, moves incident diagnostics into Settings, and resolves critical audio concurrency and startup crash conditions.\r\n\r\n---\r\n\r\n## ✨ What's New & Enhanced in v1.4.0\r\n\r\n### 🎵 Background Music Library & Dedicated Playlists\r\n- **Independent Audio Engine (`IBackgroundMusicService`)**: Built a fully decoupled background music player powered by WinRT `Windows.Media.Playback.MediaPlayer`, isolated from video presentation playback.\r\n- **Dedicated Playlists Navigation**: Manage custom music playlists directly from the SwitchCast sidebar. Create, rename, delete playlists, and organize audio files effortlessly.\r\n- **Broad Audio Format Support**: Import and play `.mp3`, `.wav`, `.flac`, `.aac`, `.m4a`, and `.wma` files directly into playlists.\r\n- **Immediate UI Refresh & Sync**: Newly imported audio files instantly appear in playlist views without requiring page reloads or navigation cycling, complemented by a quick-refresh control.\r\n- **Persistent Playlists**: Saved automatically to `%LOCALAPPDATA%\\SwitchCast\\music_playlists.json` with safe atomic writes and corrupt file recovery.\r\n\r\n### 🎛️ SwitchDeck Music Transport & Track Picker\r\n- **Presenter Dock Audio Controls**: Control background music playback directly from the lightweight Floating Presenter Dock (SwitchDeck) while presenting full-screen.\r\n- **Live Track Indicator & Marquee**: Displays the currently playing track title, artist metadata, and playback status.\r\n- **Direct Track Selection**: Pick and switch directly to any song in the active playlist via the dock track selector.\r\n- **Dual-Player Audio Isolation**: Hardened audio isolation ensures presentation video audio and background music streams maintain independent volume, muting, and lifecycle states without cross-talk.\r\n\r\n### 📋 Responsive Sources & Queue Management\r\n- **Application Windows Default**: The Sources page now defaults to \"Application Windows\" and intelligently preserves your active category filter across sessions.\r\n- **Queued-Only Filter Toggle**: Filter your sources view to show only assets currently staged in the presentation queue, making dense asset collections easy to manage.\r\n- **Live Queue Summary**: Visual status counter shows total queued items across all categories at a glance.\r\n- **Polite Import Feedback**: Added smooth auto-scroll to newly imported assets and non-blocking in-app notification toasts.\r\n\r\n### 🛠️ Diagnostics Architecture Refinement\r\n- **Diagnostics in Settings**: Relocated Incident History and local diagnostics reporting from the Control Dashboard to **Settings > Diagnostics**, keeping the primary presenter dashboard clean and focused.\r\n- **Startup Exception Hardening**: Resolved intermittent WinRT `COMException` (0x80004005) during window initialization and hardened synchronous local crash logging.\r\n\r\n---\r\n\r\n## 📥 Download & Installation\r\n\r\n### Windows x64 Standalone Package\r\n- **Package Archive:** `SwitchCast-v1.4.0-win-x64.zip`\r\n- **SHA-256 Checksum:** `SwitchCast-v1.4.0-win-x64.sha256`\r\n\r\n### How to Run:\r\n1. Download `SwitchCast-v1.4.0-win-x64.zip`.\r\n2. Extract the archive to any folder on your computer.\r\n3. Launch `SwitchCast.exe`.\r\n4. *Zero external .NET runtimes or Visual Studio installations required (Self-Contained Windows App SDK package).*\r\n\r\n---\r\n\r\n## 🧪 Quality & Verification Summary\r\n\r\n- **Target Platform Alignment:** .NET 8 (`net8.0-windows10.0.19041.0`) on Windows App SDK 1.5.\r\n- **Dual-Player Regression Suite:** 100% test coverage over concurrent video audio and background music state transitions.\r\n- **Compiler Health:** 0 compiler errors, 0 compiler warnings on both Debug and Release configurations.\r\n- **Privacy & Telemetry:** 100% offline, zero network telemetry, zero data egress.\r\n"
+  },
+  {
+    "tag": "v1.3.0",
+    "version": "1.3.0",
+    "name": "SwitchCast v1.3.0",
+    "publishedAt": "2026-10-20T10:32:47Z",
+    "releaseDate": "October 20, 2026",
+    "isLatest": false,
+    "published": true,
+    "downloadable": true,
+    "prerelease": false,
+    "draft": false,
+    "status": "Previous Release",
+    "summary": "PowerPoint slide decks and live slideshow support, USB webcam and camera sources, smart external display automation, and privacy-first local diagnostics.",
+    "highlights": [
+      "Added PowerPoint presentations and live slideshow support.",
+      "Added webcam and camera sources.",
+      "Added automatic external monitor/projector handling.",
+      "Introduced local diagnostics and error reporting.",
+      "Improved presentation and dock stability."
+    ],
+    "githubUrl": "https://github.com/jczamora-git/SwitchCast/releases/tag/v1.3.0",
+    "package": {
+      "name": "SwitchCast-v1.3.0-win-x64.zip",
+      "size": "64.0 MB",
+      "sizeBytes": 67060309,
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.3.0/SwitchCast-v1.3.0-win-x64.zip",
+      "platform": "Windows 10 (1809+) & Windows 11",
+      "architecture": "x64 (64-bit)",
+      "type": "Standalone ZIP (Self-Contained)"
+    },
+    "checksum": {
+      "available": true,
+      "filename": "SwitchCast-v1.3.0-win-x64.sha256",
+      "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.3.0/SwitchCast-v1.3.0-win-x64.sha256",
+      "sha256": "D6005D61083C7142F07FBC70CD7DD0EB4BC742D559CB68B99DF5A5A42A3B38ED"
+    },
+    "assets": [
+      {
+        "name": "SwitchCast-v1.3.0-win-x64.sha256",
+        "sizeBytes": 97,
+        "sizeFormatted": "97 B",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.3.0/SwitchCast-v1.3.0-win-x64.sha256",
+        "kind": "checksum"
+      },
+      {
+        "name": "SwitchCast-v1.3.0-win-x64.zip",
+        "sizeBytes": 67060309,
+        "sizeFormatted": "64.0 MB",
+        "downloadUrl": "https://github.com/jczamora-git/SwitchCast/releases/download/v1.3.0/SwitchCast-v1.3.0-win-x64.zip",
+        "kind": "binary"
+      }
+    ],
+    "releaseNotes": "# SwitchCast v1.3.0 — Release Notes\r\n\r\n**Release Date:** October 16, 2026  \r\n**Target Platform:** Windows 10 (version 1809+) & Windows 11 (x64)  \r\n**Binary Package:** `SwitchCast-v1.3.0-win-x64.zip`  \r\n**Creator:** John Christopher King Zamora  \r\n**Website:** [https://switchcast.wasmer.app/](https://switchcast.wasmer.app/)  \r\n**Repository:** [https://github.com/jczamora-git/SwitchCast](https://github.com/jczamora-git/SwitchCast)\r\n\r\n---\r\n\r\n## 🚀 Overview\r\n\r\nSwitchCast **v1.3.0** is a landmark feature and stability release. It expands SwitchCast's source capabilities to a unified 6-source presentation engine—adding **PowerPoint Slide Decks (`.pptx`)**, **Live PowerPoint Slideshows**, and **USB Webcams / Cameras** alongside existing Window, Display, Image, and Video sources. \r\n\r\nFurthermore, v1.3.0 delivers **Smart External Display Automation**, a production-grade **Local Diagnostics & Error Reporting Subsystem**, a dedicated centered **Presenter Dock Confirmation Window**, and resolves critical native lifecycle and AccessViolation crash scenarios upon presentation stops and floating dock dismissals.\r\n\r\n---\r\n\r\n## ✨ What's New & Enhanced in v1.3.0\r\n\r\n### 📊 PowerPoint Integration (Static Decks & Live Slideshows)\r\n- **Static `.pptx` Presentation Support**: Import PowerPoint presentation files directly into the source library. High-resolution slides are extracted into an isolated local MD5-hashed cache for instantaneous rendering without COM latency.\r\n- **Persistent Slide Decks**: Imported presentations are remembered persistently across sessions in `UserSettings`. Non-existent files are safely flagged as unavailable without destructive deletion.\r\n- **Slide State Continuity**: SwitchCast tracks `CurrentSlideIndex` so switching away to video or camera and returning to PowerPoint resumes on the exact same slide.\r\n- **Attended Live PowerPoint Automation**: Seamless integration with Microsoft PowerPoint COM automation (`IPowerPointLiveService`) in windowed slideshow mode (`ppShowTypeWindow = 2`), preventing slide decks from hijacking external displays.\r\n- **Adaptive Dock Slide Controls**: The Floating Presenter Dock dynamically presents secondary slide navigation buttons (`Previous Slide`, `Next Slide`) and a live slide progress indicator (`Slide X of Y`).\r\n\r\n### 📷 Camera & Webcam Integration\r\n- **Webcam Discovery & Hotplug Support**: Automatic hardware enumeration via Windows Device Information Watchers for integrated webcams, USB capture cards, and virtual cameras.\r\n- **Native Video Frame Acquisition**: Captures live frames via `Windows.Media.Capture.MediaCapture` and `MediaFrameReader`, rendering directly to the presentation output with automatic BGRA8 color space conversion and CPU/GPU fallback pipelines.\r\n- **Hardware Backpressure & Task Observation**: Eliminates frame drops and UI freezes via bounded latest-frame-wins rendering and deterministic frame disposal.\r\n- **Privacy First**: Cameras are only activated when taken live On-Air, cleanly releasing hardware handles upon source switching or presentation stops.\r\n\r\n### 🖥️ Smart External Display Mode & Multi-Monitor Automation\r\n- **Automatic Display Detection**: Discovers extended monitors, TVs, and conference room projectors using physical Win32 desktop geometry.\r\n- **HWND Preservation**: Moves the existing `PresentationWindow` directly to the external display's work area without tearing down or recreating native HWNDs.\r\n- **Configurable Fullscreen**: Optionally enters borderless fullscreen automatically on connected external displays (`AutoFullscreenOnExternalDisplay`), with automatic safe windowed recovery to primary workspace if disconnected.\r\n- **Presenter Workspace Isolation**: Control Dashboard and Floating Presenter Dock strictly remain on the primary presenter screen.\r\n\r\n### 🛠️ Production Local Diagnostics & Privacy-First Error Reporting\r\n- **Local Telemetry & Crash Watchdog**: Captures structured diagnostic incidents (`SC-YYYYMMDD-XXXXXXXX`) with hex HRESULTS, thread IDs, stack traces, and OS environments into `%LOCALAPPDATA%\\SwitchCast\\Logs`.\r\n- **UI Hang Watchdog**: Proactive background watchdog monitors UI thread message loop latency, identifying UI delays or freezes.\r\n- **Privacy Sanitization**: Automatically scrubs Windows usernames (`[USER]`), user profiles, email addresses, and secrets before reporting.\r\n- **Startup Crash Banner & Error Dialog**: Alerts presenters on startup if a prior session encountered a fault, providing a rich, non-intrusive diagnostic viewer dialog with one-click clipboard copying. Presentation output is never blocked.\r\n- **Zero Remote Telemetry**: Strict local-only operation; zero cloud tracking, zero network telemetry, zero data egress.\r\n\r\n### 🛡️ Critical Dock Lifecycle & Crash Recovery Hotfixes\r\n- **AccessViolationException on Dock Close Resolved**: Decoupled `PresenterDockConfirmationWindow` from native Win32 `GWLP_HWNDPARENT` ownership tearing. Implemented clean asynchronous dialog dismantling before stopping presentations or destroying docks.\r\n- **Presentation Teardown Isolation**: Fully detached DirectX composition textures, `MediaPlayer`, and compiled bindings before closing presentation windows, eliminating native DComp access violations.\r\n- **Centered Floating Dock Modal**: Built a standalone, top-most modal window centered on the active display work area, eliminating focus traps and clipping.\r\n- **Responsive Settings & Dashboard Layout**: Standardized layout containers with locked navigation columns, preventing horizontal shifts on maximized ultra-wide displays.\r\n- **Official Website Integration**: Added direct website access to [https://switchcast.wasmer.app/](https://switchcast.wasmer.app/) in Settings.\r\n\r\n---\r\n\r\n## 📥 Download & Installation\r\n\r\n### Windows x64 Standalone Package\r\n- **Package Archive:** `SwitchCast-v1.3.0-win-x64.zip`\r\n- **SHA-256 Checksum:** `SwitchCast-v1.3.0-win-x64.sha256`\r\n\r\n### How to Run:\r\n1. Download `SwitchCast-v1.3.0-win-x64.zip`.\r\n2. Extract the archive to any folder on your computer.\r\n3. Launch `SwitchCast.exe`.\r\n4. *Zero external .NET runtimes or Visual Studio installations required (Self-Contained Windows App SDK package).*\r\n\r\n---\r\n\r\n## 🧪 Quality & Verification Summary\r\n\r\n- **Unit & Contract Tests:** 379 passing automated tests (100% pass rate, 0 skipped, 0 failures).\r\n- **Target Platform Alignment:** .NET 8 (`net8.0-windows10.0.19041.0`) on Windows App SDK 1.5.\r\n- **Compiler Health:** 0 compiler errors, 0 compiler warnings on both Debug and Release configurations.\r\n- **Privacy & Telemetry:** 100% offline, zero network telemetry, zero frame persistence.\r\n"
+  },
+  {
+    "tag": "v1.2.1",
+    "version": "1.2.1",
+    "name": "SwitchCast v1.2.1",
+    "publishedAt": "2026-10-09T21:53:14Z",
+    "releaseDate": "October 10, 2026",
+    "isLatest": false,
+    "published": true,
+    "downloadable": true,
+    "prerelease": false,
+    "draft": false,
+    "status": "Previous Release",
     "summary": "Improved media source activation across switching modes, enhanced Floating Presenter Dock with direct source removal, fixed mixed-source queue navigation, and updated application branding.",
     "highlights": [
       "Improved image and video source activation across different presentation switching modes.",

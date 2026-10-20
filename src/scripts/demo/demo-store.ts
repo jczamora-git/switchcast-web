@@ -50,6 +50,13 @@ export class DemoStore {
         tag: 'Dashboard',
         glyph: '🎛️'
       };
+    } else if (tab === 'music') {
+      explanation = {
+        title: 'BACKGROUND MUSIC',
+        description: 'Manage playlists and walk-in audio independently from presentation video streams.',
+        tag: 'Background Music',
+        glyph: '🎵'
+      };
     } else if (tab === 'settings') {
       explanation = {
         title: 'SETTINGS',
@@ -416,6 +423,92 @@ export class DemoStore {
       clearFn(this.videoInterval);
       this.videoInterval = null;
     }
+  }
+
+  // --- POWERPOINT SLIDE CONTROLS ---
+  public nextSlide(): void {
+    if (this.state.slideIndex < this.state.slideTotal) {
+      this.state.slideIndex += 1;
+      this.notify({
+        title: 'NEXT SLIDE',
+        description: `Navigated to slide ${this.state.slideIndex} of ${this.state.slideTotal} without leaving your workspace.`,
+        tag: 'PowerPoint',
+        glyph: '📊'
+      });
+    }
+  }
+
+  public prevSlide(): void {
+    if (this.state.slideIndex > 1) {
+      this.state.slideIndex -= 1;
+      this.notify({
+        title: 'PREVIOUS SLIDE',
+        description: `Returned to slide ${this.state.slideIndex} of ${this.state.slideTotal}.`,
+        tag: 'PowerPoint',
+        glyph: '📊'
+      });
+    }
+  }
+
+  // --- BACKGROUND MUSIC TRANSPORT ---
+  public toggleMusicPlay(): void {
+    this.state.musicPlaying = !this.state.musicPlaying;
+    const currentTrack = this.state.musicTracks[this.state.musicTrackIndex];
+    if (this.state.musicPlaying) {
+      this.notify({
+        title: 'BACKGROUND MUSIC PLAYING',
+        description: `Streaming "${currentTrack?.title}" via independent audio service.`,
+        tag: 'Background Music',
+        glyph: '🎵'
+      });
+    } else {
+      this.notify({
+        title: 'BACKGROUND MUSIC PAUSED',
+        description: 'Background audio paused without interrupting active presentation feed.',
+        tag: 'Background Music',
+        glyph: '⏸️'
+      });
+    }
+  }
+
+  public selectMusicTrack(index: number): void {
+    if (index >= 0 && index < this.state.musicTracks.length) {
+      this.state.musicTrackIndex = index;
+      const currentTrack = this.state.musicTracks[index];
+      this.notify({
+        title: 'TRACK SELECTED',
+        description: `Now playing: "${currentTrack?.title}".`,
+        tag: 'Playlists',
+        glyph: '🎵'
+      });
+    }
+  }
+
+  public nextMusicTrack(): void {
+    this.state.musicTrackIndex = (this.state.musicTrackIndex + 1) % this.state.musicTracks.length;
+    const currentTrack = this.state.musicTracks[this.state.musicTrackIndex];
+    this.notify({
+      title: 'NEXT MUSIC TRACK',
+      description: `Now playing: "${currentTrack?.title}".`,
+      tag: 'Playlists',
+      glyph: '⏭️'
+    });
+  }
+
+  public prevMusicTrack(): void {
+    this.state.musicTrackIndex = (this.state.musicTrackIndex - 1 + this.state.musicTracks.length) % this.state.musicTracks.length;
+    const currentTrack = this.state.musicTracks[this.state.musicTrackIndex];
+    this.notify({
+      title: 'PREVIOUS MUSIC TRACK',
+      description: `Now playing: "${currentTrack?.title}".`,
+      tag: 'Playlists',
+      glyph: '⏮️'
+    });
+  }
+
+  public setMusicVolume(vol: number): void {
+    this.state.musicVolume = Math.max(0, Math.min(100, vol));
+    this.notify();
   }
 
   // --- RESET DEMO ---

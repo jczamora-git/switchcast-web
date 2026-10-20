@@ -123,8 +123,45 @@ async function runTests() {
     assert.equal(store.getState().isBlackout, false);
     console.log('  ✓ Flow 5 passed successfully.\n');
 
+    // FLOW 6: PowerPoint slides, Background Music, and Webcam Sources
+    console.log('TEST 6: PowerPoint slide navigation, Background Music, and Webcam sources...');
+    
+    // Test PowerPoint slide navigation
+    assert.equal(store.getState().slideIndex, 4);
+    store.nextSlide();
+    assert.equal(store.getState().slideIndex, 5);
+    store.prevSlide();
+    assert.equal(store.getState().slideIndex, 4);
+
+    // Test Webcam source discovery
+    const webcamSrc = store.getState().sources.find(s => s.id === 'src-webcam');
+    assert.ok(webcamSrc, 'Demo camera / USB webcam source must exist in catalog');
+    assert.equal(webcamSrc.previewType, 'webcam');
+
+    // Test Background Music Playlists
+    store.setTab('music');
+    assert.equal(store.getState().activeTab, 'music');
+    assert.equal(store.getState().musicPlaying, false);
+
+    store.toggleMusicPlay();
+    assert.equal(store.getState().musicPlaying, true);
+    assert.equal(store.getState().musicTrackIndex, 0);
+
+    store.nextMusicTrack();
+    assert.equal(store.getState().musicTrackIndex, 1);
+
+    store.prevMusicTrack();
+    assert.equal(store.getState().musicTrackIndex, 0);
+
+    store.setMusicVolume(50);
+    assert.equal(store.getState().musicVolume, 50);
+
+    store.toggleMusicPlay();
+    assert.equal(store.getState().musicPlaying, false);
+    console.log('  ✓ Flow 6 passed successfully.\n');
+
     console.log('==================================================');
-    console.log('SUCCESS: ALL STATE TRANSITION TESTS PASSED (5 / 5)');
+    console.log('SUCCESS: ALL STATE TRANSITION TESTS PASSED (6 / 6)');
     console.log('==================================================');
   } finally {
     await server.close();

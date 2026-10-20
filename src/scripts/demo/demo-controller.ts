@@ -75,6 +75,25 @@ export function initInteractiveDemo(): void {
   const videoProgressFill = root.querySelector<HTMLElement>('#mockup-video-fill');
   const videoTimeCurrent = root.querySelector<HTMLElement>('#mockup-video-curr');
 
+  // Slide controls (PowerPoint)
+  const dockSlideControls = root.querySelector<HTMLElement>('#dock-slide-controls');
+  const btnSlidePrev = root.querySelector<HTMLButtonElement>('#btn-slide-prev');
+  const btnSlideNext = root.querySelector<HTMLButtonElement>('#btn-slide-next');
+  const dockSlideNum = root.querySelector<HTMLElement>('#dock-slide-num');
+  const canvasSlideIndicator = root.querySelector<HTMLElement>('#canvas-slide-indicator');
+  const canvasSlideshowIndicator = root.querySelector<HTMLElement>('#canvas-slideshow-indicator');
+
+  // Background Music controls
+  const btnDockMusic = root.querySelector<HTMLButtonElement>('#btn-dock-music');
+  const btnMusicPlay = root.querySelector<HTMLButtonElement>('#btn-music-play');
+  const musicPlayIcon = root.querySelector<HTMLElement>('#music-play-icon');
+  const btnMusicPrev = root.querySelector<HTMLButtonElement>('#btn-music-prev');
+  const btnMusicNext = root.querySelector<HTMLButtonElement>('#btn-music-next');
+  const musicVolSlider = root.querySelector<HTMLInputElement>('#music-vol-slider');
+  const musicStatusBadge = root.querySelector<HTMLElement>('#music-status-badge');
+  const musicTrackTitle = root.querySelector<HTMLElement>('#music-track-title');
+  const musicTracksList = root.querySelector<HTMLElement>('#music-tracks-list');
+
   // Explanation Card
   const explanationTitle = root.querySelector<HTMLElement>('#explanation-title');
   const explanationTag = root.querySelector<HTMLElement>('#explanation-tag');
@@ -397,6 +416,63 @@ export function initInteractiveDemo(): void {
       videoTimeCurrent.textContent = store.formatTime(state.videoPosition);
     }
 
+    // Slide Controls (PowerPoint)
+    const isSlideActive = isPresentingActive && (activeSrc?.previewType === 'slides' || activeSrc?.previewType === 'slideshow');
+    if (dockSlideControls) {
+      dockSlideControls.style.display = isSlideActive ? 'block' : 'none';
+    }
+    const slideText = `Slide ${state.slideIndex} of ${state.slideTotal}`;
+    if (dockSlideNum) dockSlideNum.textContent = slideText;
+    if (canvasSlideIndicator) canvasSlideIndicator.textContent = `SLIDE ${state.slideIndex.toString().padStart(2, '0')} / ${state.slideTotal.toString().padStart(2, '0')}`;
+    if (canvasSlideshowIndicator) canvasSlideshowIndicator.textContent = `SLIDE ${state.slideIndex.toString().padStart(2, '0')} / ${state.slideTotal.toString().padStart(2, '0')}`;
+
+    // Background Music Controls
+    if (btnDockMusic) {
+      btnDockMusic.classList.toggle('active', state.musicPlaying);
+      btnDockMusic.title = state.musicPlaying ? 'Pause Background Music' : 'Play Background Music';
+    }
+
+    if (musicPlayIcon) {
+      musicPlayIcon.textContent = state.musicPlaying ? '⏸' : '▶';
+    }
+
+    if (musicStatusBadge) {
+      musicStatusBadge.textContent = state.musicPlaying ? 'STREAMING LIVE' : 'STANDBY';
+      musicStatusBadge.className = `badge-status ${state.musicPlaying ? 'badge-latest' : 'badge-previous'}`;
+    }
+
+    const currentTrack = state.musicTracks[state.musicTrackIndex];
+    if (musicTrackTitle && currentTrack) {
+      musicTrackTitle.textContent = currentTrack.title;
+    }
+
+    if (musicVolSlider) {
+      musicVolSlider.value = state.musicVolume.toString();
+    }
+
+    if (musicTracksList) {
+      musicTracksList.innerHTML = '';
+      state.musicTracks.forEach((tr, idx) => {
+        const isCurrent = idx === state.musicTrackIndex;
+        const row = document.createElement('div');
+        row.style.cssText = `display: flex; align-items: center; justify-content: space-between; padding: 0.35rem 0.65rem; border-radius: 4px; background: ${isCurrent ? 'rgba(255, 122, 89, 0.12)' : 'rgba(255, 255, 255, 0.03)'}; border: 1px solid ${isCurrent ? 'rgba(255, 122, 89, 0.35)' : 'transparent'}; font-size: 0.78rem; cursor: pointer;`;
+        row.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 0.45rem;">
+            <span>${isCurrent && state.musicPlaying ? '🔊' : '🎵'}</span>
+            <span style="color: ${isCurrent ? '#ffffff' : 'var(--sc-text-secondary)'}; font-weight: ${isCurrent ? '600' : '400'};">${tr.title}</span>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--sc-text-tertiary);">${tr.duration}</span>
+        `;
+        row.addEventListener('click', () => {
+          store.selectMusicTrack(idx);
+          if (!store.getState().musicPlaying) {
+            store.toggleMusicPlay();
+          }
+        });
+        musicTracksList.appendChild(row);
+      });
+    }
+
     // 8. Dynamic Explanation Card
     if (explanationTitle) explanationTitle.textContent = state.explanation.title;
     if (explanationTag) explanationTag.textContent = state.explanation.tag || 'Action';
@@ -425,12 +501,37 @@ export function initInteractiveDemo(): void {
     if (btn) {
       btn.addEventListener('click', () => {
         const tab = item.getAttribute('data-tab');
-        if (tab === 'dashboard' || tab === 'sources' || tab === 'settings') {
+        if (tab === 'dashboard' || tab === 'sources' || tab === 'music' || tab === 'settings') {
           store.setTab(tab);
         }
       });
     }
   });
+
+  // Slide buttons
+  if (btnSlidePrev) {
+    btnSlidePrev.addEventListener('click', () => store.prevSlide());
+  }
+  if (btnSlideNext) {
+    btnSlideNext.addEventListener('click', () => store.nextSlide());
+  }
+
+  // Background Music buttons
+  if (btnDockMusic) {
+    btnDockMusic.addEventListener('click', () => store.toggleMusicPlay());
+  }
+  if (btnMusicPlay) {
+    btnMusicPlay.addEventListener('click', () => store.toggleMusicPlay());
+  }
+  if (btnMusicPrev) {
+    btnMusicPrev.addEventListener('click', () => store.prevMusicTrack());
+  }
+  if (btnMusicNext) {
+    btnMusicNext.addEventListener('click', () => store.nextMusicTrack());
+  }
+  if (musicVolSlider) {
+    musicVolSlider.addEventListener('input', () => store.setMusicVolume(parseInt(musicVolSlider.value, 10)));
+  }
 
   // Category buttons
   categoryBtns.forEach(btn => {

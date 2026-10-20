@@ -10,7 +10,7 @@ export const SITE_CONFIG = {
   origin: 'https://switchcast.wasmer.app',
   siteName: 'SwitchCast',
   defaultTitle: 'SwitchCast — Screen Sharing & Presentation Software for Windows',
-  defaultDescription: 'Download SwitchCast for Windows. Switch between apps, monitors, images, and videos while keeping one shared presentation window for meetings and webinars.',
+  defaultDescription: 'Download SwitchCast for Windows. Switch between apps, PowerPoint slides, cameras, screens, and media while keeping one shared presentation window for meetings and webinars.',
   ogImage: {
     url: 'https://switchcast.wasmer.app/og-switchcast.png',
     width: 1200,

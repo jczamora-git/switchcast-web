@@ -4,6 +4,38 @@ All notable changes to the SwitchCast website and its dedicated agent harness ar
 
 ---
 
+## [2.0.0] — 2026-10-20
+
+### Added (SwitchCast v1.5.0 Release Integration & Website Overhaul)
+- **Official SwitchCast v1.5.0 Publication & Synchronization**:
+  - Integrated official release `v1.5.0` as the latest stable Windows release (`SwitchCast-v1.5.0-win-x64.zip`, 64.0 MB, 67,120,738 bytes).
+  - Pinned SHA-256 verification hash `DE5D44FDE3BDECF4094A2618E042DFBF4146DABFB1B698D6484E4C7B0C9EB324` with dedicated `.sha256` download asset.
+  - Successfully synced complete 7-release historical catalog (`v1.5.0`, `v1.4.0`, `v1.3.0`, `v1.2.1`, `v1.2.0`, `v1.1.0`, `v1.0.0`).
+- **Release Synchronization Overhaul (`scripts/sync-release.mjs`)**:
+  - Fixed sync script to gracefully handle published releases without Windows ZIP archives as `downloadable: false`, `package: null`, and status `Download Unavailable` without skipping or crashing.
+  - Preserved release notes, publication dates, and GitHub links for non-downloadable releases.
+  - Enforced strict semantic version ordering over GitHub publication timestamps (`1.5.0 > 1.4.0 > 1.3.0 > 1.2.1 > 1.2.0 > 1.1.0 > 1.0.0`).
+  - Added release deduplication by version.
+- **Dynamic Release Verification & Order Regression Tests**:
+  - Refactored `scripts/verify-release.mjs` and `scripts/test-release-order.mjs` to remove hardcoded version `1.2.1` and release count `4`.
+  - Added automated test cases for semver vs timestamp anomalies, non-downloadable published release handling, deduplication, and brief changelog highlights.
+- **Product Capabilities & Positioning Update**:
+  - Updated positioning to "A simpler way to manage everything you present" across Hero, ProductExperience, and WhySwitchCast.
+  - Highlighted PowerPoint slide support, live slideshows, webcam feeds, background music playlists, and external display routing.
+  - Updated privacy language: "No remote tracking. Local-first performance and diagnostics."
+  - Added compact "What's New in v1.5" highlight card in the download area.
+- **Interactive Simulator Expansion**:
+  - Added PowerPoint Slideshow with Previous / Next slide stepping controls in both dashboard and floating dock.
+  - Added simulated Webcam / Camera video source with synthetic preview (zero permissions or hardware capture).
+  - Added Background Music view with local playlist preview, track controls, volume, and mini floating dock audio button.
+  - Added compact Performance & Telemetry monitor in Settings (labeled DEMO DATA, strictly zero GPU probing).
+  - Added Flow 6 to interactive demo test suite (`scripts/test-demo-store.mjs`).
+- **Evergreen Social Artwork & SEO Updates**:
+  - Updated Open Graph artwork badge to `Free • Standalone` (version-independent) and regenerated `public/og-switchcast.png`.
+  - Updated `SoftwareApplication` JSON-LD schema, sitemap generator, and SEO metadata to reflect v1.5.0.
+
+---
+
 ## [1.9.0] — 2026-10-10
 
 ### Added (Production SEO & Open Graph Overhaul)

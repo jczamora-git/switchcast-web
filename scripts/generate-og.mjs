@@ -154,7 +154,7 @@ async function generateOgImage() {
     <g transform="translate(182, 0)">
       <rect x="0" y="0" width="154" height="42" rx="10" fill="rgba(255, 87, 34, 0.08)" stroke="rgba(255, 87, 34, 0.25)" stroke-width="1.2" />
       <text x="18" y="26" fill="#ff8a65" font-family="'Segoe UI', -apple-system, system-ui, Roboto, sans-serif" font-size="13" font-weight="700">
-        v1.2.1 • Standalone
+        Free • Standalone
       </text>
     </g>
 

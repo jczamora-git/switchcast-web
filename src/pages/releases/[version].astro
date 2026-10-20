@@ -188,7 +188,33 @@ const breadcrumbSchema = {
             )}
           </div>
         </section>
-      ) : null}
+      ) : (
+        <section class="download-banner download-unavailable-banner glass-card reveal" aria-labelledby="package-download-heading">
+          <div class="download-banner-main">
+            <div class="download-banner-info">
+              <h2 id="package-download-heading" class="download-banner-title">
+                Package Status: Download Unavailable
+              </h2>
+              <div class="banner-specs">
+                <span>Windows 10 / 11 (x64)</span>
+                <span class="spec-dot">•</span>
+                <span>No Standalone Binary Attached</span>
+              </div>
+              <p class="banner-subtext">
+                No official standalone binary package was attached to this historical release on GitHub. Full release notes and documentation are provided below.
+              </p>
+            </div>
+
+            <div class="download-banner-action">
+              {release.githubUrl ? (
+                <a href={release.githubUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg">
+                  View on GitHub Releases ↗
+                </a>
+              ) : null}
+            </div>
+          </div>
+        </section>
+      )}
 
       <!-- 3. Collapsible Detailed Technical Notes -->
       <section class="release-notes-section glass-card reveal">

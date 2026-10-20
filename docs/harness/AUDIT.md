@@ -1,7 +1,7 @@
 # SWITCHCAST WEBSITE — ARCHITECTURAL AUDIT RECORD
 
-**Document Version:** 1.0.0  
-**Audit Date:** 2026-10-10  
+**Document Version:** 2.0.0  
+**Audit Date:** 2026-10-20  
 **Repository Location:** `c:\Users\JC Zamora\Documents\Jeizi_Programming_Apps\switchcast-web`  
 **Application Source Location:** `C:\Users\JC Zamora\source\repos\SwitchCast\SwitchCast\` (**STRICTLY READ-ONLY**)  
 **Creator:** John Christopher King Zamora  
@@ -36,7 +36,15 @@ Every feature showcased on this website has been directly audited against the lo
 | **Privacy Blackout Curtain** | `IMPLEMENTED` | `PresentationCoordinator.ToggleBlackout()` 100% opaque black curtain suspending audio and video |
 | **True-Color Native Win32 Icons** | `IMPLEMENTED` | `Win32WindowIconService.cs` dynamic 32-bit icon extraction for open windows |
 | **Fluent Dark & Light Modes** | `IMPLEMENTED` | Fluent theme dictionaries in `App.xaml` persisted via `ApplicationSettingsService` |
-| **100% Offline / Zero Telemetry** | `IMPLEMENTED` | Purely local execution, zero network requests in desktop binary |
+| **PowerPoint & Slideshow Support** | `IMPLEMENTED` | v1.3.0 PowerPoint interop, slide deck stepping, live slideshow output |
+| **Webcam / Camera Feeds** | `IMPLEMENTED` | v1.3.0 MediaFoundation camera capture, unified presentation surface |
+| **External Monitor / Projector Handling** | `IMPLEMENTED` | v1.3.0 automatic external display detection and target routing |
+| **Background Music & Playlists** | `IMPLEMENTED` | v1.4.0 playlist queue, background audio engine independent of video playback |
+| **Floating Dock Music Controls** | `IMPLEMENTED` | v1.4.0 mini dock playback/track transport controls |
+| **Hardware Rendering Optimization** | `IMPLEMENTED` | v1.5.0 automatic rendering path selection and Direct3D surface optimization |
+| **Graphics Recovery** | `IMPLEMENTED` | v1.5.0 automatic device removal recovery and swapchain recreation |
+| **Local Performance Telemetry** | `IMPLEMENTED` | v1.5.0 in-app FPS, dropped frame counters, and local diagnostics (strictly local, zero remote tracking) |
+| **100% Offline / No Remote Tracking** | `IMPLEMENTED` | Purely local execution; local-first performance and diagnostics without cloud telemetry |
 
 ---
 

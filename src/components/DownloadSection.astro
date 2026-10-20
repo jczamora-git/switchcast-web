@@ -39,6 +39,15 @@ import releaseData from '../data/release.json';
         </div>
       </div>
 
+      <!-- Compact What's New in v1.5 Showcase -->
+      <div class="whats-new-card">
+        <div class="whats-new-header">
+          <span class="whats-new-tag">NEW IN v1.5</span>
+          <a href={`/releases/${releaseData.releaseTag}/`} class="whats-new-link">Release Notes →</a>
+        </div>
+        <p class="whats-new-quote">"Smoother switching. Smarter rendering. More reliable presentations."</p>
+      </div>
+
       <!-- Compact 3-Step Setup -->
       <div class="setup-steps-wrapper">
         <span class="setup-header-label">QUICK SETUP</span>
@@ -126,6 +135,55 @@ import releaseData from '../data/release.json';
 
   .spec-dot {
     color: var(--sc-border-base);
+  }
+
+  /* Compact What's New in v1.5 */
+  .whats-new-card {
+    background: linear-gradient(180deg, rgba(255, 122, 89, 0.05) 0%, rgba(255, 122, 89, 0.02) 100%);
+    border: 1px solid rgba(255, 122, 89, 0.25);
+    border-radius: var(--radius-md);
+    padding: 1.15rem 1.5rem;
+    margin-bottom: 1.75rem;
+    text-align: left;
+  }
+
+  .whats-new-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  .whats-new-tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--sc-accent);
+    background: var(--sc-accent-soft);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .whats-new-link {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--sc-accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .whats-new-link:hover {
+    color: #ff9d85;
+    text-decoration: underline;
+  }
+
+  .whats-new-quote {
+    font-size: 0.95rem;
+    color: var(--sc-text-primary);
+    font-weight: 500;
+    line-height: 1.45;
+    margin: 0;
   }
 
   /* Compact 3-Step Setup */
